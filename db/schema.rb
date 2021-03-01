@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2021_01_15_160130) do
     t.string "name"
     t.string "email"
     t.text "notes"
+    t.text "message"
+    t.boolean "opt_in_emails"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

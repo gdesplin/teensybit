@@ -1,0 +1,27 @@
+<div class="modal fade" id="<%= modal_name %>" tabindex="-1" aria-labelledby="<%= modal_name %>Label" aria-hidden="true">
+  <div class="modal-dialog">
+    <%= simple_form_for Contact.new, local: true do |f| %>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="<%= modal_name %>Label">Sign Up For Emails</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="card">
+            <div class="card-body">
+              <p>Are app isn't quite ready, yet! We want you to be the first to know when it is! Please fill out this form to receive emails from use with the lastest news for Teensy Bit.</p>
+              <%= f.error_notification %>
+              <%= f.input :name %>
+              <%= f.input :email %>
+              <%= f.input :opt_in_emails, :as => :hidden, :input_html => { value: true } %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <%= f.button :submit, "Submit", class: "btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

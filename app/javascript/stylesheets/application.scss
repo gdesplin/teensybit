@@ -1,1 +1,8 @@
-@import "bootstrap"
+// Bootstrap Overides
+$primary: #7DD1FF;
+$danger: #FF737C;
+$success: #15D6B6;
+$info: #6698E8;
+$warning: #FFFB63;
+
+@import "bootstrap";
