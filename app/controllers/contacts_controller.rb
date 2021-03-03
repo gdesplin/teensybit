@@ -3,7 +3,8 @@ class ContactsController < ApplicationController
   def create
     @contact = Contact.new(safe_params)
     if @contact.save
-      if params[:message].present?
+      if @contact.message.present?
+        ContactMailer.with(contact: @contact).contact_message.deliver_later
         success_text = ["Email sent!"]
       else
         success_text = []
