@@ -33,6 +33,7 @@ class ContactsController < ApplicationController
       :email,
       :message,
       :opt_in_emails,
+      :source,
     ])
   end
 

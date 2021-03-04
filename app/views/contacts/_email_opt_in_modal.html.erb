@@ -13,7 +13,8 @@
               <%= f.error_notification %>
               <%= f.input :name %>
               <%= f.input :email %>
-              <%= f.input :opt_in_emails, :as => :hidden, :input_html => { value: true } %>
+              <%= f.input :opt_in_emails, as: :hidden, input_html: { value: true } %>
+              <%= f.input :source, as: :hidden, input_html: { value: source } %>
             </div>
           </div>
         </div>
