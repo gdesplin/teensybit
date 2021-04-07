@@ -11,6 +11,7 @@
             <div class="card-body">
               <p>Our app isn't quite ready, yet! We want you to be the first to know when it is! Please fill out this form to receive emails from use with the lastest news for Teensy Bit.</p>
               <%= f.error_notification %>
+              <%= invisible_captcha %>
               <%= f.input :name %>
               <%= f.input :email %>
               <%= f.input :opt_in_emails, as: :hidden, input_html: { value: true } %>
