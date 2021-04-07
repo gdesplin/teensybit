@@ -95,6 +95,8 @@ GEM
       domain_name (~> 0.5)
     i18n (1.8.7)
       concurrent-ruby (~> 1.0)
+    invisible_captcha (2.0.0)
+      rails (>= 5.0)
     jbuilder (2.10.1)
       activesupport (>= 5.0.0)
     listen (3.4.1)
@@ -239,6 +241,7 @@ DEPENDENCIES
   capybara (>= 3.26)
   dotenv-rails
   faraday
+  invisible_captcha
   jbuilder (~> 2.7)
   listen (~> 3.3)
   mailgun-ruby (~> 1.2.3)
@@ -261,4 +264,4 @@ RUBY VERSION
    ruby 2.7.2p137
 
 BUNDLED WITH
-   2.1.4
+   2.2.14

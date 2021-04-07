@@ -190,6 +190,7 @@
         <div class="card-body">
           <%= simple_form_for Contact.new, local: true do |f| %>
             <%= f.error_notification %>
+            <%= invisible_captcha %>
             <%= f.input :source, as: :hidden, input_html: { value: "message" } %>
             <%= f.input :name %>
             <%= f.input :email %>
