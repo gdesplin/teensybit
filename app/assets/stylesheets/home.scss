@@ -43,6 +43,15 @@ body {
   
   /* MARKETING CONTENT
   -------------------------------------------------- */
+  .light-grey-transparent {
+    background-color: rgba(155,155,155,0.5);
+  }
+
+  #home-top-cover {
+    background-image: image-url("crayons-blured-background.jpeg");
+    background-size: cover;
+    background-position: 0% 40%;
+  }
   
   /* Center align the text within the three columns below the carousel */
   .marketing .col-lg-4 {

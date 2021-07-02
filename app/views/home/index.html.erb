@@ -1,8 +1,8 @@
-<section class="py-5 text-center container">
+<section class="cover-container d-flex w-100 h-100 py-5 text-center mx-auto flex-column mb-5" id="home-top-cover">
   <div class="row py-lg-5">
-    <div class="col-lg-6 col-md-8 mx-auto">
-      <h1 class="fw-light">Teensy Bit</h1>
-      <p class="lead text-muted">An in home daycare app, saving providers time, money & frustration with a simple set of life-saving features at a teensy price. Coming soon.</p>
+    <div class="col-lg-6 col-md-8 mx-auto light-grey-transparent py-3 rounded">
+      <h1 class="fw-light text-white">Teensy Bit</h1>
+      <p class="lead text-light">An in home daycare app, saving providers time, money & frustration with a simple set of life-saving features at a teensy price. Coming soon.</p>
       <p>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#email-sign-up-get_started">
           Get Started
@@ -59,7 +59,7 @@
         </button>
       </div>
       <div class="col-md-5 xl-font d-inline-flex align-items-center justify-content-center">
-        <i class="fas fa-money-bill-wave fa-10x text-success"></i>
+        <%= image_tag("paying-online", class: "img-fluid featurette-image mx-auto" ) %>
       </div>
     </div>
 
@@ -74,7 +74,7 @@
         </button>
       </div>
       <div class="col-md-5 xl-font d-inline-flex align-items-center justify-content-center order-md-1">
-        <i class="fas fa-file-alt fa-10x text-warning"></i>
+        <%= image_tag("online-paper-work", class: "img-fluid featurette-image mx-auto" ) %>
       </div>
     </div>
 
@@ -89,7 +89,7 @@
         </button>
       </div>
       <div class="col-md-5 xl-font d-inline-flex align-items-center justify-content-center">
-        <i class="fas fa-camera fa-10x text-danger"></i>
+        <%= image_tag("kid-taking-photo", class: "img-fluid featurette-image mx-auto" ) %>
       </div>
     </div>
 
@@ -104,7 +104,7 @@
         </button>
       </div>
       <div class="col-md-5 xl-font d-inline-flex align-items-center justify-content-center order-md-1">
-        <i class="fas fa-comments fa-10x text-primary"></i>
+        <%= image_tag("messaging", class: "img-fluid featurette-image mx-auto" ) %>
       </div>
     </div>
 
