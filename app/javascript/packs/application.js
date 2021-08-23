@@ -9,12 +9,12 @@ import "channels";
 import "bootstrap";
 import "@fortawesome/fontawesome-free/css/all";
 import "../stylesheets/application";
-// import { Application } from "stimulus"
-// import { definitionsFromContext } from "stimulus/webpack-helpers"
+import { Application } from "stimulus"
+import { definitionsFromContext } from "stimulus/webpack-helpers"
 
-// const application = Application.start()
-// const context = require.context("./controllers", true, /\.js$/)
-// application.load(definitionsFromContext(context))
+const application = Application.start()
+const context = require.context("./controllers", true, /\.js$/)
+application.load(definitionsFromContext(context))
 
 Rails.start()
 ActiveStorage.start()
