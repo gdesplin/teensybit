@@ -1,0 +1,62 @@
+<% if @daycare.present? %>
+  <div class="container dashboard" id="daycare">
+    <div class="row mb-4">
+      <div class="col-12 bg-primary rounded text-center my-3 text-light">
+        <h1 class="py-4"><%= current_user.owned_daycare.name %></h1>
+      </div>
+      <div class="col-md-6" id="children">
+        <h2>Children</h2>
+        <div class="row row-cols-1 row-cols-md-3 g-4 mb-3">
+          <% @daycare.children.each do |child| %>
+            <div class="col">
+              <div class="card">
+                <%= image_tag("kid-taking-photo", class: "card-img-top" ) %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= child.name %></h5>
+
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item list-group-item-primary">Parents</li>
+                    <% child.users.each do |guardian| %>
+                      <li class="list-group-item"><%= guardian.name %></li>
+                    <% end %>
+                  </ul>
+                  <%= link_to "Edit", [:edit, child], class: "btn btn-primary text-light mt-3" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <button class="btn btn-lg btn-danger text-light">Add Child</button>
+        <%= link_to 'Invite Parent/Guardian', %i[new user invitation], class: 'btn btn-lg btn-danger text-light' %>
+      </div>
+      <div class="col-md-6" id="payments">
+        <h2>Payments</h2>
+        <% # if current_user.daycare.stripe.blank? %>
+          <div class="btn btn-lg btn-danger text-light">Set Up Payments</div>
+        <% # end %>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col-md-6" id="guardians">
+        <h2>Messages</h2>
+      </div>
+      <div class="col-md-6" id="forms">
+        <h2>Forms</h2>
+        <div class="btn btn-lg btn-danger text-light">Add Form</div>
+      </div>
+    </div>
+  </div>
+
+<% else %>
+  <div class="d-flex h-100 text-center text-white bg-primary cover-theme">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <main class="px-3">
+        <h1>Set Up Your Daycare</h1>
+        <p class="lead">Before we can do anything you need to set up your daycare! Add the kids, parents, set up payments, create forms and more.</p>
+        <p class="lead">
+          <%= link_to "Get Started!", %i[new daycare], class: "btn btn-lg btn-secondary fw-bold border-white bg-white" %>
+        </p>
+      </main>
+    </div>
+  </div>
+<% end %>

@@ -40,7 +40,8 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       t.string :zip
       t.string :phone
       t.integer :kind
-
+      t.boolean :admin
+      t.integer :daycare_id
 
       t.timestamps null: false
     end

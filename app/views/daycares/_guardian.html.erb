@@ -1,0 +1,37 @@
+<div class="container dashboard" id="daycare">
+  <div class="row">
+    <div class="col-12 bg-primary rounded text-center my-3 text-light">
+      <h1 class="py-4">Welcome to <%= current_user.daycare.name %>, <%= current_user.first_name %>!</h1>
+    </div>
+    <div class="col-md-6" id="children">
+      <h2>Children</h2>
+      <div class="row row-cols-1 row-cols-md-2 g-4">
+        <% current_user.children.each do |child| %>
+          <div class="col">
+            <div class="card">
+              <%= image_tag("kid-taking-photo", class: "card-img-top" ) %>
+              <div class="card-body">
+                <h5 class="card-title"><%= child.name %></h5>
+                <%= link_to "Edit", [:edit, child], class: "btn btn-primary text-light mt-3" %>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <%= link_to "Add Child", %i[new child], class: "btn btn-danger text-light mt-3" %>
+    </div>
+    <div class="col-md-6" id="payments">
+      <h2>Payments</h2>
+      <div class="btn btn-danger text-light">Make Payment</div>
+      <div class="btn btn-danger text-light">Set Up Autopay</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6" id="messages">
+      <h2>Messages</h2>
+    </div>
+    <div class="col-md-6" id="forms">
+      <h2>Forms</h2>
+    </div>
+  </div>
+</div>

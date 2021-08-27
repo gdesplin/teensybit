@@ -1,0 +1,13 @@
+<div class="container">
+  <h1>Tell Us About Your Daycare!</h1>
+  <%= simple_form_for @daycare do |f| %>
+    <%= f.input :name, label: "Daycare Name" %>
+    <%= f.input :address, label: "Address Line 1" %>
+    <%= f.input :address_two, label: "Address Line 2" %>
+    <%= f.input :city %>
+    <%= f.input :state, collection: US_STATES.invert.sort, prompt: "Select a State" %>
+    <%= f.input :zip %>
+    <%= f.input :phone %>
+    <%= f.submit "Save", class: "btn btn-primary" %>
+  <% end %>
+</div>

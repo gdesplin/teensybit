@@ -1,0 +1,12 @@
+<% case current_user.kind.to_sym %>
+<% when :provider %>
+  <%= render "provider" %>
+<% when :guardian %>
+  <%= render "guardian" %>
+<% else %>
+  <% if current_user.admin?%>
+    <%= render "admin" %>
+  <% else %>
+    <h1>Sorry, we don't have anything to show you here.<h1>
+  <% end%>
+<% end%>
