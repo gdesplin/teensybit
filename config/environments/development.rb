@@ -34,6 +34,8 @@ Rails.application.configure do
   config.active_storage.service = :local
   
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+  Rails.application.routes.default_url_options[:host] = "localhost"
+  Rails.application.routes.default_url_options[:port] = 3000
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = true

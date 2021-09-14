@@ -34,6 +34,8 @@ gem 'mailgun-ruby', '~>1.2.3'
 gem 'invisible_captcha'
 gem 'devise'
 gem 'devise_invitable'
+gem 'stripe'
+gem 'repost' # To redirect to post action
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

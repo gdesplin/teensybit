@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer_id: MyString
+  email: MyString
+  name: MyString
+  phone: MyString
+  delinquent: false
+  balance: 1
+
+two:
+  customer_id: MyString
+  email: MyString
+  name: MyString
+  phone: MyString
+  delinquent: false
+  balance: 1

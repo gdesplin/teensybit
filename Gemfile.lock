@@ -181,6 +181,7 @@ GEM
       ffi (~> 1.0)
     redis (4.2.5)
     regexp_parser (1.8.2)
+    repost (0.3.8)
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
@@ -215,6 +216,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stripe (5.38.0)
     thor (1.0.1)
     tilt (2.0.10)
     turbolinks (5.2.1)
@@ -268,10 +270,12 @@ DEPENDENCIES
   rack-mini-profiler (~> 2.0)
   rails (~> 6.1.0)
   redis (~> 4.0)
+  repost
   sass-rails (>= 6)
   selenium-webdriver
   simple_form
   spring
+  stripe
   turbolinks (~> 5.2.0)
   tzinfo-data
   web-console (>= 4.1.0)

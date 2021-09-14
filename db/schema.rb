@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_26_194049) do
+ActiveRecord::Schema.define(version: 2021_09_02_214602) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,66 @@ ActiveRecord::Schema.define(version: 2021_08_26_194049) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "stripe_customers", force: :cascade do |t|
+    t.string "stripe_customer_id"
+    t.string "email"
+    t.string "name"
+    t.string "phone"
+    t.boolean "delinquent"
+    t.integer "balance"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_customer_id"], name: "index_stripe_customers_on_stripe_customer_id"
+  end
+
+  create_table "stripe_invoices", force: :cascade do |t|
+    t.string "stripe_customer_id"
+    t.string "stripe_id"
+    t.string "hosted_invoice_url"
+    t.integer "total"
+    t.boolean "paid"
+    t.string "invoice_pdf"
+    t.string "collection_method"
+    t.string "stripe_subscription_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_customer_id"], name: "index_stripe_invoices_on_stripe_customer_id"
+    t.index ["stripe_id"], name: "index_stripe_invoices_on_stripe_id"
+    t.index ["stripe_subscription_id"], name: "index_stripe_invoices_on_stripe_subscription_id"
+  end
+
+  create_table "stripe_payment_intents", force: :cascade do |t|
+    t.integer "amount_recieved"
+    t.string "stripe_invoice_id"
+    t.string "stripe_id"
+    t.string "stripe_customer_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_customer_id"], name: "index_stripe_payment_intents_on_stripe_customer_id"
+    t.index ["stripe_id"], name: "index_stripe_payment_intents_on_stripe_id"
+    t.index ["stripe_invoice_id"], name: "index_stripe_payment_intents_on_stripe_invoice_id"
+  end
+
+  create_table "stripe_subscriptions", force: :cascade do |t|
+    t.string "stripe_customer_id"
+    t.string "stripe_id"
+    t.datetime "current_period_end"
+    t.boolean "cancel_at_period_end"
+    t.datetime "current_period_start"
+    t.datetime "canceled_at"
+    t.datetime "ended_at"
+    t.datetime "next_pending_invoice_item_invoice"
+    t.jsonb "pending_invoice_item_interval"
+    t.datetime "trial_start"
+    t.datetime "trial_end"
+    t.integer "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["status"], name: "index_stripe_subscriptions_on_status"
+    t.index ["stripe_customer_id"], name: "index_stripe_subscriptions_on_stripe_customer_id"
+    t.index ["stripe_id"], name: "index_stripe_subscriptions_on_stripe_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -102,12 +162,14 @@ ActiveRecord::Schema.define(version: 2021_08_26_194049) do
     t.string "invited_by_type"
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
+    t.string "stripe_customer_id"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["stripe_customer_id"], name: "index_users_on_stripe_customer_id"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 

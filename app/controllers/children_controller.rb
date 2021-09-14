@@ -6,11 +6,11 @@ class ChildrenController < ApplicationController
   end
 
   def create
-    @child = current_user.children.create({name: safe_params[:name], daycare_id: current_user.daycare_id})
-    if @child.errors.blank?
+    @child = current_user.children.new(safe_params)
+    @child.daycare_id = current_user.daycare_id || current_user.owned_daycare&.id
+    if @child.save
       redirect_to [:dashboard, :daycares]
     else
-      puts @child.errors.full_messages
       render :new
     end
   end
@@ -22,7 +22,6 @@ class ChildrenController < ApplicationController
   def update
     @child = Child.find(params[:id])
     redirect_to :root and return if @child.users.where(id: current_user.id).blank? && (current_user.owned_daycare.id != @child.daycare_id && !current_user.admin?)
-
     if @child.update(safe_params)
       redirect_to [:dashboard, :daycares] 
     else

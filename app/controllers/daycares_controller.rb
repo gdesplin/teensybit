@@ -1,5 +1,4 @@
 class DaycaresController < ApplicationController
-  before_action :authenticate_user!
   before_action :authenticate_provider!, only: %i[new create edit update]
 
   def index # for admin
@@ -28,7 +27,7 @@ class DaycaresController < ApplicationController
     @daycare = Daycare.new(safe_params)
     @daycare.user_id = current_user.id
     if @daycare.save
-      redirect_to action: :index
+      redirect_to action: :dashboard
     else
       render :new
     end

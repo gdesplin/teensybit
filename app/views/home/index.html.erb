@@ -54,9 +54,7 @@
       <div class="col-md-7">
         <h2 class="featurette-heading">Auto Payments & Invoicing. <span class="text-muted">Keep your bank account full.</span></h2>
         <p class="lead">Never have a missed or late payment again. You will be able to set all your parents up on an automatic daycare payment schedule that will save you time and ensure you get your hard earned dollars into your account. If auto payments aren't for you, then we will send invoices for you, and reminders via many communication channels to ensure you get your payments.</p>
-        <button type="button" class="w-100 mb-3 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#email-sign-up-feature">
-          Get Started
-        </button>
+        <%= link_to "Start Free Trial", "#pricing", class: "w-100 mb-3 btn btn-lg btn-primary" %>
       </div>
       <div class="col-md-5 xl-font d-inline-flex align-items-center justify-content-center">
         <%= image_tag("paying-online", class: "img-fluid featurette-image mx-auto" ) %>
@@ -69,9 +67,7 @@
       <div class="col-md-7 order-md-2">
         <h2 class="featurette-heading">Online Paperwork. <span class="text-muted">Save yourself headaches.</span></h2>
         <p class="lead">There are so many forms that parents need to read, sign, and for you to keep up on. Create these in the app so it will keep up on them automatically for you, and make them available wherever the internet is!</p>
-        <button type="button" class="w-100 mb-3 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#email-sign-up-feature">
-          Get Started
-        </button>
+        <%= link_to "Start Free Trial", "#pricing", class: "w-100 mb-3 btn btn-lg btn-primary" %>
       </div>
       <div class="col-md-5 xl-font d-inline-flex align-items-center justify-content-center order-md-1">
         <%= image_tag("online-paper-work", class: "img-fluid featurette-image mx-auto" ) %>
@@ -84,9 +80,7 @@
       <div class="col-md-7">
         <h2 class="featurette-heading">Photo & file sharing. <span class="text-muted">Easy for you, and parents love it!</span></h2>
         <p class="lead">Take a photo, tag the kids in it, done. Its now automatically shared and available to the parents it may concern. Do this with any document or text you may need to share with parents. Easy, simple and saves you time and makes parents happy!</p>
-        <button type="button" class="w-100 mb-3 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#email-sign-up-feature">
-          Get Started
-        </button>
+        <%= link_to "Start Free Trial", "#pricing", class: "w-100 mb-3 btn btn-lg btn-primary" %>
       </div>
       <div class="col-md-5 xl-font d-inline-flex align-items-center justify-content-center">
         <%= image_tag("kid-taking-photo", class: "img-fluid featurette-image mx-auto" ) %>
@@ -99,9 +93,7 @@
       <div class="col-md-7 order-md-2">
         <h2 class="featurette-heading">Messaging. <span class="text-muted">Broadcast, instant message and text.</span></h2>
         <p class="lead">Often you need to message all your parents in your daycare, or a select group of them. This makes it easy to message them via email, text or in-app messages. Set up automatic messages to remind parents to bring supplies or simply let them know how their kid is doing. All in one place. Easy.</p>
-        <button type="button" class="w-100 mb-3 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#email-sign-up-feature">
-          Get Started
-        </button>
+        <%= link_to "Start Free Trial", "#pricing", class: "w-100 mb-3 btn btn-lg btn-primary" %>
       </div>
       <div class="col-md-5 xl-font d-inline-flex align-items-center justify-content-center order-md-1">
         <%= image_tag("messaging", class: "img-fluid featurette-image mx-auto" ) %>
@@ -114,70 +106,11 @@
   <!-- START THE PRICING -->
   <div class="col-12 text-center mb-4" id="pricing">
     <h2 class="featurette-heading">Pricing. </h2>
-    <h3 class="text-muted">One simple set of features, two ways to pay. 60 day money-back guarantee!</h3>
+    <h3 class="text-muted">One simple set of features, two ways to pay. 14 day trial!</h3>
   </div>
-  <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header">
-          <h4 class="my-0 fw-normal">Free</h4>
-        </div>
-        <div class="card-body">
-          <h1 class="card-title pricing-card-title">Free Trial</h1>
-          <ul class="list-unstyled mt-3 mb-4">
-            <li>Two Weeks free trial</li>
-            <li>Full Feature Set!</li>
-            <li>Credit Card Fees (2.9% + 30¢ per charge)</li>
-            <li>0.80% ACH Transfers</li>
-            <li>Opt-in to payment plan after two weeks are up</li>
-          </ul>
-          <button type="button" class="w-100 btn btn-lg btn-outline-primary" data-bs-toggle="modal" data-bs-target="#email-sign-up-free_trial">
-            Sign up for free
-          </button>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header">
-          <h4 class="my-0 fw-normal">Monthly</h4>
-        </div>
-        <div class="card-body">
-          <h1 class="card-title pricing-card-title">$9.99 <small class="text-muted">/ mo</small></h1>
-          <ul class="list-unstyled mt-3 mb-4">
-            <li>Cancel anytime</li>
-            <li>Full feature set!</li>
-            <li>Credit Card Fees (2.9% + 30¢ per charge)</li>
-            <li>0.80% ACH Transfers</li>
-            <li>Monthly fees start after two week free trial</li>
-          </ul>
-          <button type="button" class="w-100 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#email-sign-up-monthly">
-              Get Started
-            </button>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card mb-4 shadow-sm">
-        <div class="card-header">
-          <h4 class="my-0 fw-normal">Yearly</h4>
-        </div>
-        <div class="card-body">
-          <h1 class="card-title pricing-card-title">$99 <small class="text-muted">/ year</small></h1>
-          <ul class="list-unstyled mt-3 mb-4">
-            <li>Savings of $20 per year</li>
-            <li>Full feature set!</li>
-            <li>Credit Card Fees (2.9% + 30¢ per charge)</li>
-            <li>0.80% ACH Transfers</li>
-            <li>Yearly fees start after two week free trial</li>
-          </ul>
-          <button type="button" class="w-100 btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#email-sign-up-yearly">
-            Get Started
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  <%= render partial: "shared/subscription_cards" %>
+
   <!-- /END THE PRICING -->
   <!-- START CONTACT -->
   <div id="contact" data-controller='contact-form'>

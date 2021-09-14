@@ -1,0 +1,9 @@
+Your Teensy Bit Subscription Has Started!
+We are excited to have you aboard!
+If you've gotten this far you already have confirmed your email and logged in.
+Now you just need to go start inviting parents, guardians and adding children.
+Oh yeah, and you can set up autopayments for them so you can breathe easy when it comes to receiving your payments.
+<% if @subscription.trialing? %>
+  You are currently on in your trial period, which ends <%= @subscription.trial_end.strftime("%d-%m-%Y") %>. Afterwhich, you will be charged for your pay period.
+<% end %>
+<%= link_to "Get Started",  %i[new user session] %>

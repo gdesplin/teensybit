@@ -5,13 +5,16 @@
     <%= f.error_notification %>
 
     <div class="form-inputs">
-      <%= f.email :email, required: true, autofocus: true %>
+      <%= f.input :email,
+                  required: true,
+                  autofocus: true,
+                  input_html: { autocomplete: "email" }%>
       <%= f.input :address %>
       <%= f.input :address_two %>
       <%= f.input :city %>
       <%= f.input :state %>
       <%= f.input :zip %>
-      <%= f.tel :phone %>
+      <%= f.input :phone %>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
         <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
@@ -34,6 +37,8 @@
       <%= f.button :submit, "Update", class: "btn-primary" %>
     </div>
   <% end %>
+
+  <%= button_to "Manage Subscription", %i[customer_portal stripe_sessions], { class: "btn btn-secondary my-4" } %>
 
   <h3>Cancel my account</h3>
 
