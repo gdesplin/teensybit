@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stripe_id: MyString
+  business_type: 1
+  country: MyString
+  charges_enabled: false
+  details_submitted: false
+  daycare_id: 
+
+two:
+  stripe_id: MyString
+  business_type: 1
+  country: MyString
+  charges_enabled: false
+  details_submitted: false
+  daycare_id: 

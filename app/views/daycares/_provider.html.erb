@@ -24,22 +24,56 @@
                       <li class="list-group-item"><%= guardian.name %></li>
                     <% end %>
                   </ul>
-                  <%= link_to "Edit", [:edit, child], class: "btn btn-primary text-light mt-3" %>
+                  <%= link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3" %>
                 </div>
               </div>
             </div>
           <% end %>
         </div>
         <% if @daycare.users.present?%>
-          <%= link_to "Add Child", %i[new child], class: "btn btn-secondary btn-lg text-light" %>
+          <%= link_to "Add Child", [:new, @daycare, :child], class: "btn btn-secondary btn-lg text-light" %>
         <% end %>
         <%= link_to 'Invite Parent/Guardian', %i[new user invitation], class: 'btn btn-lg btn-danger text-light' %>
       </div>
       <div class="col-md-6" id="payments">
         <h2>Payments</h2>
-        <% # if current_user.daycare.stripe.blank? %>
-          <div class="btn btn-lg btn-danger text-light">Set Up Payments</div>
-        <% # end %>
+        <% if @daycare.stripe_account&.details_submitted&.present? %>
+          <div class="row row-cols-sm-1 row-cols-md-2 mb-3">
+            <% @daycare.users.joins(:stripe_prices).distinct.each do |parent| %>
+              <% parent.stripe_prices.active.each do |price| %>
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title"><%= parent.name %></h5>
+                    <h5 class="card-title"><%= price.nickname %></h5>
+                    <p class="card-text"><%= number_to_currency(price.amount) %> every <%= price.recurring["interval_count"] if price.recurring["interval_count"].to_i > 1 %> <%= price.recurring["interval"].pluralize(price.recurring["interval_count"].to_i) %></p>
+                    <% if price.stripe_subscriptions.present? %>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Recent Payments:</li>
+                        <% price.stripe_subscriptions.order(created_at: :desc).limit(3).each do |subscription| %>
+                          <% subscription.stripe_invoices.order(created_at: :desc).each do |invoice| %>
+                            <li class="list-group-item">Amount: <%= number_to_currency(invoice.total) %> <%= invoice.paid ? "Paid" : "Unpaid" %></li>
+                          <% end %>
+                        <% end %>
+                      </ul>
+                    <% else %>
+                      Parent hasn't set up autopay.
+                    <% end %>
+                    <%=  link_to "Delete", [@daycare, price], method: :delete, class: "btn btn-sm btn-danger text-light mt-2", confirm: "Are you sure?" %>
+                  </div>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+          <%= link_to "Create Recurring Payment Plan", [:new, @daycare, :stripe_price], class: "btn btn-lg btn-danger text-light mt-2" %>
+        <% else %>
+          <%= link_to %i[create_account_link stripe_sessions], class: "stripe-connect" do %>
+            <% if @daycare.stripe_account.blank? %>
+              <span>Connect with </span>
+            <% else %>
+              <span>Continue with </span>
+            <% end %>
+          <% end %>
+        <% end %>
       </div>
     </div>
     <div class="row mb-4">

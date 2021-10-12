@@ -1,12 +1,15 @@
 Rails.application.routes.draw do
+
   devise_for :users, controllers: {
     sessions: "users/sessions",
     registrations: "users/registrations",
     invitations: 'users/invitations',
   }
   resources :contacts, only: :create
-  resources :children, only: %i[create new edit update]
   resources :daycares do
+    resources :stripe_prices
+    resources :children, only: %i[create new edit update]
+    
     collection do
       get :dashboard
     end
@@ -14,8 +17,9 @@ Rails.application.routes.draw do
 
   resources :stripe_sessions do
     collection do
-      post :subscription_checkout
       post :customer_portal
+      post :subscription_checkout
+      get :create_account_link
       get :subscription_success
       get :subscription_checkout_canceled
     end

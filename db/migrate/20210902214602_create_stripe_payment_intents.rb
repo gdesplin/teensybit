@@ -1,7 +1,7 @@
 class CreateStripePaymentIntents < ActiveRecord::Migration[6.1]
   def change
     create_table :stripe_payment_intents do |t|
-      t.integer :amount_recieved
+      t.monetize :amount_received
       t.string :stripe_invoice_id
       t.string :stripe_id
       t.string :stripe_customer_id

@@ -1,0 +1,39 @@
+<div class="container">
+
+  <p class="mt-3">
+    <strong>Stripe ID:</strong>
+    <%= @stripe_price.stripe_id %>
+  </p>
+
+  <p>
+    <strong>Active:</strong>
+    <%= @stripe_price.active %>
+  </p>
+
+  <p>
+    <strong>Currency:</strong>
+    <%= @stripe_price.amount_currency %>
+  </p>
+
+  <p>
+    <strong>Nickname:</strong>
+    <%= @stripe_price.nickname %>
+  </p>
+
+  <p>
+    <strong>Stripe recurring:</strong>
+    <%= @stripe_price.recurring %>
+  </p>
+
+  <p>
+    <strong>Kind:</strong>
+    <%= @stripe_price.kind %>
+  </p>
+
+  <p>
+    <strong>Unit amount:</strong>
+    <%= number_to_currency(@stripe_price.amount) %>
+  </p>
+  <%= link_to 'Edit', [:edit, @daycare, @stripe_price] %> |
+  <%= link_to 'Back', [@daycare, :stripe_prices] %>
+</div>

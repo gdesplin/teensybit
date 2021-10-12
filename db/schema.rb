@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_09_02_214602) do
+ActiveRecord::Schema.define(version: 2021_10_08_172242) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,8 +64,29 @@ ActiveRecord::Schema.define(version: 2021_09_02_214602) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "stripe_accounts", force: :cascade do |t|
+    t.string "stripe_id"
+    t.string "country"
+    t.boolean "charges_enabled"
+    t.boolean "details_submitted"
+    t.integer "daycare_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["daycare_id"], name: "index_stripe_accounts_on_daycare_id"
+    t.index ["stripe_id"], name: "index_stripe_accounts_on_stripe_id"
+  end
+
+  create_table "stripe_billing_portal_configurations", force: :cascade do |t|
+    t.string "stripe_id"
+    t.string "stripe_account_id"
+    t.jsonb "features"
+    t.jsonb "business_profile"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "stripe_customers", force: :cascade do |t|
-    t.string "stripe_customer_id"
+    t.string "stripe_id"
     t.string "email"
     t.string "name"
     t.string "phone"
@@ -73,14 +94,15 @@ ActiveRecord::Schema.define(version: 2021_09_02_214602) do
     t.integer "balance"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["stripe_customer_id"], name: "index_stripe_customers_on_stripe_customer_id"
+    t.index ["stripe_id"], name: "index_stripe_customers_on_stripe_id"
   end
 
   create_table "stripe_invoices", force: :cascade do |t|
     t.string "stripe_customer_id"
     t.string "stripe_id"
     t.string "hosted_invoice_url"
-    t.integer "total"
+    t.integer "total_cents", default: 0, null: false
+    t.string "total_currency", default: "USD", null: false
     t.boolean "paid"
     t.string "invoice_pdf"
     t.string "collection_method"
@@ -93,7 +115,8 @@ ActiveRecord::Schema.define(version: 2021_09_02_214602) do
   end
 
   create_table "stripe_payment_intents", force: :cascade do |t|
-    t.integer "amount_recieved"
+    t.integer "amount_received_cents", default: 0, null: false
+    t.string "amount_received_currency", default: "USD", null: false
     t.string "stripe_invoice_id"
     t.string "stripe_id"
     t.string "stripe_customer_id"
@@ -102,6 +125,42 @@ ActiveRecord::Schema.define(version: 2021_09_02_214602) do
     t.index ["stripe_customer_id"], name: "index_stripe_payment_intents_on_stripe_customer_id"
     t.index ["stripe_id"], name: "index_stripe_payment_intents_on_stripe_id"
     t.index ["stripe_invoice_id"], name: "index_stripe_payment_intents_on_stripe_invoice_id"
+  end
+
+  create_table "stripe_prices", force: :cascade do |t|
+    t.string "stripe_id"
+    t.string "stripe_product_id"
+    t.boolean "active"
+    t.string "nickname"
+    t.jsonb "recurring"
+    t.integer "kind"
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "USD", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_id"], name: "index_stripe_prices_on_stripe_id"
+    t.index ["stripe_product_id"], name: "index_stripe_prices_on_stripe_product_id"
+  end
+
+  create_table "stripe_prices_users", force: :cascade do |t|
+    t.bigint "stripe_price_id"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_price_id"], name: "index_stripe_prices_users_on_stripe_price_id"
+    t.index ["user_id"], name: "index_stripe_prices_users_on_user_id"
+  end
+
+  create_table "stripe_products", force: :cascade do |t|
+    t.string "stripe_id"
+    t.string "name"
+    t.boolean "active"
+    t.text "description"
+    t.text "stripe_account_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["stripe_account_id"], name: "index_stripe_products_on_stripe_account_id"
+    t.index ["stripe_id"], name: "index_stripe_products_on_stripe_id"
   end
 
   create_table "stripe_subscriptions", force: :cascade do |t|
@@ -119,6 +178,7 @@ ActiveRecord::Schema.define(version: 2021_09_02_214602) do
     t.integer "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "stripe_price_id"
     t.index ["status"], name: "index_stripe_subscriptions_on_status"
     t.index ["stripe_customer_id"], name: "index_stripe_subscriptions_on_stripe_customer_id"
     t.index ["stripe_id"], name: "index_stripe_subscriptions_on_stripe_id"

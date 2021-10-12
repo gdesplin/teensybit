@@ -12,18 +12,33 @@
               <%= image_tag("kid-taking-photo", class: "card-img-top" ) %>
               <div class="card-body">
                 <h5 class="card-title"><%= child.name %></h5>
-                <%= link_to "Edit", [:edit, child], class: "btn btn-primary text-light mt-3" %>
+                <%= link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3" %>
               </div>
             </div>
           </div>
         <% end %>
       </div>
-      <%= link_to "Add Child", %i[new child], class: "btn btn-danger text-light mt-3" %>
+      <%= link_to "Add Child", [:new, @daycare, :child], class: "btn btn-danger text-light mt-3" %>
     </div>
     <div class="col-md-6" id="payments">
       <h2>Payments</h2>
-      <div class="btn btn-danger text-light">Make Payment</div>
-      <div class="btn btn-danger text-light">Set Up Autopay</div>
+      <% if current_user.stripe_prices.present? %>
+        <% current_user.stripe_prices.active.each do |price| %>
+          <% subscribed = current_user.stripe_customer&.stripe_subscriptions&.find { |s| s.stripe_price_id == price.stripe_id }&.present? %>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title"><%= price.nickname %></h5>
+              <h6 class="card-subtitle mb-2 text-muted"><%= subscribed ? "Active" : "Inactive" %></h6>
+              <p class="card-text"><%= number_to_currency(price.amount) %> every <%= price.recurring["interval_count"] if price.recurring["interval_count"].to_i > 1 %> <%= price.recurring["interval"].pluralize(price.recurring["interval_count"].to_i) %></p>
+              <% unless subscribed %>
+                <%= button_to "Set Up Autopay", { controller: :stripe_sessions, action: "subscription_checkout", params: { price_id: price.stripe_id } }, { class: "btn btn-primary" } %>
+              <% else %>
+                <%= button_to "Edit Payment Methods", %i[customer_portal stripe_sessions], { class: "btn btn-outline-secondary" } %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
   <div class="row">

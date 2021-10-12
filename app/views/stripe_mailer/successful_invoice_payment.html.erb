@@ -1,4 +1,4 @@
-<h2>Your Teensy Bit invoice was successfully paid!</h1>
+<%= @stripe_customer.user.name %>, your Teensy Bit invoice was successfully paid!</h1>
 <p>
   <div>
     Amount: <%= @stripe_invoice.total %>

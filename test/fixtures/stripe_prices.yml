@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stripe_id: MyString
+  active: 
+  currency: MyString
+  nickname: MyString
+  stripe_recurring_id: 1
+  kind: 0
+  unit_amount: MyString
+
+two:
+  stripe_id: MyString
+  active: 
+  currency: MyString
+  nickname: MyString
+  stripe_recurring_id: 1
+  kind: 0
+  unit_amount: MyString

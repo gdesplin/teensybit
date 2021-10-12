@@ -4,7 +4,7 @@ class CreateStripeInvoices < ActiveRecord::Migration[6.1]
       t.string :stripe_customer_id
       t.string :stripe_id
       t.string :hosted_invoice_url
-      t.integer :total
+      t.monetize :total
       t.boolean :paid
       t.string :invoice_pdf
       t.string :collection_method

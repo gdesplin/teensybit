@@ -1,6 +1,14 @@
 class Users::InvitationsController < Devise::InvitationsController
   before_action :configure_permitted_parameters, only: [:create, :update]
 
+  def create
+    super
+  end
+
+  def update
+    super
+  end
+
   protected
 
   # If you have extra params to permit, append them to the sanitizer.

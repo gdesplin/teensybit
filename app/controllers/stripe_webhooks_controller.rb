@@ -39,7 +39,21 @@ class StripeWebhooksController < ApplicationController
       #   *setup_intent.created, *payment_method.attached, customer.updated, *setup_intent.succeeded, 
       #   *invoice.created, *invoice.finalized, invoice.paid, *invoice.payment_succeeded
       #   customer.subscription.created, *setup_intent.created
-
+    when 'account.updated'
+      account = StripeAccount.find_by(stripe_id: data_object.id)
+      account&.update(
+        country: data_object.country,
+        charges_enabled: data_object.charges_enabled,
+        details_submitted: data_object.details_submitted,
+      )
+      if account.stripe_products.blank?
+        product = StripeSession.new.create_daycare_service_product(account.stripe_id)
+        StripeProduct.create(stripe_id: product.id, name: product.name, description: product.description, stripe_account_id: account.stripe_id)
+      end
+      if account.stripe_billing_portal_configurations.blank?
+        config = StripeSession.new.create_default_portal_configuration(account.stripe_id)
+        StripeBillingPortalConfiguration.create(stripe_id: config.id, stripe_account_id: account.stripe_id, features: config.features, business_profile: config.business_profile)
+      end
     when 'checkout.session.completed'
       # Payment is successful and the subscription is created.
       # You should provision the subscription and save the customer ID to your database.
@@ -50,7 +64,7 @@ class StripeWebhooksController < ApplicationController
       end
     when 'customer.created'
       StripeCustomer.create(
-        stripe_customer_id: data_object.id,
+        stripe_id: data_object.id,
         email: data_object.email,
         name: data_object.name,
         phone: data_object.phone,
@@ -58,8 +72,8 @@ class StripeWebhooksController < ApplicationController
         balance: data_object.balance,
       )
     when 'customer.updated'
-      StripeCustomer.find_by(stripe_customer_id: data_object.id).update(
-        stripe_customer_id: data_object.id,
+      StripeCustomer.find_by(stripe_id: data_object.id)&.update(
+        stripe_id: data_object.id,
         email: data_object.email,
         name: data_object.name,
         phone: data_object.phone,
@@ -71,8 +85,8 @@ class StripeWebhooksController < ApplicationController
       StripePaymentIntent.create(
         stripe_customer_id: data_object.customer,
         stripe_id: data_object.id,
-        stripe_invoice_id: data_object.invoice&.id || data_object.invoice,
-        amount_recieved: data_object.amount_recieved,
+        stripe_invoice_id: data_object.invoice,
+        amount_received_cents: data_object.amount_received,
       )
     when 'customer.subscription.created'
       # so we can know if a subscription is created
@@ -88,14 +102,24 @@ class StripeWebhooksController < ApplicationController
         next_pending_invoice_item_invoice: data_object.next_pending_invoice_item_invoice,
         pending_invoice_item_interval: data_object.pending_invoice_item_interval,
         trial_start: data_object.trial_start,
-        trial_end: data_object.trial_end
+        trial_end: data_object.trial_end,
+        stripe_price_id: data_object.items.data[0]&.plan&.id
       )
-      StripeMailer.with(stripe_subscription_id: data_object.id, stripe_customer_id: data_object.customer)
-        .successful_subscription_payment.deliver_later
+      stripe_price = StripePrice.find_by(stripe_id: data_object.items.data[0]&.plan&.id)
+      stripe_customer = StripeCustomer.find_by(stripe_id: data_object.customer)
+      if stripe_customer.user.provider?
+        StripeMailer.with(stripe_subscription: data_object.to_hash)
+          .successful_subscription_created.deliver_later
+      elsif stripe_customer.user.guardian?
+        StripeMailer.with(stripe_price: stripe_price, email: stripe_customer.email, name: stripe_customer.name, daycare_name: stripe_customer.user.daycare.name)
+        .successful_autopayment_created.deliver_later
+        StripeMailer.with(stripe_price: stripe_price, email: stripe_customer.user.daycare.owner.email, name: stripe_customer.name, daycare_name: stripe_customer.user.daycare.name)
+          .successful_autopayment_created.deliver_later
+      end
     when 'customer.subscription.updated'
       # so we can know if a subscription updated
       subscription = StripeSubscription.find_by(stripe_id: data_object.id)
-      subscription.update(
+      subscription&.update(
         current_period_end: data_object.current_period_end,
         cancel_at_period_end: data_object.cancel_at_period_end,
         current_period_start: data_object.current_period_start,
@@ -105,13 +129,13 @@ class StripeWebhooksController < ApplicationController
         next_pending_invoice_item_invoice: data_object.next_pending_invoice_item_invoice,
         pending_invoice_item_interval: data_object.pending_invoice_item_interval,
         trial_start: data_object.trial_start,
-        trial_end: data_object.trial_end
+        trial_end: data_object.trial_end,
+        stripe_price_id: data_object.items.data[0]&.plan&.id
       )
     when 'customer.subscription.deleted'
       # so we can know if a subscription updated
-      pp data_object
       subscription = StripeSubscription.find_by(stripe_id: data_object.id)
-      subscription.update(
+      subscription&.update(
         current_period_end: data_object.current_period_end,
         cancel_at_period_end: data_object.cancel_at_period_end,
         current_period_start: data_object.current_period_start,
@@ -121,31 +145,63 @@ class StripeWebhooksController < ApplicationController
         next_pending_invoice_item_invoice: data_object.next_pending_invoice_item_invoice,
         pending_invoice_item_interval: data_object.pending_invoice_item_interval,
         trial_start: data_object.trial_start,
-        trial_end: data_object.trial_end
+        trial_end: data_object.trial_end,
       )
     when 'invoice.paid'
       # Continue to provision the subscription as payments continue to be made.
       # Store the status in your database and check when a user accesses your service.
       # This approach helps you avoid hitting rate limits.
       invoice = StripeInvoice.find_or_create_by(stripe_id: data_object.id, stripe_customer_id: data_object.customer)
-      invoice.update(
+      if invoice&.update(
         hosted_invoice_url: data_object.hosted_invoice_url,
-        total: data_object.total,
+        total_cents: data_object.total,
         paid: data_object.paid,
         invoice_pdf: data_object.invoice_pdf,
         collection_method: data_object.collection_method,
-        subscription_id: data_object.subscription
+        stripe_subscription_id: data_object.subscription
       )
-      StripeMailer.with(stripe_invoice_id: data_object.id, stripe_customer_id: data_object.customer)
-        .successful_invoice_payment.deliver_later
+        StripeMailer.with(stripe_invoice_id: data_object.id, stripe_customer_id: data_object.customer, email_to: invoice.stripe_customer.email)
+          .successful_invoice_payment.deliver_later
+        if invoice.stripe_customer.user.guardian?
+          StripeMailer.with(stripe_invoice_id: data_object.id, stripe_customer_id: data_object.customer, email_to: invoice.stripe_customer.user.daycare.owner.email)
+            .successful_invoice_payment.deliver_later
+        end
+      end
+    when 'invoice.updated'
+      invoice = StripeInvoice.find_or_create_by(stripe_id: data_object.id, stripe_customer_id: data_object.customer)
+      invoice&.update(
+        hosted_invoice_url: data_object.hosted_invoice_url,
+        total_cents: data_object.total,
+        paid: data_object.paid,
+        invoice_pdf: data_object.invoice_pdf,
+        collection_method: data_object.collection_method,
+        stripe_subscription_id: data_object.subscription
+      )
     when 'invoice.payment_failed'
       # The payment failed or the customer does not have a valid payment method.
       # The subscription becomes past_due. Notify your customer and send them to the
       # customer portal to update their payment information.
-      user = Invoice.find_by(stripe_customer_id: data_object.customer)
+      user = User.find_by(stripe_customer_id: data_object.customer)
       subscription = update_subscription(data_object.subscription)
       invoice = update_or_create_invoice(data_object)
-      user.owned_daycare.update(active_subscription: false) if data_object.payment_status != "paid"
+      StripeMailer.with(stripe_invoice_id: data_object.id, stripe_customer_id: data_object.customer, email_to: invoice.stripe_customer.email)
+        .failed_invoice_payment.deliver_later
+      StripeMailer.with(stripe_invoice_id: data_object.id, stripe_customer_id: data_object.customer, email_to: invoice.stripe_customer.user.daycare.owner.email)
+        .failed_invoice_payment.deliver_later
+    when 'price.updated'
+      stripe_price = StripePrice.find_by(stripe_id: data_object.id)
+      stripe_price.update(
+        active: data_object.active,
+        nickname: data_object.nickname,
+        recurring: data_object.recurring,
+        kind: data_object.type,
+        amount: data_object.unit_amount
+      )
+      if !stripe_price.active
+        stripe_price.stripe_subscriptions.each do |subscription|
+          CancelSubscriptionJob.perform_later(subscription.stripe_id, stripe_price.stripe_product.stripe_account_id)
+        end
+      end
     else
       puts "Unhandled event type: #{event.type}"
     end
@@ -156,7 +212,7 @@ class StripeWebhooksController < ApplicationController
 
   def update_subscription(subscription)
     subscription = StripeSubscription.find_by(stripe_id: subscription.subscription.id)
-    subscription.update(
+    subscription&.update(
       stripe_customer_id: subscription.subscription.customer,
       stripe_id: subscription.subscription.id,
       current_period_end: subscription.subscription.current_period_end,
@@ -176,11 +232,11 @@ class StripeWebhooksController < ApplicationController
     invoice = StripeInvoice.find_or_create_by(stripe_id: invoice.id)
     invoice.update(
       hosted_invoice_url: invoice.hosted_invoice_url,
-      total: invoice.total,
+      total_cents: invoice.total,
       paid: invoice.paid,
       invoice_pdf: invoice.invoice_pdf,
       collection_method: invoice.collection_method,
-      subscription_id: invoice.subscription_id
+      stripe_subscription_id: invoice.subscription_id
     )
   end
 end

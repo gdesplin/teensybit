@@ -9,6 +9,7 @@ import "channels";
 import "bootstrap";
 import "@fortawesome/fontawesome-free/css/all";
 import "../stylesheets/application";
+import "../stylesheets/stripe_connect";
 import { Application } from "stimulus"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
 

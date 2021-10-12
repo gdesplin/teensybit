@@ -35,7 +35,9 @@ gem 'invisible_captcha'
 gem 'devise'
 gem 'devise_invitable'
 gem 'stripe'
-gem 'repost' # To redirect to post action
+gem 'money-rails', '~>1.12'
+gem 'json-schema'
+gem 'sidekiq'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

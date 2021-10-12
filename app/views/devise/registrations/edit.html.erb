@@ -9,6 +9,7 @@
                   required: true,
                   autofocus: true,
                   input_html: { autocomplete: "email" }%>
+      <%= f.input :name, required: true %>
       <%= f.input :address %>
       <%= f.input :address_two %>
       <%= f.input :city %>
@@ -38,7 +39,7 @@
     </div>
   <% end %>
 
-  <%= button_to "Manage Subscription", %i[customer_portal stripe_sessions], { class: "btn btn-secondary my-4" } %>
+  <%= button_to "Manage Subscriptions", %i[customer_portal stripe_sessions], { class: "btn btn-secondary my-4" } %>
 
   <h3>Cancel my account</h3>
 

@@ -1,0 +1,35 @@
+<%= simple_form_for([@daycare, @stripe_price]) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :nickname, label: "Name" %>
+    <%= f.simple_fields_for :recurring, OpenStruct.new(@stripe_price.recurring) do |field| %>
+      <div class="row">
+        <div class="col-2">
+          <%= f.label "Recurring Time Period:" %>
+        </div>
+        <div class="col-2">
+          <%= field.input :interval_count, as: :integer, label: false, placeholder: "Enter a number", required: true %> 
+        </div>
+        <div class="col-2">
+          <%= field.input :interval, collection: %w[month year week day], prompt: "Select Time Period", label: false, required: true %>
+        </div>
+      </div>
+
+    <% end %>
+
+    <%= f.input :amount, label: "Amount" do %>
+      <div class="input-group">
+        <span class="input-group-text">$</span>
+        <%= f.input_field :amount, class: "form-control" %>
+      </div>
+    <% end %>
+    <%= f.association :users, collection: current_user.owned_daycare.users, prompt: "Choose Parents/Guardians" %>
+  </div>
+
+  <div class="form-actions">
+    <%= link_to 'Cancel', [:dashboard, :daycares], class: "btn btn-secondary" %>
+    <%= f.button :submit, "Save", class: "btn btn-primary" %>
+  </div>
+<% end %>

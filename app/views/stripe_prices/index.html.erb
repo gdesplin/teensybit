@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Stripe Prices</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Stripe</th>
+      <th>Active</th>
+      <th>Currency</th>
+      <th>Nickname</th>
+      <th>Stripe recurring</th>
+      <th>Kind</th>
+      <th>Unit amount</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stripe_prices.each do |stripe_price| %>
+      <tr>
+        <td><%= stripe_price.stripe_id %></td>
+        <td><%= stripe_price.active %></td>
+        <td><%= stripe_price.currency %></td>
+        <td><%= stripe_price.nickname %></td>
+        <td><%= stripe_price.stripe_recurring_id %></td>
+        <td><%= stripe_price.kind %></td>
+        <td><%= stripe_price.unit_amount %></td>
+        <td><%= link_to 'Show', stripe_price %></td>
+        <td><%= link_to 'Edit', edit_stripe_price_path(stripe_price) %></td>
+        <td><%= link_to 'Destroy', stripe_price, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Stripe Price', new_stripe_price_path %>
