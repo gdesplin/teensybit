@@ -1,0 +1,28 @@
+%p#notice= notice
+%h1 Stripe Prices
+%table
+  %thead
+    %tr
+      %th Stripe
+      %th Active
+      %th Currency
+      %th Nickname
+      %th Stripe recurring
+      %th Kind
+      %th Unit amount
+      %th{:colspan => "3"}
+  %tbody
+    - @stripe_prices.each do |stripe_price|
+      %tr
+        %td= stripe_price.stripe_id
+        %td= stripe_price.active
+        %td= stripe_price.currency
+        %td= stripe_price.nickname
+        %td= stripe_price.stripe_recurring_id
+        %td= stripe_price.kind
+        %td= stripe_price.unit_amount
+        %td= link_to 'Show', stripe_price
+        %td= link_to 'Edit', edit_stripe_price_path(stripe_price)
+        %td= link_to 'Destroy', stripe_price, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Stripe Price', new_stripe_price_path

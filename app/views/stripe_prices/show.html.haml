@@ -1,0 +1,25 @@
+.container
+  %p.mt-3
+    %strong Stripe ID:
+    = @stripe_price.stripe_id
+  %p
+    %strong Active:
+    = @stripe_price.active
+  %p
+    %strong Currency:
+    = @stripe_price.amount_currency
+  %p
+    %strong Nickname:
+    = @stripe_price.nickname
+  %p
+    %strong Stripe recurring:
+    = @stripe_price.recurring
+  %p
+    %strong Kind:
+    = @stripe_price.kind
+  %p
+    %strong Unit amount:
+    = number_to_currency(@stripe_price.amount)
+  = link_to 'Edit', [:edit, @daycare, @stripe_price]
+  |
+  \#{link_to 'Back', [@daycare, :stripe_prices]}

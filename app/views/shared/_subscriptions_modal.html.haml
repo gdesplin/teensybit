@@ -1,0 +1,8 @@
+.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "#{target_id}Label", :id => target_id, :tabindex => "-1"}
+  .modal-dialog.modal-xl
+    .modal-content
+      .modal-header
+        %h5#exampleModalLabel.modal-title Begin your subscription
+        %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "modal", :type => "button"}
+      .modal-body
+        = render partial: "shared/subscription_cards"

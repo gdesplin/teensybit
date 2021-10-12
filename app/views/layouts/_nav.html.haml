@@ -1,0 +1,27 @@
+%nav.navbar.navbar-expand-lg.navbar-light.bg-light
+  .container
+    %a.navbar-brand{:href => "#"} Teensy Bit
+    %button.navbar-toggler{"aria-controls" => "navbarNavDropdown", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarNavDropdown", "data-bs-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    #navbarNavDropdown.collapse.navbar-collapse.me-auto
+      %ul.navbar-nav
+        - if current_user.blank?
+          %li.nav-item
+            = link_to "Home", :root, class: "nav-link"
+          %li.nav-item
+            %a.nav-link{:href => "/#features"} Features
+          %li.nav-item
+            %a.nav-link{:href => "/#pricing"} Pricing
+          %li.nav-item
+            %a.nav-link{:href => "/#contact"} Contact
+          %li.nav-item
+            = link_to "Sign In", %i[new user session], class: "nav-link"
+          %li.nav-item
+            = link_to "Start Free Trial", root_path(anchor: "pricing"), class: "nav-link"
+        - elsif current_user.present?
+          %li.nav-item
+            = link_to "Dashboard", %i[dashboard daycares], class: "nav-link"
+          %li.nav-item
+            = link_to "Sign Out", %i[destroy user session], method: :delete, class: "nav-link"
+          %li.nav-item
+            = link_to "Edit Profile", %i[edit user registration], class: "nav-link"

@@ -1,0 +1,8 @@
+%h2
+  New contact message for Teensy Bit, from: #{@contact.name} #{mail_to @contact.email}
+  - if @contact.opt_in_emails.present?
+    %h3 They signed up for emails!
+  - else
+    %h3 They did not up for emails.
+%p
+  = @contact.message

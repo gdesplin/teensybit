@@ -1,0 +1,6 @@
+.container
+  %h1 Add Child
+  = simple_form_for([@daycare, @child]) do |f|
+    = f.input :name, label: "Childs Name"
+    = f.association :users, collection: current_user.owned_daycare.users, prompt: "Choose Parents/Guardians" if current_user.provider?
+    = f.submit "Save", class: "btn btn-primary"

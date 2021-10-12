@@ -1,7 +1,0 @@
-<%= @stripe_customer.user.name %>, your Teensy Bit invoice payment failed.
-
-Amount: <%= @stripe_invoice.total %>
-
-Date: <% @stripe_invoice.created_at %>
-
-<%= link_to "View Invoice", @stripe_invoice.hosted_invoice_url %>

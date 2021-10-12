@@ -1,9 +1,0 @@
-<h2>New contact message for Teensy Bit, from: <%= @contact.name %> <%= mail_to @contact.email %></h1>
-<% if @contact.opt_in_emails.present? %>
-<h3>They signed up for emails!</h3>
-<% else %>
-<h3>They did not up for emails.</h3>
-<% end %>
-<p>
-  <%= @contact.message %>
-</p>

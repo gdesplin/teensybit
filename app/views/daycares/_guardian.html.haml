@@ -1,0 +1,37 @@
+#daycare.container.dashboard
+  .row
+    .col-12.bg-primary.rounded.text-center.my-3.text-light
+      %h1.py-4
+        Welcome to #{current_user.daycare.name}, #{current_user.first_name}!
+    #children.col-md-6
+      %h2 Children
+      .row.row-cols-1.row-cols-md-2.g-4
+        - current_user.children.each do |child|
+          .col
+            .card
+              = image_tag("kid-taking-photo", class: "card-img-top" )
+              .card-body
+                %h5.card-title= child.name
+                = link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3"
+      = link_to "Add Child", [:new, @daycare, :child], class: "btn btn-danger text-light mt-3"
+    #payments.col-md-6
+      %h2 Payments
+      - if current_user.stripe_prices.present?
+        - current_user.stripe_prices.active.each do |price|
+          - subscribed = current_user.stripe_customer&.stripe_subscriptions&.find { |s| s.stripe_price_id == price.stripe_id }&.present?
+          .card
+            .card-body
+              %h5.card-title= price.nickname
+              %h6.card-subtitle.mb-2.text-muted= subscribed ? "Active" : "Inactive"
+              %p.card-text
+                = number_to_currency(price.amount)
+                every #{price.recurring["interval_count"] if price.recurring["interval_count"].to_i > 1} #{price.recurring["interval"].pluralize(price.recurring["interval_count"].to_i)}
+              - unless subscribed
+                = button_to "Set Up Autopay", { controller: :stripe_sessions, action: "subscription_checkout", params: { price_id: price.stripe_id } }, { class: "btn btn-primary" }
+              - else
+                = button_to "Edit Payment Methods", %i[customer_portal stripe_sessions], { class: "btn btn-outline-secondary" }
+  .row
+    #messages.col-md-6
+      %h2 Messages
+    #forms.col-md-6
+      %h2 Forms
