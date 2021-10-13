@@ -46,9 +46,9 @@
             Auto Payments  Invoicing.
             %span.text-muted Keep your bank account full.
           %p.lead Never have a missed or late payment again. You will be able to set all your parents up on an automatic daycare payment schedule that will save you time and ensure you get your hard earned dollars into your account. If auto payments aren't for you, then we will send invoices for you, and reminders via many communication channels to ensure you get your payments.
-          = link_to Start Free Trial, #pricing, class: w-100 mb-3 btn btn-lg btn-primary
+          .w-100.mb-3.btn.btn-lg-btn-primary= link_to "Start Free Trial", :root, anchor: "pricing"
         .col-md-5.xl-font.d-inline-flex.align-items-center.justify-content-center
-          = image_tag(paying-online, class: img-fluid featurette-image mx-auto )
+          = image_tag("paying-online", class: "img-fluid featurette-image mx-auto")
       %hr.featurette-divider
         #paperwork.row.featurette
           .col-md-7.order-md-2
@@ -56,9 +56,9 @@
               Online Paperwork.
               %span.text-muted Save yourself headaches.
             %p.lead There are so many forms that parents need to read, sign, and for you to keep up on. Create these in the app so it will keep up on them automatically for you, and make them available wherever the internet is!
-            = link_to Start Free Trial, #pricing, class: w-100 mb-3 btn btn-lg btn-primary
+            .w-100.mb-3.btn.btn-lg-btn-primary= link_to "Start Free Trial", :root, anchor: "pricing"
           .col-md-5.xl-font.d-inline-flex.align-items-center.justify-content-center.order-md-1
-            = image_tag(online-paper-work, class: img-fluid featurette-image mx-auto )
+            = image_tag("online-paper-work", class: "img-fluid featurette-image mx-auto")
         %hr.featurette-divider
           #sharing.row.featurette
             .col-md-7
@@ -66,9 +66,9 @@
                 Photo  file sharing.
                 %span.text-muted Easy for you, and parents love it!
               %p.lead Take a photo, tag the kids in it, done. Its now automatically shared and available to the parents it may concern. Do this with any document or text you may need to share with parents. Easy, simple and saves you time and makes parents happy!
-              = link_to Start Free Trial, #pricing, class: w-100 mb-3 btn btn-lg btn-primary
+            .w-100.mb-3.btn.btn-lg-btn-primary= link_to "Start Free Trial", :root, anchor: "pricing"
             .col-md-5.xl-font.d-inline-flex.align-items-center.justify-content-center
-              = image_tag(kid-taking-photo, class: img-fluid featurette-image mx-auto )
+              = image_tag("kid-taking-photo", class: "img-fluid featurette-image mx-auto")
           %hr.featurette-divider
             #messaging.row.featurette
               .col-md-7.order-md-2
@@ -76,16 +76,16 @@
                   Messaging.
                   %span.text-muted Broadcast, instant message and text.
                 %p.lead Often you need to message all your parents in your daycare, or a select group of them. This makes it easy to message them via email, text or in-app messages. Set up automatic messages to remind parents to bring supplies or simply let them know how their kid is doing. All in one place. Easy.
-                = link_to Start Free Trial, #pricing, class: w-100 mb-3 btn btn-lg btn-primary
+              .w-100.mb-3.btn.btn-lg-btn-primary= link_to "Start Free Trial", :root, anchor: "pricing"
               .col-md-5.xl-font.d-inline-flex.align-items-center.justify-content-center.order-md-1
-                = image_tag(messaging, class: img-fluid featurette-image mx-auto )
+                = image_tag("messaging", class: "img-fluid featurette-image mx-auto")
             %hr.featurette-divider
             / /END THE FEATURETTES
             / START THE PRICING
             #pricing.col-12.text-center.mb-4
               %h2.featurette-heading Pricing.
               %h3.text-muted One simple set of features, two ways to pay. 14 day trial!
-            = render partial: shared/subscription_cards
+            = render partial: "shared/subscription_cards"
             / /END THE PRICING
             / START CONTACT
             #contact{"data-controller" => "contact-form"}
@@ -98,13 +98,13 @@
                     = simple_form_for Contact.new, local: true do |f|
                       = f.error_notification
                       = invisible_captcha
-                      = f.input :source, as: :hidden, input_html: { value: message }
+                      = f.input :source, as: :hidden, input_html: { value: "message" }
                       = f.input :name
                       = f.input :email
                       = f.input :message
-                      = f.input :opt_in_emails, as: :boolean, label: Opt In To Receive Emails
-                      = f.button :submit, Submit, class: btn-primary
+                      = f.input :opt_in_emails, as: :boolean, label: "Opt In To Receive Emails"
+                      = f.button :submit, "Submit", class: "btn-primary"
             / /END CONTACT
             - Contact.sources.keys.each do |source|
-              = render partial: contacts/email_opt_in_modal, locals: { modal_name: email-sign-up-#{source}, source: source}
+              = render partial: "contacts/email_opt_in_modal", locals: { modal_name: "email-sign-up-#{source}", source: source}
           / /.container

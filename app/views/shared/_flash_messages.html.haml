@@ -1,0 +1,5 @@
+- flash.each do |type, message|
+  %div{ class: "alert #{bootstrap_class_for(type.to_sym)} alert-dismissible fade show", role: "alert"}
+    .container
+      = message
+      %button.btn-close{"aria-label" => "Close", "data-bs-dismiss" => "alert", type: "button"}

@@ -49,7 +49,7 @@
                     = link_to "Delete", [@daycare, price], method: :delete, class: "btn btn-sm btn-danger text-light mt-2", confirm: "Are you sure?"
           = link_to "Create Recurring Payment Plan", [:new, @daycare, :stripe_price], class: "btn btn-lg btn-danger text-light mt-2"
         - else
-          = link_to %i[create_account_link stripe_sessions], class: "stripe-connect" do
+          = link_to %i[create_account_link stripe_sessions], class: "stripe-connect", data: { turbo: false }  do
             - if @daycare.stripe_account.blank?
               %span Connect with
             - else

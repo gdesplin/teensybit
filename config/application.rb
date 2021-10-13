@@ -10,7 +10,10 @@ module Teensybit
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.1
-    config.autoload_paths += %W["#{config.root}/validators/"]
+    config.autoload_paths += Dir[
+      "#{config.root}/lib/**/",
+      "#{config.root}/validators/"
+    ]
     config.active_job.queue_adapter = :sidekiq
     # Configuration for the application, engines, and railties goes here.
     #

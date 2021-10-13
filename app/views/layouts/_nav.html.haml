@@ -17,7 +17,7 @@
           %li.nav-item
             = link_to "Sign In", %i[new user session], class: "nav-link"
           %li.nav-item
-            = link_to "Start Free Trial", root_path(anchor: "pricing"), class: "nav-link"
+            = link_to "Start Free Trial", root_path(anchor: "pricing"), class: "nav-link", data: { turbo: false } 
         - elsif current_user.present?
           %li.nav-item
             = link_to "Dashboard", %i[dashboard daycares], class: "nav-link"

@@ -27,9 +27,9 @@ class DaycaresController < ApplicationController
     @daycare = Daycare.new(safe_params)
     @daycare.user_id = current_user.id
     if @daycare.save
-      redirect_to action: :dashboard
+      redirect_to action: :dashboard, notice: "Daycare successfully created"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
   
@@ -40,9 +40,9 @@ class DaycaresController < ApplicationController
   def update # for providers
     @daycare = current_user.daycare
     if @daycare.update(safe_params)
-      redirect_to :index
+      redirect_to :index, notice: "Daycare successfully updated"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 

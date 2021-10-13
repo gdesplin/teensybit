@@ -34,7 +34,7 @@ class StripePricesController < ApplicationController
     if @stripe_price.save
       redirect_to [@daycare, @stripe_price], notice: 'Stripe price was successfully created.'
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -44,7 +44,7 @@ class StripePricesController < ApplicationController
       if @stripe_price.update(stripe_price_params)
         redirect_to [@daycare, @stripe_price], notice: 'Stripe price was successfully updated.'
       else
-        render :edit
+        render :edit, status: :unprocessable_entity
       end
     end
   end

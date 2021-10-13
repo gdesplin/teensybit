@@ -14,9 +14,9 @@ class ChildrenController < ApplicationController
     @child.daycare_id = @daycare.id
     @child.users << current_user if current_user.guardian?
     if @child.save
-      redirect_to [:dashboard, :daycares]
+      redirect_to [:dashboard, :daycares], notice: "Child successfully created"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -25,9 +25,9 @@ class ChildrenController < ApplicationController
 
   def update
     if @child.update(safe_params)
-      redirect_to [:dashboard, :daycares] 
+      redirect_to [:dashboard, :daycares], notice: "Child successfully updated"
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
