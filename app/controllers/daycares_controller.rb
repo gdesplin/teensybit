@@ -1,4 +1,5 @@
 class DaycaresController < ApplicationController
+  before_action :authenticate_user!
   before_action :authenticate_provider!, only: %i[new create edit update]
 
   def index # for admin

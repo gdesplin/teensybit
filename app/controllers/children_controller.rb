@@ -32,7 +32,11 @@ class ChildrenController < ApplicationController
   end
 
   def destroy
-    @child.destroy
+    if @child.destroy
+      redirect_to [:dashboard, :daycares], notice: "Child record successfully deleted"
+    else 
+      render :edit, status: :unprocessable_entity
+    end
   end
 
   private

@@ -3,4 +3,5 @@ class Child < ApplicationRecord
   belongs_to :daycare
 
   validates :name, presence: true
+  validates_presence_of :users
 end

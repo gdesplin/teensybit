@@ -1,6 +1,9 @@
+- action_text = @child.persisted? ? "Edit Child" : "Add Child"
 .container
-  %h1 Add Child
+  %h1= action_text
   = simple_form_for([@daycare, @child]) do |f|
     = f.input :name, label: "Childs Name"
     = f.association :users, collection: current_user.owned_daycare.users, prompt: "Choose Parents/Guardians" if current_user.provider?
     = f.submit "Save", class: "btn btn-primary"
+  = link_to "Delete", [@daycare, @child], method: :delete, class: "btn btn-danger text-light mt-2", data: { confirm: "Are you sure?"} if @child.persisted?
+

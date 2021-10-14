@@ -14,6 +14,7 @@ class Users::InvitationsController < Devise::InvitationsController
   # If you have extra params to permit, append them to the sanitizer.
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:invite, keys: %i[name address address_two city state zip phone kind daycare_id])
+    devise_parameter_sanitizer.permit(:accept_invitation, keys: %i[name address address_two city state zip phone])
   end
 
   def after_accept_path_for(resource)

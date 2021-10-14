@@ -52,7 +52,7 @@ class StripePricesController < ApplicationController
   # DELETE /stripe_prices/1
   def destroy
     price = StripePrice.find(params[:id])
-    StripeSession.new.set_price_to_inactive(price.stripe_id, @daycare.stripe_account.stripe_id)
+    DeactivateStripePriceJob.perform_later(price.stripe_id, @daycare.stripe_account.stripe_id)
     redirect_to [:dashboard, :daycares], notice: 'Stripe price was successfully destroyed.'
   end
 

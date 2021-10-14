@@ -8,8 +8,9 @@ Rails.application.routes.draw do
   resources :contacts, only: :create
   resources :daycares do
     resources :stripe_prices
-    resources :children, only: %i[create new edit update]
-    
+    resources :children
+    resources :users, only: [:show, :destroy]
+  
     collection do
       get :dashboard
     end

@@ -8,58 +8,76 @@
       .col-12.bg-primary.rounded.text-center.my-3.text-light
         %h1.py-4= current_user.owned_daycare.name
       #children.col-md-6
-        %h2 Children
-        .row.row-cols-1.row-cols-md-3.g-4.mb-3
-          - @daycare.children.each do |child|
-            .col
-              .card
-                = image_tag("kid-taking-photo", class: "card-img-top" )
-                .card-body
-                  %h5.card-title= child.name
-                  %ul.list-group.list-group-flush
-                    %li.list-group-item.list-group-item-primary Parents
-                    - child.users.each do |guardian|
-                      %li.list-group-item= guardian.name
-                  = link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3"
-        - if @daycare.users.present?
-          = link_to "Add Child", [:new, @daycare, :child], class: "btn btn-secondary btn-lg text-light"
-        = link_to 'Invite Parent/Guardian', %i[new user invitation], class: 'btn btn-lg btn-danger text-light'
-      #payments.col-md-6
-        %h2 Payments
-        - if @daycare.stripe_account&.details_submitted&.present?
-          .row.row-cols-sm-1.row-cols-md-2.mb-3
-            - @daycare.users.joins(:stripe_prices).distinct.each do |parent|
-              - parent.stripe_prices.active.each do |price|
-                .card
-                  .card-body
-                    %h5.card-title= parent.name
-                    %h5.card-title= price.nickname
-                    %p.card-text
-                      = number_to_currency(price.amount)
-                      every #{price.recurring["interval_count"] if price.recurring["interval_count"].to_i > 1} #{price.recurring["interval"].pluralize(price.recurring["interval_count"].to_i)}
-                    - if price.stripe_subscriptions.present?
+        .card
+          .card-header
+            %h2.card-title Children
+          .card-body
+            .row.row-cols-1.row-cols-md-3.g-4.mb-3
+              - @daycare.children.each do |child|
+                .col
+                  .card
+                    = image_tag("kid-taking-photo", class: "card-img-top" )
+                    .card-body
+                      %h5.card-title= child.name
                       %ul.list-group.list-group-flush
-                        %li.list-group-item Recent Payments:
-                        - price.stripe_subscriptions.order(created_at: :desc).limit(3).each do |subscription|
-                          - subscription.stripe_invoices.order(created_at: :desc).each do |invoice|
-                            %li.list-group-item
-                              Amount: #{number_to_currency(invoice.total)} #{invoice.paid ? "Paid" : "Unpaid"}
-                    - else
-                      Parent hasn't set up autopay.
-                    = link_to "Delete", [@daycare, price], method: :delete, class: "btn btn-sm btn-danger text-light mt-2", confirm: "Are you sure?"
-          = link_to "Create Recurring Payment Plan", [:new, @daycare, :stripe_price], class: "btn btn-lg btn-danger text-light mt-2"
-        - else
-          = link_to %i[create_account_link stripe_sessions], class: "stripe-connect", data: { turbo: false }  do
-            - if @daycare.stripe_account.blank?
-              %span Connect with
+                        %li.list-group-item.list-group-item-primary Parent(s)
+                        - child.users.each do |parent|
+                          %li.list-group-item= link_to parent.name, [@daycare, parent]
+                      = link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3"
+            - if @daycare.users.present?
+              - if @daycare.users.childless.present?
+                %li.list-group-item.list-group-item-primary Parents Without Children
+                %ul.list-group.list-group-flush
+                  - @daycare.users.childless.each do |parent|
+                    %li.list-group-item= link_to parent.name, [@daycare, parent]
+              = link_to "Add Child", [:new, @daycare, :child], class: "btn btn-secondary btn-lg text-light"
+            = link_to 'Invite Parent/Parent', %i[new user invitation], class: 'btn btn-lg btn-danger text-light'
+      #payments.col-md-6
+        .card
+          .card-header
+            %h2.card-title Payments
+          .card-body
+            - if @daycare.stripe_account&.details_submitted&.present?
+              .row.row-cols-sm-1.row-cols-md-2.mb-3
+                - @daycare.users.joins(:stripe_prices).distinct.each do |parent|
+                  - parent.stripe_prices.active.each do |price|
+                    .card
+                      .card-body
+                        %h5.card-title= parent.name
+                        %h5.card-title= price.nickname
+                        %p.card-text
+                          = number_to_currency(price.amount)
+                          every #{price.recurring["interval_count"] if price.recurring["interval_count"].to_i > 1} #{price.recurring["interval"].pluralize(price.recurring["interval_count"].to_i)}
+                        - if price.stripe_subscriptions.present?
+                          %ul.list-group.list-group-flush
+                            %li.list-group-item Recent Payments:
+                            - price.stripe_subscriptions.order(created_at: :desc).limit(3).each do |subscription|
+                              - subscription.stripe_invoices.order(created_at: :desc).each do |invoice|
+                                %li.list-group-item
+                                  Amount: #{number_to_currency(invoice.total)} #{invoice.paid ? "Paid" : "Unpaid"}
+                        - else
+                          Parent hasn't set up autopay.
+                        = link_to "Delete", [@daycare, price], method: :delete, class: "btn btn-sm btn-danger text-light mt-2",  data: { confirm: "Are you sure?" }
+              = link_to "Create Recurring Payment Plan", [:new, @daycare, :stripe_price], class: "btn btn-lg btn-danger text-light mt-2"
             - else
-              %span Continue with
+              = link_to %i[create_account_link stripe_sessions], class: "stripe-connect", data: { turbo: false }  do
+                - if @daycare.stripe_account.blank?
+                  %span Connect with
+                - else
+                  %span Continue with
     .row.mb-4
-      #guardians.col-md-6
-        %h2 Messages
+      #parents.col-md-6
+        .card
+          .card-header
+            %h2.card-title Messages
+          .card-body
+            .btn.btn-lg.btn-danger.text-light Message Someone
       #forms.col-md-6
-        %h2 Forms
-        .btn.btn-lg.btn-danger.text-light Add Form
+        .card
+          .card-header
+            %h2.card-title Forms
+          .card-body
+            .btn.btn-lg.btn-danger.text-light Add Form
 - else
   .d-flex.h-100.text-center.text-white.bg-primary.cover-theme
     .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column
