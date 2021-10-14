@@ -15,7 +15,7 @@
       .input-group
         %span.input-group-text $
         = f.input_field :amount, class: "form-control"
-    = f.association :users, collection: current_user.owned_daycare.users, prompt: "Choose Parents/Guardians"
+    = f.association :user, collection: current_user.owned_daycare.users, prompt: "Choose Parent/Guardian"
   .form-actions
     = link_to 'Cancel', [:dashboard, :daycares], class: "btn btn-secondary"
     = f.button :submit, "Save", class: "btn btn-primary"

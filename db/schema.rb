@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_08_172242) do
+ActiveRecord::Schema.define(version: 2021_10_14_205903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,17 +138,10 @@ ActiveRecord::Schema.define(version: 2021_10_08_172242) do
     t.string "amount_currency", default: "USD", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
     t.index ["stripe_id"], name: "index_stripe_prices_on_stripe_id"
     t.index ["stripe_product_id"], name: "index_stripe_prices_on_stripe_product_id"
-  end
-
-  create_table "stripe_prices_users", force: :cascade do |t|
-    t.bigint "stripe_price_id"
-    t.bigint "user_id"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["stripe_price_id"], name: "index_stripe_prices_users_on_stripe_price_id"
-    t.index ["user_id"], name: "index_stripe_prices_users_on_user_id"
+    t.index ["user_id"], name: "index_stripe_prices_on_user_id"
   end
 
   create_table "stripe_products", force: :cascade do |t|

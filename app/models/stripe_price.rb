@@ -1,6 +1,6 @@
 class StripePrice < ApplicationRecord
   belongs_to :stripe_product, primary_key: "stripe_id"
-  has_and_belongs_to_many :users
+  belongs_to :user
   has_many :stripe_subscriptions, primary_key: "stripe_id"
 
   scope :active, -> { where(active: true) }

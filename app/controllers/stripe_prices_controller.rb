@@ -68,6 +68,6 @@ class StripePricesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def stripe_price_params
-      params.require(:stripe_price).permit(:currency, :nickname, :unit_amount, :amount, recurring: [:interval_count, :interval], user_ids: [])
+      params.require(:stripe_price).permit(:currency, :nickname, :unit_amount, :amount, :user_id, recurring: [:interval_count, :interval])
     end
 end
