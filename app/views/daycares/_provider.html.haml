@@ -12,11 +12,14 @@
           .card-header
             %h2.card-title Children
           .card-body
-            .row.row-cols-1.row-cols-md-3.g-4.mb-3
+            .row.row-cols-1.row-cols-lg-3.row-cols-md-2.g-4.mb-3
               - @daycare.children.each do |child|
                 .col
                   .card
-                    = image_tag("kid-taking-photo", class: "card-img-top" )
+                    - if child.photo.attached?
+                      = image_tag(child.photo.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
+                    - else
+                      = image_tag("kid-taking-photo", size: "315x315", class: "card-img-top" )
                     .card-body
                       %h5.card-title= child.name
                       %ul.list-group.list-group-flush

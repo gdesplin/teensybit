@@ -6,3 +6,7 @@ $info: #6698E8;
 $warning: #eee845;
 
 @import "bootstrap";
+
+.form-control-file {
+  @extend .form-control;
+}

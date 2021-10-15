@@ -4,4 +4,7 @@ class Child < ApplicationRecord
 
   validates :name, presence: true
   validates_presence_of :users
+
+  has_one_attached :photo
+
 end

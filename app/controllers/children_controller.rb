@@ -61,7 +61,7 @@ class ChildrenController < ApplicationController
   end
 
   def safe_params
-    params.require(:child).permit(:name, user_ids: [])
+    params.require(:child).permit(:name, :photo, user_ids: [])
   end
 
 end
