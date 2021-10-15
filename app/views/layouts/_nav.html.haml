@@ -20,7 +20,8 @@
             = link_to "Start Free Trial", root_path(anchor: "pricing"), class: "nav-link", data: { turbo: false } 
         - elsif current_user.present?
           %li.nav-item
-            = link_to "Dashboard", %i[dashboard daycares], class: "nav-link"
+            - dashboard_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
+            = link_to "Dashboard", dashboard_path, class: "nav-link"
           %li.nav-item
             = link_to "Sign Out", %i[destroy user session], method: :delete, class: "nav-link"
           %li.nav-item

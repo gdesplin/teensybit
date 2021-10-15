@@ -12,7 +12,8 @@ Rails.application.routes.draw do
     resources :users, only: [:show, :destroy]
   
     collection do
-      get :dashboard
+      get :provider_dashboard
+      get :guardian_dashboard
     end
   end
 

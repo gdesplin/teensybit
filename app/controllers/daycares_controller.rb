@@ -2,53 +2,43 @@ class DaycaresController < ApplicationController
   before_action :authenticate_user!
   before_action :authenticate_provider!, only: %i[new create edit update]
 
-  def index # for admin
-
+  def provider_dashboard
+    @daycare = Daycare.find_by(user_id: current_user.id)
+    authorize @daycare
   end
 
-  def dashboard # loads different partial based on user kind
-    case current_user.kind.to_sym
-    when :provider
-      @daycare = Daycare.find_by(user_id: current_user.id)
-    when :guardian
-      @daycare = current_user.daycare
-    else
-      @daycares = Daycare.all if current_user.admin?
-    end
+  def guardian_dashboard
+    @daycare = current_user.daycare
+    authorize @daycare
   end
 
-  def show # admin
-  end
-
-  def new # for providers
+  def new
     @daycare = Daycare.new(user_id: current_user.id)
   end
 
-  def create # for providers
+  def create
     @daycare = Daycare.new(safe_params)
     @daycare.user_id = current_user.id
     if @daycare.save
-      redirect_to action: :dashboard, notice: "Daycare successfully created"
+      redirect_to action: :provider_dashboard, notice: "Daycare successfully created"
     else
       render :new, status: :unprocessable_entity
     end
   end
   
-  def edit # for providers
-    @daycare = current_user.daycare
+  def edit # TODO: implement in views
+    @daycare = current_user.owned_daycare
+    authorize @daycare
   end
 
-  def update # for providers
-    @daycare = current_user.daycare
+  def update # TODO: implement in views
+    @daycare = current_user.owned_daycare
+    authorize @daycare
     if @daycare.update(safe_params)
-      redirect_to :index, notice: "Daycare successfully updated"
+      redirect_to action: :provider_dashboard, notice: "Daycare successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
-  end
-
-  def destroy # for admins
-
   end
 
   private
@@ -56,4 +46,5 @@ class DaycaresController < ApplicationController
   def safe_params
     params.require(:daycare).permit(%i[name address user_id address address_two city state zip phone])
   end
+
 end

@@ -3,13 +3,14 @@ class UsersController < ApplicationController
   before_action :authenticate_provider!
   before_action :set_user
   before_action :set_daycare
+  before_action :authorize_user
 
   def show
   end
 
   def destroy
     @user.destroy
-    redirect_to [:dashboard, :daycares], notice: "Parent/Guardian successfully destroyed."
+    redirect_to [:provider_dashboard, :daycares], notice: "Parent/Guardian successfully destroyed."
   end
 
   private
@@ -26,4 +27,7 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name)
   end
 
+  def authorize_user
+    authorize @user
+  end
 end

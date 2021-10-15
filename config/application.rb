@@ -15,6 +15,17 @@ module Teensybit
       "#{config.root}/validators/"
     ]
     config.active_job.queue_adapter = :sidekiq
+
+    config.generators do |g|
+      g.assets false
+      g.controller_specs false
+      g.fixture_replacement :factory_bot, dir: "spec/factories"
+      g.helper false
+      g.routing_specs false
+      g.test_framework :rspec, fixture: true
+      g.view_specs false
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

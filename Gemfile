@@ -40,11 +40,16 @@ gem "haml-rails", "~> 2.0"
 gem 'hotwire-rails'
 gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
+gem "pundit"
 
 group :development, :test do
+  gem 'capybara'
+  gem 'rspec-rails'
+  gem 'selenium-webdriver'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails'
+  gem 'solargraph'
 end
 
 group :development do
@@ -59,11 +64,14 @@ group :development do
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 3.26'
-  gem 'selenium-webdriver'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'pundit-matchers'
+  gem 'rspec-sidekiq'
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+  gem 'stripe-ruby-mock', require: 'stripe_mock'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
