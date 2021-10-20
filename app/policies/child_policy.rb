@@ -20,6 +20,16 @@ class ChildPolicy < ApplicationPolicy
     end
   end
 
+  def show?
+    if user.provider?
+      user.owned_daycare.present? && user.owned_daycare == record.daycare
+    elsif user.guardian?
+      record.users.where(id: user.id).present?
+    else
+      false
+    end
+  end
+
   def edit?
     if user.provider?
       user.owned_daycare.present? && user.owned_daycare == record.daycare

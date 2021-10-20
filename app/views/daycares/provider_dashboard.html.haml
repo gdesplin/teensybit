@@ -27,6 +27,7 @@
                         - child.users.each do |parent|
                           %li.list-group-item= link_to parent.name, [@daycare, parent]
                       = link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3"
+                      = link_to "View", [@daycare, child], class: "btn btn-primary text-light mt-3"
             - if @daycare.users.present?
               - if @daycare.users.childless.present?
                 %li.list-group-item.list-group-item-primary Parents Without Children
@@ -69,7 +70,30 @@
                 - else
                   %span Continue with
     .row.mb-4
-      #parents.col-md-6
+      #pictures.col-md-6
+        .card
+          .card-header
+            %h2.card-title Pictures
+          .card-body
+            .row.row-cols-1.row-cols-lg-2.g-4.mb-3
+              - @daycare.pictures.order(updated_at: :desc).last(4).each do |picture|
+                .col
+                  .card
+                    = image_tag(picture.picture.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
+                    .card-body
+                      %h5.card-title= picture.title
+                      = link_to "View", [@daycare, picture], class: "btn btn-primary text-light mt-3 me-2"
+                      = link_to "Edit", [:edit, @daycare, picture], class: "btn btn-secondary text-light mt-3"
+            = link_to "Upload Picture", [:new, @daycare, :picture], class: "btn btn-danger btn-lg text-light"
+            = link_to "View More", [@daycare, :pictures], class: "btn btn-primary btn-lg text-light"
+      #documents.col-md-6
+        .card
+          .card-header
+            %h2.card-title Documents
+          .card-body
+            .btn.btn-lg.btn-danger.text-light Upload Document      
+    .row.mb-4
+      #messages.col-md-6
         .card
           .card-header
             %h2.card-title Messages

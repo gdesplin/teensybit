@@ -1,8 +1,11 @@
 class ChildrenController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_daycare, only: %i[new create edit update destroy]
+  before_action :set_daycare
   before_action :set_child, only: %i[show edit update destroy]
   before_action :authorize_child, only: %i[show edit update destroy]
+
+  def show
+  end
 
   def new
     @child = Child.new(daycare_id: @daycare.id)

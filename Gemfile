@@ -36,11 +36,13 @@ gem 'stripe'
 gem 'money-rails', '~>1.12'
 gem 'json-schema'
 gem 'sidekiq'
-gem "haml-rails", "~> 2.0"
+gem 'haml-rails', '~> 2.0'
 gem 'hotwire-rails'
 gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
-gem "pundit"
+gem 'pundit'
+gem 'active_storage_validations'
+gem 'pagy', '~> 3.5'
 
 group :development, :test do
   gem 'capybara'

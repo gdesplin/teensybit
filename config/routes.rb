@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   devise_for :users, controllers: {
     sessions: "users/sessions",
     registrations: "users/registrations",
@@ -9,6 +8,7 @@ Rails.application.routes.draw do
   resources :daycares do
     resources :stripe_prices
     resources :children
+    resources :pictures
     resources :users, only: [:show, :destroy]
   
     collection do

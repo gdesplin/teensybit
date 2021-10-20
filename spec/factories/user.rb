@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory(:user) do
+  factory :user do
     address {nil}
     address_two {nil}
     admin {nil}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_15_162125) do
+ActiveRecord::Schema.define(version: 2021_10_19_211809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,13 @@ ActiveRecord::Schema.define(version: 2021_10_15_162125) do
     t.integer "daycare_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "photo_url"
+  end
+
+  create_table "children_pictures", id: false, force: :cascade do |t|
+    t.bigint "child_id", null: false
+    t.bigint "picture_id", null: false
+    t.index ["child_id", "picture_id"], name: "index_children_pictures_on_child_id_and_picture_id", unique: true
   end
 
   create_table "children_users", id: false, force: :cascade do |t|
@@ -81,6 +88,18 @@ ActiveRecord::Schema.define(version: 2021_10_15_162125) do
     t.string "phone"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "pictures", force: :cascade do |t|
+    t.bigint "daycare_id", null: false
+    t.string "title"
+    t.string "description"
+    t.bigint "user_id", null: false
+    t.boolean "public_to_daycare", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["daycare_id"], name: "index_pictures_on_daycare_id"
+    t.index ["user_id"], name: "index_pictures_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
@@ -256,4 +275,6 @@ ActiveRecord::Schema.define(version: 2021_10_15_162125) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "pictures", "daycares"
+  add_foreign_key "pictures", "users"
 end

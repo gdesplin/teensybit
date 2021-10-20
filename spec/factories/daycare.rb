@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory(:daycare) do
+  factory :daycare do
     address {"ToFactory: RubyParser exception parsing this attribute"}
     address_two {""}
     city {"Washington"}
