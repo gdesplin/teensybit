@@ -6,9 +6,10 @@ Rails.application.routes.draw do
   }
   resources :contacts, only: :create
   resources :daycares do
-    resources :stripe_prices
     resources :children
+    resources :documents
     resources :pictures
+    resources :stripe_prices
     resources :users, only: [:show, :destroy]
   
     collection do

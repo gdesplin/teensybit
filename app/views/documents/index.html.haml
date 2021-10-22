@@ -1,0 +1,15 @@
+.container
+  .card.mt-3
+    .card-header
+      %h2.card-title Documents
+    .card-body
+      .row.row-cols-1.row-cols-lg-5.row-cols-md-3.row-cols-sm-2.g-4.mb-3
+        - @documents.each do |document|
+          .col
+            .card
+              = image_tag(document.document.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" ) if document.document.image?
+              .card-body
+                %h5.card-title= document.title
+                = link_to "View", [@daycare, document], class: "btn btn-primary text-light mt-3 me-2"
+                = link_to "Edit", [:edit, @daycare, document], class: "btn btn-secondary text-light mt-3"
+      != pagy_bootstrap_nav(@pagy)

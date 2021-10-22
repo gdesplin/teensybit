@@ -1,0 +1,16 @@
+- action_text = @document.persisted? ? "Edit Document" : "Add Document"
+.container
+  %h1= action_text
+  = simple_form_for([@daycare, @document]) do |f|
+    = image_tag(@document.document.variant(resize_to_limit: [555, 555]), class: "img-fluid" ) if @document.document.attached? && @document.document.image?
+    = f.input :document, as: "file"
+    - if @document.document.attached?
+      %small.form-text.text-muted.d-block.mb-3
+        ^ This will replace the current file
+    = f.association :users, collection: current_user.owned_daycare.users, prompt: "Make Available To"
+    = f.input :title
+    = f.input :description
+    = f.input :public_to_daycare, as: :boolean, hint: " Allow all parents can view this document"
+    = f.submit "Save", class: "btn btn-primary mt-3"
+  = link_to "Delete", [@daycare, @document], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"} if @document.persisted?
+

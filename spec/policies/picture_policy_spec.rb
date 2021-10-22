@@ -16,11 +16,11 @@ RSpec.describe PicturePolicy, type: :policy do
   permissions ".scope" do
     it "only shows pictures providers owned daycare has" do
       provider.reload; daycare.reload; guardian.reload; child.reload; picture_one.reload; picture_two.reload; picture_three.reload
-      expect(PicturePolicy::Scope.new(provider, Picture).resolve).to eq provider.owned_daycare.pictures
+      expect(PicturePolicy::Scope.new(provider, Picture).resolve).to eq provider.owned_daycare.pictures.order(updated_at: :desc)
     end
     it "only shows pictures guardians children are in" do
       provider.reload; daycare.reload; guardian.reload; child.reload; picture_one.reload; picture_two.reload; picture_three.reload
-      expect(PicturePolicy::Scope.new(guardian, Picture).resolve).to eq guardian.pictures
+      expect(PicturePolicy::Scope.new(guardian, Picture).resolve).to eq guardian.pictures.order(updated_at: :desc)
     end
   end
 

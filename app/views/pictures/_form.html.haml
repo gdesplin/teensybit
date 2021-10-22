@@ -7,8 +7,8 @@
     - if @picture.picture.attached?
       %small.form-text.text-muted.d-block.mb-3
         ^ This will replace the current image
-    = f.association :children, collection: current_user.owned_daycare.children, prompt: "Tag Children" if current_user.provider?
-    = f.input :title, label: "Title"
+    = f.association :children, collection: current_user.owned_daycare.children, prompt: "Tag Children"
+    = f.input :title
     = f.input :description
     = f.input :public_to_daycare, as: :boolean, hint: " Allow all parents can view this picture"
     = f.submit "Save", class: "btn btn-primary mt-3"

@@ -34,5 +34,4 @@
 yarn-debug.log*
 .yarn-integrity
 .env
-coverage/.last_run.json
-coverage/.resultset.json
+coverage

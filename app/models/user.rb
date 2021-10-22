@@ -10,6 +10,7 @@ class User < ApplicationRecord
   has_one :owned_daycare, class_name: 'Daycare', foreign_key: :user_id # daycare owner
   has_and_belongs_to_many :children
   has_many :pictures, through: :children
+  has_and_belongs_to_many :documents
   has_many :stripe_prices
   belongs_to :stripe_customer, primary_key: "stripe_id", optional: true
   scope :childless, -> { where.missing(:children) }
