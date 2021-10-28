@@ -17,6 +17,24 @@ class User < ApplicationRecord
 
   before_destroy :deactive_stripe_prices, :delete_children
 
+  def viewable_pictures
+    pictures_ids = pictures.pluck(:id)
+    if guardian?
+      daycare.pictures.public_to_daycare.or(Picture.where(id: pictures_ids))
+    elsif provider?
+      owned_daycare.pictures.public_to_daycare.or(Picture.where(id: pictures_ids))
+    end
+  end
+
+  def viewable_documents
+    documents_ids = documents.pluck(:id)
+    if guardian?
+      daycare.documents.public_to_daycare.or(Document.where(id: documents_ids))
+    elsif provider?
+      owned_daycare.documents.public_to_daycare.or(Document.where(id: documents_ids))
+    end
+  end
+
   def first_name
     name.split(" ")[0]
   end

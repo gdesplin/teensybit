@@ -4,7 +4,7 @@ class DocumentPolicy < ApplicationPolicy
       if user.provider?
         user.owned_daycare&.documents.order(updated_at: :desc)
       elsif user.guardian?
-        user.documents.order(updated_at: :desc)
+        user.viewable_documents.order(updated_at: :desc)
       else
         nil
       end
@@ -23,7 +23,7 @@ class DocumentPolicy < ApplicationPolicy
     if user.provider?
       record.daycare == user.owned_daycare
     elsif user.guardian?
-      user.documents.exists?(record.id)
+      user.viewable_documents.exists?(record.id)
     else
       false
     end
@@ -33,7 +33,7 @@ class DocumentPolicy < ApplicationPolicy
     if user.provider?
       record.daycare == user.owned_daycare
     elsif user.guardian?
-      user.documents.exists?(record.id)
+      user.viewable_documents.exists?(record.id)
     else
       false
     end
@@ -43,7 +43,7 @@ class DocumentPolicy < ApplicationPolicy
     if user.provider?
       record.daycare == user.owned_daycare
     elsif user.guardian?
-      user.documents.exists?(record.id)
+      user.viewable_documents.exists?(record.id)
     else
       false
     end

@@ -8,6 +8,8 @@ class Picture < ApplicationRecord
 
   after_save :message_parents
 
+  scope :public_to_daycare, -> { where(public_to_daycare: true) }
+
   private
 
   def message_parents

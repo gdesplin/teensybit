@@ -4,7 +4,7 @@ class PicturePolicy < ApplicationPolicy
       if user.provider?
         user.owned_daycare&.pictures.order(updated_at: :desc)
       elsif user.guardian?
-        user.pictures.order(updated_at: :desc)
+        user.viewable_pictures.order(updated_at: :desc)
       else
         nil
       end
@@ -15,7 +15,7 @@ class PicturePolicy < ApplicationPolicy
     if user.provider?
       record.daycare == user.owned_daycare
     elsif user.guardian?
-      user.pictures.exists?(record.id)
+      user.viewable_pictures.exists?(record.id)
     else
       false
     end

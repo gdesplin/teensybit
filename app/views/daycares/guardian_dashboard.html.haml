@@ -46,7 +46,7 @@
           %h2.card-title Pictures
         .card-body
           .row.row-cols-1.row-cols-lg-2.g-4.mb-3
-            - current_user.pictures.order(updated_at: :desc).last(4).each do |picture|
+            - current_user.viewable_pictures.order(updated_at: :desc).last(4).each do |picture|
               .col
                 .card
                   = image_tag(picture.picture.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
@@ -60,7 +60,7 @@
           %h2.card-title Documents
         .card-body
           .row.row-cols-1.row-cols-lg-2.g-4.mb-3
-            - current_user.documents.order(updated_at: :desc).last(4).each do |document|
+            - current_user.viewable_documents.order(updated_at: :desc).last(4).each do |document|
               .col
                 .card
                   = image_tag(document.document.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" ) if document.document.image?
