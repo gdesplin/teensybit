@@ -11,5 +11,6 @@
               .card-body
                 %h5.card-title= document.title
                 = link_to "View", [@daycare, document], class: "btn btn-primary text-light mt-3 me-2"
-                = link_to "Edit", [:edit, @daycare, document], class: "btn btn-secondary text-light mt-3"
+                - edit_text = current_user.provider? ? "Edit" : "Upload Response Document"
+                = link_to edit_text, [:edit, @daycare, document], class: "btn btn-secondary text-light mt-3"
       != pagy_bootstrap_nav(@pagy)

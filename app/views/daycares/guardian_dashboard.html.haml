@@ -67,6 +67,7 @@
                   .card-body
                     %h5.card-title= document.title
                     = link_to "View Details", [@daycare, document], class: "btn btn-primary text-light mt-3 me-2"
+                    = link_to "Upload Response Document", [:edit, @daycare, document], class: "btn btn-secondary text-light mt-3"
                     = link_to "Preview", rails_blob_path(document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
                     = link_to "Download", rails_blob_path(document.document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
           = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light"

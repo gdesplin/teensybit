@@ -3,9 +3,8 @@ class Document < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :users
 
-  has_one_attached :document # Provider uploaded
-  has_one_attached :response_document # Parent Uploaded (perhaps the document filled out and scanned in)
-
+  has_one_attached :document
+  has_one_attached :response_document
   validates :document, attached: true
 
   after_save :message_parents

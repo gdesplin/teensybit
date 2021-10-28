@@ -11,6 +11,14 @@ class DocumentPolicy < ApplicationPolicy
     end
   end
 
+  def permitted_attributes
+    if user.provider?
+      [:title, :description, :public_to_daycare, :document, user_ids: []]
+    elsif user.guardian?
+      [:response_document]
+    end
+  end
+
   def show?
     if user.provider?
       record.daycare == user.owned_daycare
@@ -22,11 +30,23 @@ class DocumentPolicy < ApplicationPolicy
   end
 
   def edit?
-    user.provider? && user.owned_daycare.present? && record.daycare == user.owned_daycare
+    if user.provider?
+      record.daycare == user.owned_daycare
+    elsif user.guardian?
+      user.documents.exists?(record.id)
+    else
+      false
+    end
   end
 
   def update?
-    user.provider? && user.owned_daycare.present? && record.daycare == user.owned_daycare
+    if user.provider?
+      record.daycare == user.owned_daycare
+    elsif user.guardian?
+      user.documents.exists?(record.id)
+    else
+      false
+    end
   end
 
   def create?

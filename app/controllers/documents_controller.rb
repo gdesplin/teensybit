@@ -1,6 +1,6 @@
 class DocumentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :authenticate_provider!, only: %i[new create edit update destroy]
+  before_action :authenticate_provider!, only: %i[new create destroy]
   before_action :set_daycare
   before_action :set_document, only: %i[show edit update destroy]
   before_action :authorize_document, only: %i[show edit update destroy]
@@ -64,7 +64,7 @@ class DocumentsController < ApplicationController
   end
 
   def safe_params
-    params.require(:document).permit(:title, :description, :public_to_daycare, :document, user_ids: [])
+    params.require(:document).permit(policy(@document).permitted_attributes)
   end
 
   def authorize_document
