@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :daycares do
     resources :children
     resources :documents
+    resources :forms
     resources :pictures
     resources :stripe_prices
     resources :users, only: [:show, :destroy]

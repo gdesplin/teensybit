@@ -1,0 +1,18 @@
+.container.mt-3
+  .row
+    .col-md-6
+      .card
+        .card-body
+          %h5.card-title= @form.title
+          %p.card-text= @form.description
+          %p.card-text= "Published to Daycare: #{@form.published_to_daycare}"
+          %h5.card-title Questions
+          - @form.form_fields.each do |form_field|
+            .card
+              .card-body
+                %h5.card-title= form_field.question
+                %p.card-text= form_field.description
+                %ul.list-group.list-group-flush
+                  - form_field.form_field_options.each do |form_field_option|
+                    %li.list-group-item= form_field_option.name
+          = link_to "Edit", [:edit, @daycare, @form], class: "btn btn-secondary text-light mt-3"

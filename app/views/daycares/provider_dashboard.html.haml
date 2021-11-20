@@ -116,6 +116,9 @@
           .card-header
             %h2.card-title Forms
           .card-body
+            %ul.list-group.list-group-flush.mb-3
+              - @daycare.forms.last(8).each do |form|
+                %li.list-group-item= link_to form.title, [@daycare, form]
             .btn.btn-lg.btn-danger.text-light Add Form
 - else
   .d-flex.h-100.text-center.text-white.bg-primary.cover-theme

@@ -15,7 +15,7 @@ module Teensybit
       "#{config.root}/validators/"
     ]
     config.active_job.queue_adapter = :sidekiq
-
+    config.active_record.schema_format = :sql
     config.generators do |g|
       g.assets false
       g.controller_specs false

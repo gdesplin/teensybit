@@ -1,16 +1,16 @@
-- action_text = @picture.persisted? ? "Edit Picture" : "Add Picture"
+- action_text = picture.persisted? ? "Edit Picture" : "Add Picture"
 .container
   %h1= action_text
-  = simple_form_for([@daycare, @picture]) do |f|
-    = image_tag(@picture.picture.variant(resize_to_limit: [555, 555]), class: "img-fluid" ) if @picture.picture.attached?
+  = simple_form_for([daycare, picture]) do |f|
+    = image_tag(picture.picture.variant(resize_to_limit: [555, 555]), class: "img-fluid" ) if picture.picture.attached?
     = f.input :picture, as: "file"
-    - if @picture.picture.attached?
+    - if picture.picture.attached?
       %small.form-text.text-muted.d-block.mb-3
         ^ This will replace the current image
     = f.association :children, collection: current_user.owned_daycare.children, prompt: "Tag Children"
     = f.input :title
     = f.input :description
-    = f.input :public_to_daycare, as: :boolean, hint: " Allow all parents can view this picture"
+    = f.input :public_to_daycare, as: :boolean, hint: " Allow all parents to view this picture"
     = f.submit "Save", class: "btn btn-primary mt-3"
-  = link_to "Delete", [@daycare, @picture], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"} if @picture.persisted?
+  = link_to "Delete", [daycare, picture], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"} if picture.persisted?
 
