@@ -35,3 +35,4 @@ yarn-debug.log*
 .yarn-integrity
 .env
 coverage
+.DS_Store

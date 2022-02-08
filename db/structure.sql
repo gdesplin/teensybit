@@ -150,8 +150,7 @@ CREATE TABLE public.children (
     name character varying,
     daycare_id integer,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    photo_url character varying
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -327,7 +326,7 @@ CREATE TABLE public.entered_form_fields (
     entered_datetime timestamp without time zone,
     entered_date date,
     entered_time time without time zone,
-    form_field_option_id bigint,
+    form_field_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -1375,10 +1374,10 @@ CREATE INDEX index_entered_form_fields_on_entered_form_id ON public.entered_form
 
 
 --
--- Name: index_entered_form_fields_on_form_field_option_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_entered_form_fields_on_form_field_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE INDEX index_entered_form_fields_on_form_field_option_id ON public.entered_form_fields USING btree (form_field_option_id);
+CREATE INDEX index_entered_form_fields_on_form_field_id ON public.entered_form_fields USING btree (form_field_id);
 
 
 --
@@ -1763,7 +1762,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20210930184237'),
 ('20211008172242'),
 ('20211014205903'),
-('20211014221359'),
 ('20211015162125'),
 ('20211019205155'),
 ('20211019211809'),

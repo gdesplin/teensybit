@@ -7,7 +7,7 @@ class CreateEnteredFormFields < ActiveRecord::Migration[6.1]
       t.datetime :entered_datetime
       t.date :entered_date
       t.time :entered_time
-      t.references :form_field_option, null: true
+      t.references :form_field, null: true
 
       t.timestamps
     end

@@ -25,7 +25,11 @@ class Users::SessionsController < Devise::SessionsController
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
 
-  # def after_sign_in_path_for(resource)
-  #   super
-  # end
+  def after_sign_in_path_for(resource)
+    if resource.provider?
+      provider_dashboard_daycares_path
+    elsif resource.guardian?
+      guardian_dashboard_daycares_path
+    end
+  end
 end

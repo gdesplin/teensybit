@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :children
     resources :documents
     resources :forms
+    resources :entered_forms
     resources :pictures
     resources :stripe_prices
     resources :users, only: [:show, :destroy]

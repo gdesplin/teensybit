@@ -11,12 +11,13 @@ import "@fortawesome/fontawesome-free/css/all";
 import "../stylesheets/application";
 import "../stylesheets/stripe_connect";
 import { Application } from "stimulus"
-import "./controllers"
+import "../controllers"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
 import '@hotwired/turbo-rails'
+require("flatpickr/dist/flatpickr.css")
 
 const application = Application.start()
-const context = require.context("./controllers", true, /\.js$/)
+const context = require.context("../controllers", true, /\.js$/)
 application.load(definitionsFromContext(context))
 // https://fontawesome.com/v5.15/how-to-use/on-the-web/using-with/turbolinks
 // FontAwesome.config.mutateApproach = 'sync'

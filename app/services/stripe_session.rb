@@ -50,7 +50,7 @@ class StripeSession
     Stripe::AccountLink.create({
       account: id,
       refresh_url: create_account_link_stripe_sessions_url,
-      return_url: dashboard_daycares_url,
+      return_url: provider_dashboard_daycares_url,
       type: 'account_onboarding',
     })
   end

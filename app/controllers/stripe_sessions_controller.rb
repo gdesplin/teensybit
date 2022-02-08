@@ -27,7 +27,7 @@ class StripeSessionsController < ApplicationController
     flash.notice = "Your subscription was successful"
     # session = Stripe::Checkout::Session.retrieve(params[:session_id])
     # customer = Stripe::Customer.retrieve(session.customer)
-    redirect_to dashboard_daycares_url
+    redirect_to provider_dashboard_daycares_url
   end
 
   def subscription_checkout_canceled
@@ -38,7 +38,7 @@ class StripeSessionsController < ApplicationController
   def customer_portal
     session_params = { 
       stripe_customer_id: current_user.stripe_customer_id,
-      return_url: dashboard_daycares_url,
+      return_url: provider_dashboard_daycares_url,
       stripe_account_id: current_user.daycare&.stripe_account&.stripe_id,
       configuration: current_user.daycare&.stripe_account&.stripe_billing_portal_configurations&.last&.stripe_id 
     }

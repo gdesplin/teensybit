@@ -16,3 +16,11 @@
                   - form_field.form_field_options.each do |form_field_option|
                     %li.list-group-item= form_field_option.name
           = link_to "Edit", [:edit, @daycare, @form], class: "btn btn-secondary text-light mt-3"
+    .col-md-6
+      .card
+        .card-body
+          %h5.card-title Responses
+          %ul.list-group.list-group-flush
+            - @form.entered_forms.each do |entered_form|
+              %li.list-group-item= link_to entered_form.user.name, [@daycare, entered_form]
+

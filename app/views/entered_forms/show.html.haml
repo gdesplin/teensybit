@@ -1,0 +1,15 @@
+.container.mt-3
+  .row
+    .col-md-6
+      .card
+        .card-body
+          %h5.card-title= @entered_form.form.title
+          %p.card-text= @entered_form.form.description
+          - @entered_form.entered_form_fields.each do |entered_form_field|
+            .card
+              .card-body
+                %h5.card-title= entered_form_field.form_field.question
+                %p.card-text= entered_form_field.form_field.description
+                %p.card-text= entered_form_field.answer
+                
+          = link_to "Edit", [:edit, @daycare, @entered_form], class: "btn btn-secondary text-light mt-3" if policy(@entered_form).edit?

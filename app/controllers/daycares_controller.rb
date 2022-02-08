@@ -4,6 +4,11 @@ class DaycaresController < ApplicationController
 
   def provider_dashboard
     @daycare = Daycare.find_by(user_id: current_user.id)
+    if @daycare.blank?
+      redirect_to [:new, :daycare]
+      return
+    end
+  
     authorize @daycare
   end
 

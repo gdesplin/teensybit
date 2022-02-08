@@ -1,0 +1,19 @@
+.container
+  .col-md-6
+    .card
+      .card-body
+        %h3.card-title= @entered_form.form.title
+        %p.card-text= @entered_form.form.description
+
+  = simple_form_for([@daycare, @entered_form]) do |f|
+    = f.input :form_id, as: :hidden
+    - @entered_form.entered_form_fields.each do |entered_form_field|
+      .card.my-3
+        .card-body
+          %h5.card-title= entered_form_field.form_field.question
+          - if entered_form_field.form_field.description.present?
+            %p.card-text.d-block= entered_form_field.form_field.description
+          = f.simple_fields_for :entered_form_fields, entered_form_field do |entered_form_fields_form|
+            = render partial: "entered_form_fields/form", locals: { entered_form_fields_form: entered_form_fields_form }
+    = f.submit "Save", class: "btn btn-primary mt-3"
+  = link_to "Delete", [@daycare, @entered_form], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"} if @entered_form.persisted?
