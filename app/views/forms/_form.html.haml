@@ -4,11 +4,18 @@
   = simple_form_for([@daycare, @form]) do |f|
     = f.input :title
     = f.input :description
-    - @form.form_fields.each do |form_field|
-      = f.simple_fields_for :form_fields, form_field do |form_fields_form|
-        = render partial: "form_fields/form", locals: { form_fields_form: form_fields_form }
-    = f.select(:new_form_field_kind, FormField.field_kind_attributes_for_select, include_blank: true)
-    = f.submit "Add Form Field", class: "btn btn-primary mt-3"
+    .form_fields{ data: { controller: "nested-form" } }
+      .fields{ data: { nested_form_target: "insertElement" } }
+        = render partial: "form_fields/templates", locals: { f: f }
+        .orderable{ data: { controller: "sortable",
+          sortable_selector_value: ".form_field",
+          action: "nested-form:addAssociation@window->sortable#listen" } }
+        - @form.form_fields.each do |form_field|
+          = f.simple_fields_for :form_fields, form_field do |form_fields_form|
+            = render partial: "form_fields/form", locals: { form_fields_form: form_fields_form }
+      .mb-3
+        = f.select(:new_form_field_kind, FormField.field_kind_attributes_for_select, { prompt: "Select Field Kind To Add..." }, { class: "form-select", data: { nested_form_target: "association" } })
+        = link_to "Add Form Field", "#", class: "btn btn-primary mt-3", data: { action: "click->nested-form#addAssociation" }
     = f.input :published_to_daycare, as: :boolean, hint: " Allow all parents to view this form"
     = f.association :users, collection: current_user.owned_daycare.users, prompt: "Share To Parents"
     = f.submit "Save", class: "btn btn-primary mt-3"

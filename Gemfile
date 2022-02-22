@@ -26,6 +26,7 @@ gem 'image_processing', '~> 1.12.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+gem 'acts_as_list'
 gem 'simple_form'
 gem 'faraday'
 gem 'mailgun-ruby', '~>1.2.3'

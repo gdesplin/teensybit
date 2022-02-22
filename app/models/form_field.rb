@@ -1,7 +1,6 @@
 class FormField < ApplicationRecord
-  attr_accessor :new_option
-
   belongs_to :form
+  acts_as_list scope: :form
   has_many :form_field_options
   accepts_nested_attributes_for :form_field_options, reject_if: :all_blank, allow_destroy: true
 
@@ -17,7 +16,7 @@ class FormField < ApplicationRecord
     time: 'time'
   }
   validates :field_kind, inclusion: { in: field_kinds.keys }
-  validates :question, presence: true, unless: :new_option
+  validates :question, presence: true, uniqueness: { scope: :form_id }
 
   def self.field_kind_attributes_for_select
     field_kinds.map do |field_kind, _|

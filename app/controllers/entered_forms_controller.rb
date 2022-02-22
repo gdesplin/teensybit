@@ -68,7 +68,7 @@ class EnteredFormsController < ApplicationController
   private
 
   def build_entered_form
-    @entered_form.form.form_fields.order(:order).each do |form_field|
+    @entered_form.form.form_fields.order(:position).each do |form_field|
       @entered_form.entered_form_fields << EnteredFormField.new(form_field_id: form_field.id)
     end
   end

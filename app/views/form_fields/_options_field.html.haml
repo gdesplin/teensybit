@@ -7,12 +7,15 @@
     .card.my-3
       .card-body
         %h5.card-title Options
-        - form_fields_form.object.form_field_options.each do |form_field_option|
-          %ul.list-group
-            = form_fields_form.simple_fields_for :form_field_options, form_field_option do |form_field_options_form|
-              %li.list-group-item.mt-2
-                = form_field_options_form.input :name, label: "Option"
-        = form_fields_form.input :new_option, label: "Enter New #{name} Option", class: "mt-3"
-        = form_fields_form.submit "Add #{name} Option", class: "btn btn-primary mb-3"
-    = form_fields_form.input :order
+        .form_field_options{ data: { controller: "nested-form" } }
+          = render partial: "form_fields/option_template", locals: { form_fields_form: form_fields_form }
+          %input.d-none{ value: "option", data: { nested_form_target: "association" }, disabled: true }
+          %ul.list-group{ data: { nested_form_target: "insertElement" } }
+            - form_fields_form.object.form_field_options.each do |form_field_option|
+              = form_fields_form.simple_fields_for :form_field_options, form_field_option do |form_field_options_form|
+                %li.list-group-item.mt-2
+                  = form_field_options_form.input :name, label: "Option"
+          = link_to "Add #{name} Option", "#", class: "btn btn-primary mt-3", data: { action: "click->nested-form#addAssociation" }
+
+    = form_fields_form.input :position
     = form_fields_form.input :required

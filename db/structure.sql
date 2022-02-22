@@ -424,7 +424,7 @@ CREATE TABLE public.form_fields (
     form_id bigint NOT NULL,
     question character varying,
     description text,
-    "order" integer,
+    "position" integer,
     required boolean,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
@@ -1416,10 +1416,10 @@ CREATE INDEX index_form_fields_on_form_id ON public.form_fields USING btree (for
 
 
 --
--- Name: index_form_fields_on_order_and_form_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_form_fields_on_position_and_form_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_form_fields_on_order_and_form_id ON public.form_fields USING btree ("order", form_id);
+CREATE UNIQUE INDEX index_form_fields_on_position_and_form_id ON public.form_fields USING btree ("position", form_id);
 
 
 --
@@ -1772,6 +1772,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211102162421'),
 ('20211102162458'),
 ('20211102162953'),
-('20211104214849');
+('20211104214849'),
+('20220208174234');
 
 

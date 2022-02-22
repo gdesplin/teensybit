@@ -1,0 +1,4 @@
+- FormField.field_kinds.keys.each do |field_kind|
+  %template{ id: field_kind, data: { nested_form_target: "templates" } }
+    = f.simple_fields_for :form_fields, FormField.new(field_kind: field_kind), child_index: "#{field_kind}_new_association" do |form_fields_form|
+      = render partial: "form_fields/form", locals: { form_fields_form: form_fields_form }

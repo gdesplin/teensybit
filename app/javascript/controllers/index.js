@@ -4,11 +4,14 @@
 
 import { application } from "./application"
 
-import NoScrollUpTurboController from "./no_scroll_up_turbo_controller.js"
-application.register("no_scroll_up_turbo", NoScrollUpTurboController)
-
 import FlatpickrController from "./flatpickr_controller.js"
 application.register("flatpickr", FlatpickrController)
 
 import HelloController from "./hello_controller.js"
 application.register("hello", HelloController)
+
+import NestedFormController from "./nested_form_controller.js"
+application.register("nested-form", NestedFormController)
+
+import SortableController from "./sortable_controller.js"
+application.register("sortable", SortableController)

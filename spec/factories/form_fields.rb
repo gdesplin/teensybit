@@ -3,6 +3,6 @@ FactoryBot.define do
     form { nil }
     field_kind { "" }
     content { "MyString" }
-    order { 1 }
+    position { 1 }
   end
 end
