@@ -1,5 +1,4 @@
 
 %template{ id: "option", data: { nested_form_target: "templates" } }
-  = form_fields_form.simple_fields_for :form_field_options, form_fields_form.object.form_field_options.new, child_index: "option_new_association" do |form_field_options_form|
-    %li.list-group-item.mt-2
-      = form_field_options_form.input :name, label: "Option"
+  = form_fields_form.simple_fields_for :form_field_options, FormFieldOption.new, child_index: "option_new_association" do |form_field_options_form|
+    = render partial: "form_fields/form_fields_option_fields", locals: { form_field_options_form: form_field_options_form }

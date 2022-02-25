@@ -1,7 +1,7 @@
 class FormField < ApplicationRecord
   belongs_to :form
-  acts_as_list scope: :form
-  has_many :form_field_options
+  acts_as_list scope: :form, add_new_at: nil
+  has_many :form_field_options, -> { order(position: :asc) },  dependent: :destroy
   accepts_nested_attributes_for :form_field_options, reject_if: :all_blank, allow_destroy: true
 
   enum field_kind: { 
@@ -15,6 +15,7 @@ class FormField < ApplicationRecord
     date: 'date',
     time: 'time'
   }
+
   validates :field_kind, inclusion: { in: field_kinds.keys }
   validates :question, presence: true, uniqueness: { scope: :form_id }
 
@@ -26,9 +27,9 @@ class FormField < ApplicationRecord
 
   def field_kind_group
     if %w[string text file datetime date time].include?(field_kind)
-      "simple_field"
+      "simple_fields"
     elsif %w[check_boxes radio_buttons select_box].include?(field_kind)
-      "options_field"
+      "with_options_fields"
     end
   end
 end

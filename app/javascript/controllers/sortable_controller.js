@@ -2,13 +2,15 @@ import { Controller } from "stimulus"
 import Sortable from "sortablejs"
 
 export default class extends Controller {
+  static values = { selector: String }
+
   connect() {
     this.sortable = Sortable.create(this.element, {
       onEnd: this.end.bind(this)
     })
   }
 
-  end(event) {
+  end(_event) {
     this.renumberPositions()
   }
 
@@ -18,7 +20,7 @@ export default class extends Controller {
 
   renumberPositions() {
     var counter = 1
-    this.element.querySelectorAll(".card").forEach(element => {
+    this.element.querySelectorAll(this.selectorValue).forEach(element => {
       element.querySelector("input[name*='[position]']").value = counter
       counter++
     })

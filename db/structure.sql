@@ -391,6 +391,7 @@ CREATE TABLE public.form_field_options (
     id bigint NOT NULL,
     name character varying,
     form_field_id bigint NOT NULL,
+    "position" integer,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -424,7 +425,7 @@ CREATE TABLE public.form_fields (
     form_id bigint NOT NULL,
     question character varying,
     description text,
-    "position" integer,
+    "position" integer DEFAULT 1 NOT NULL,
     required boolean,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
@@ -1409,6 +1410,13 @@ CREATE UNIQUE INDEX index_form_field_options_on_name_and_form_field_id ON public
 
 
 --
+-- Name: index_form_field_options_on_position_and_form_field_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_form_field_options_on_position_and_form_field_id ON public.form_field_options USING btree ("position", form_field_id);
+
+
+--
 -- Name: index_form_fields_on_form_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1419,7 +1427,7 @@ CREATE INDEX index_form_fields_on_form_id ON public.form_fields USING btree (for
 -- Name: index_form_fields_on_position_and_form_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_form_fields_on_position_and_form_id ON public.form_fields USING btree ("position", form_id);
+CREATE INDEX index_form_fields_on_position_and_form_id ON public.form_fields USING btree ("position", form_id);
 
 
 --
@@ -1772,7 +1780,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211102162421'),
 ('20211102162458'),
 ('20211102162953'),
-('20211104214849'),
-('20220208174234');
+('20211104214849');
 
 

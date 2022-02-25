@@ -1,2 +1,3 @@
 - name = FormField.human_attribute_name("field_kind.#{form_fields_form.object.field_kind}")
-= render partial: "form_fields/#{form_fields_form.object.field_kind_group}", locals: { form_fields_form: form_fields_form, name: name }
+.nested_fields.form_field
+  = render partial: "form_fields/#{form_fields_form.object.field_kind_group}", locals: { form_fields_form: form_fields_form, name: name }

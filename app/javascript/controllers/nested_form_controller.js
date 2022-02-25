@@ -9,9 +9,6 @@ export default class extends Controller {
     var re = new RegExp(replace, "g")
     let template = this.templatesTargets.find(template => template.id === this.associationTarget.value)
     let content = template.innerHTML.replace(re, new Date().getTime())
-    console.log(replace)
-    console.log(template)
-    console.log(content)
     this.insertElementTarget.insertAdjacentHTML("beforeend", content)
     // this.dispatch("addAssociation", { detail: { event: event } })
   }

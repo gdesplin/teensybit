@@ -16,7 +16,6 @@ class FormsController < ApplicationController
   def new
     @form = @daycare.forms.new
     authorize_form
-    # @form.form_fields.build(field_kind: :string)
     respond_to do |format|
       format.html
       format.turbo_stream { render turbo_stream: turbo_stream.replace(
@@ -34,7 +33,6 @@ class FormsController < ApplicationController
     if @form.save
       redirect_to redirect_path, notice: "Form successfully uploaded"
     else
-      puts @form.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -77,7 +75,7 @@ class FormsController < ApplicationController
       :title,
       :description,
       :published_to_daycare,
-      form_fields_attributes: [:id, :form_id, :question, :description, :position, :required, :field_kind, form_field_options_attributes: [:id, :name]],
+      form_fields_attributes: [:id, :_destroy, :form_id, :question, :description, :position, :required, :field_kind, form_field_options_attributes: [:id, :_destroy, :name, :position]],
       user_ids: []
     )
   end

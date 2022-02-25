@@ -1,4 +1,4 @@
-.card.my-3
+.card.my-3.form_question
   .card-body
     %h5.card-title= name
     = form_fields_form.input :field_kind, as: :hidden
@@ -10,12 +10,18 @@
         .form_field_options{ data: { controller: "nested-form" } }
           = render partial: "form_fields/option_template", locals: { form_fields_form: form_fields_form }
           %input.d-none{ value: "option", data: { nested_form_target: "association" }, disabled: true }
-          %ul.list-group{ data: { nested_form_target: "insertElement" } }
+          %ul.list-group.orderable{ data: { nested_form_target: "insertElement",
+            controller: "sortable",
+            sortable_selector_value: ".field_option",
+            action: "nested-form:addAssociation@window->sortable#listen" } }
             - form_fields_form.object.form_field_options.each do |form_field_option|
               = form_fields_form.simple_fields_for :form_field_options, form_field_option do |form_field_options_form|
-                %li.list-group-item.mt-2
-                  = form_field_options_form.input :name, label: "Option"
+                = render partial: "form_fields/form_fields_option_fields", locals: { form_field_options_form: form_field_options_form }
           = link_to "Add #{name} Option", "#", class: "btn btn-primary mt-3", data: { action: "click->nested-form#addAssociation" }
 
-    = form_fields_form.input :position
     = form_fields_form.input :required
+    = form_fields_form.input :position, as: :hidden
+    = form_fields_form.input :_destroy, as: :hidden
+    = link_to "#", class: "btn btn-sm btn-danger text-white",
+      data: { action: "click->nested-form#removeAssociation" } do
+      %i.fa.fa-trash
