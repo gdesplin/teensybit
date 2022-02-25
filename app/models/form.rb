@@ -8,4 +8,12 @@ class Form < ApplicationRecord
 
   scope :published_to_daycare, -> { where(published_to_daycare: true) }
 
+  private
+
+  def message_parents
+    users.each do |user|
+      MessageFormJob.perform_later(id, user.email)
+    end
+  end
+
 end
