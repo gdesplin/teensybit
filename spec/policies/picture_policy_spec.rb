@@ -65,13 +65,11 @@ RSpec.describe PicturePolicy, type: :policy do
   end
 
   permissions :destroy? do
-    permissions :update? do
-      it "denies if picture doesn't belong to providers owned daycare" do
-        expect(subject).not_to permit(provider, picture_three)
-      end
-      it "accepts if picture does belong to providers owned daycare" do
-        expect(subject).to permit(provider, picture_one)
-      end
+    it "denies if picture doesn't belong to providers owned daycare" do
+      expect(subject).not_to permit(provider, picture_three)
+    end
+    it "accepts if picture does belong to providers owned daycare" do
+      expect(subject).to permit(provider, picture_one)
     end
   end
 end

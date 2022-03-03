@@ -12,6 +12,8 @@ class User < ApplicationRecord
   has_many :pictures, through: :children
   has_and_belongs_to_many :documents
   has_and_belongs_to_many :forms
+  has_many :created_child_events, class_name: "ChildEvent"
+  has_many :child_events, through: :children
   has_many :stripe_prices
   has_many :entered_forms
   belongs_to :stripe_customer, primary_key: "stripe_id", optional: true

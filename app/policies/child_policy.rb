@@ -1,4 +1,15 @@
 class ChildPolicy < ApplicationPolicy
+  class Scope < Scope
+    def resolve
+      if user.provider?
+        user.owned_daycare&.children.order(name: :asc)
+      elsif user.guardian?
+        user.children.order(name: :asc)
+      else
+        nil
+      end
+    end
+  end
 
   def create?
     if user.provider?

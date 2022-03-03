@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :contacts, only: :create
   resources :daycares do
     resources :children
+    resources :child_events
     resources :documents
     resources :forms
     resources :entered_forms

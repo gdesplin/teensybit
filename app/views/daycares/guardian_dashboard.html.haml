@@ -89,3 +89,14 @@
                 %li.list-group-item= link_to form.title, [@daycare, entered_form]
               - else
                 %li.list-group-item= link_to form.title, new_daycare_entered_form_path(daycare_id: @daycare.id, form_id: form.id)
+    .row.mb-4
+      #messages.col-md-6
+        .card
+          .card-header
+            %h2.card-title Child Events
+          .card-body
+            %ul.list-group.list-group-flush.mb-3
+              - policy_scope(ChildEvent).last(8).each do |child_event|
+                %li.list-group-item= link_to "#{child_event.child.name}: #{child_event.description.truncate(20)} - #{child_event.happened_at.strftime("%m/%d/%Y at %I:%M%p")}", [@daycare, child_event]
+            = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger btn-lg text-light"
+            = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light"

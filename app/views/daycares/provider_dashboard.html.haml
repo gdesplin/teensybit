@@ -120,6 +120,18 @@
               - @daycare.forms.last(8).each do |form|
                 %li.list-group-item= link_to form.title, [@daycare, form]
             = link_to "Add Form", [:new, @daycare, :form], class: "btn btn-danger btn-lg text-light"
+    .row.mb-4
+      #messages.col-md-6
+        .card
+          .card-header
+            %h2.card-title Child Events
+          .card-body
+            %ul.list-group.list-group-flush.mb-3
+              - @daycare.child_events.last(8).each do |child_event|
+                %li.list-group-item= link_to "#{child_event.child.name}: #{child_event.description.truncate(20)} - #{child_event.happened_at.strftime("%m/%d/%Y at %I:%M%p")}", [@daycare, child_event]
+            = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger btn-lg text-light"
+            = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light"
+
 - else
   .d-flex.h-100.text-center.text-white.bg-primary.cover-theme
     .cover-container.d-flex.w-100.h-100.p-3.mx-auto.flex-column

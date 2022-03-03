@@ -142,6 +142,40 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: child_events; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.child_events (
+    id bigint NOT NULL,
+    child_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    happened_at timestamp without time zone,
+    description text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: child_events_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.child_events_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: child_events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.child_events_id_seq OWNED BY public.child_events.id;
+
+
+--
 -- Name: children; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -958,6 +992,13 @@ ALTER TABLE ONLY public.active_storage_variant_records ALTER COLUMN id SET DEFAU
 
 
 --
+-- Name: child_events id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.child_events ALTER COLUMN id SET DEFAULT nextval('public.child_events_id_seq'::regclass);
+
+
+--
 -- Name: children id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1127,6 +1168,14 @@ ALTER TABLE ONLY public.active_storage_variant_records
 
 ALTER TABLE ONLY public.ar_internal_metadata
     ADD CONSTRAINT ar_internal_metadata_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: child_events child_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.child_events
+    ADD CONSTRAINT child_events_pkey PRIMARY KEY (id);
 
 
 --
@@ -1323,6 +1372,27 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 --
 
 CREATE UNIQUE INDEX index_active_storage_variant_records_uniqueness ON public.active_storage_variant_records USING btree (blob_id, variation_digest);
+
+
+--
+-- Name: index_child_events_on_child_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_child_events_on_child_id ON public.child_events USING btree (child_id);
+
+
+--
+-- Name: index_child_events_on_happened_at_and_child_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_child_events_on_happened_at_and_child_id ON public.child_events USING btree (happened_at, child_id);
+
+
+--
+-- Name: index_child_events_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_child_events_on_user_id ON public.child_events USING btree (user_id);
 
 
 --
@@ -1728,6 +1798,22 @@ ALTER TABLE ONLY public.active_storage_variant_records
 
 
 --
+-- Name: child_events fk_rails_ab5b510fd6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.child_events
+    ADD CONSTRAINT fk_rails_ab5b510fd6 FOREIGN KEY (child_id) REFERENCES public.children(id);
+
+
+--
+-- Name: child_events fk_rails_abdd34fafd; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.child_events
+    ADD CONSTRAINT fk_rails_abdd34fafd FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: active_storage_attachments fk_rails_c3b3935057; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1780,6 +1866,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211102162421'),
 ('20211102162458'),
 ('20211102162953'),
-('20211104214849');
+('20211104214849'),
+('20220303171113');
 
 

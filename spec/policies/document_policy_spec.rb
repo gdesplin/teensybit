@@ -76,13 +76,11 @@ RSpec.describe DocumentPolicy, type: :policy do
   end
 
   permissions :destroy? do
-    permissions :update? do
-      it "denies if document doesn't belong to providers owned daycare" do
-        expect(subject).not_to permit(provider, document_three)
-      end
-      it "accepts if document does belong to providers owned daycare" do
-        expect(subject).to permit(provider, document_one)
-      end
+    it "denies if document doesn't belong to providers owned daycare" do
+      expect(subject).not_to permit(provider, document_three)
+    end
+    it "accepts if document does belong to providers owned daycare" do
+      expect(subject).to permit(provider, document_one)
     end
   end
 end

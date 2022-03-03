@@ -1,5 +1,6 @@
 class Daycare < ApplicationRecord
   has_many :children
+  has_many :child_events, through: :children
   has_many :documents
   has_many :forms
   has_many :entered_forms, through: :forms
