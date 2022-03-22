@@ -72,23 +72,16 @@
                     = link_to "Download", rails_blob_path(document.document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
           = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light"
   .row
-    #messages.col-md-6
-      .card
-        .card-header
-          %h2.card-title Messages
-        .card-body
-    #forms.col-md-6
-      .card
-        .card-header
-          %h2.card-title Forms
-        .card-body
-          %ul.list-group.list-group-flush.mb-3
-            - current_user.viewable_forms.last(8).each do |form|
-              - entered_form = current_user.entered_forms.find_by(form_id: form.id)
-              - if entered_form.present?
-                %li.list-group-item= link_to form.title, [@daycare, entered_form]
-              - else
-                %li.list-group-item= link_to form.title, new_daycare_entered_form_path(daycare_id: @daycare.id, form_id: form.id)
+    .row.mb-4
+      #messages.col-md-6
+        .card
+          .card-header
+            %h2.card-title Messages
+          .card-body
+            - if current_user.as_guardian_chat.present? 
+              %li.list-group-item= link_to "Message #{@daycare.owner.name}", [@daycare, current_user.as_guardian_chat]
+            - else
+              %li.list-group-item= button_to "Message #{@daycare.owner.name}", [@daycare, :chats], params: { chat: { guardian_id: current_user.id } }
     .row.mb-4
       #messages.col-md-6
         .card

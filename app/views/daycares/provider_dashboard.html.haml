@@ -110,7 +110,14 @@
           .card-header
             %h2.card-title Messages
           .card-body
-            .btn.btn-lg.btn-danger.text-light Message Someone
+            %ul.list-group.list-group-flush.mb-3
+              - @daycare.users.each do |user|
+                - if user.as_guardian_chat.present? 
+                  %li.list-group-item= link_to "Message #{user.name}", [@daycare, user.as_guardian_chat]
+                - else
+                  %li.list-group-item= button_to "Message #{user.name}", [@daycare, :chats], params: { chat: { guardian_id: user.id } }
+
+              
       #forms.col-md-6
         .card
           .card-header

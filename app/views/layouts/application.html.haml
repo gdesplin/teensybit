@@ -9,7 +9,7 @@
     = stylesheet_link_tag 'application', media: 'all', 'data-turbo-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbo-track': 'reload'
     = stylesheet_pack_tag 'application', media: 'all', 'data-turbo-track': 'reload'
-  %body{ data: { controller: "no_scroll_up_turbo" } }
+  %body
     %header
       = render "layouts/nav"
     = turbo_frame_tag "flash" do

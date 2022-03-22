@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   }
   resources :contacts, only: :create
   resources :daycares do
+    resources :chats do
+      resources :messages, only: [:create, :edit, :update, :index]
+    end
     resources :children
     resources :child_events
     resources :documents

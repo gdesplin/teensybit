@@ -142,6 +142,38 @@ CREATE TABLE public.ar_internal_metadata (
 
 
 --
+-- Name: chats; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.chats (
+    id bigint NOT NULL,
+    guardian_id bigint NOT NULL,
+    provider_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: chats_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.chats_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: chats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.chats_id_seq OWNED BY public.chats.id;
+
+
+--
 -- Name: child_events; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -528,6 +560,40 @@ CREATE TABLE public.forms_users (
     form_id bigint NOT NULL,
     user_id bigint NOT NULL
 );
+
+
+--
+-- Name: messages; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.messages (
+    id bigint NOT NULL,
+    recipient_id bigint NOT NULL,
+    user_id bigint NOT NULL,
+    chat_id bigint NOT NULL,
+    message_body text,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.messages_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.messages_id_seq OWNED BY public.messages.id;
 
 
 --
@@ -992,6 +1058,13 @@ ALTER TABLE ONLY public.active_storage_variant_records ALTER COLUMN id SET DEFAU
 
 
 --
+-- Name: chats id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chats ALTER COLUMN id SET DEFAULT nextval('public.chats_id_seq'::regclass);
+
+
+--
 -- Name: child_events id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1059,6 +1132,13 @@ ALTER TABLE ONLY public.form_fields ALTER COLUMN id SET DEFAULT nextval('public.
 --
 
 ALTER TABLE ONLY public.forms ALTER COLUMN id SET DEFAULT nextval('public.forms_id_seq'::regclass);
+
+
+--
+-- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
 
 
 --
@@ -1171,6 +1251,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 
 --
+-- Name: chats chats_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chats
+    ADD CONSTRAINT chats_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: child_events child_events_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1248,6 +1336,14 @@ ALTER TABLE ONLY public.form_fields
 
 ALTER TABLE ONLY public.forms
     ADD CONSTRAINT forms_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
 
 
 --
@@ -1372,6 +1468,20 @@ CREATE UNIQUE INDEX index_active_storage_blobs_on_key ON public.active_storage_b
 --
 
 CREATE UNIQUE INDEX index_active_storage_variant_records_uniqueness ON public.active_storage_variant_records USING btree (blob_id, variation_digest);
+
+
+--
+-- Name: index_chats_on_guardian_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_chats_on_guardian_id ON public.chats USING btree (guardian_id);
+
+
+--
+-- Name: index_chats_on_provider_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_chats_on_provider_id ON public.chats USING btree (provider_id);
 
 
 --
@@ -1526,6 +1636,27 @@ CREATE UNIQUE INDEX index_forms_on_daycare_id_and_title ON public.forms USING bt
 --
 
 CREATE UNIQUE INDEX index_forms_users_on_form_id_and_user_id ON public.forms_users USING btree (form_id, user_id);
+
+
+--
+-- Name: index_messages_on_chat_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_messages_on_chat_id ON public.messages USING btree (chat_id);
+
+
+--
+-- Name: index_messages_on_recipient_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_messages_on_recipient_id ON public.messages USING btree (recipient_id);
+
+
+--
+-- Name: index_messages_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_messages_on_user_id ON public.messages USING btree (user_id);
 
 
 --
@@ -1734,6 +1865,30 @@ ALTER TABLE ONLY public.entered_forms
 
 
 --
+-- Name: messages fk_rails_0f670de7ba; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT fk_rails_0f670de7ba FOREIGN KEY (chat_id) REFERENCES public.chats(id);
+
+
+--
+-- Name: messages fk_rails_12e9de2e48; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT fk_rails_12e9de2e48 FOREIGN KEY (recipient_id) REFERENCES public.users(id);
+
+
+--
+-- Name: messages fk_rails_273a25a7a6; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.messages
+    ADD CONSTRAINT fk_rails_273a25a7a6 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
 -- Name: form_fields fk_rails_28fb260032; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1747,6 +1902,14 @@ ALTER TABLE ONLY public.form_fields
 
 ALTER TABLE ONLY public.documents
     ADD CONSTRAINT fk_rails_2be0318c46 FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: chats fk_rails_2d9efb207a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chats
+    ADD CONSTRAINT fk_rails_2d9efb207a FOREIGN KEY (guardian_id) REFERENCES public.users(id);
 
 
 --
@@ -1771,6 +1934,14 @@ ALTER TABLE ONLY public.entered_form_fields
 
 ALTER TABLE ONLY public.documents
     ADD CONSTRAINT fk_rails_4b97d54b1b FOREIGN KEY (daycare_id) REFERENCES public.daycares(id);
+
+
+--
+-- Name: chats fk_rails_4e32b2ff4d; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.chats
+    ADD CONSTRAINT fk_rails_4e32b2ff4d FOREIGN KEY (provider_id) REFERENCES public.users(id);
 
 
 --
@@ -1867,6 +2038,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211102162458'),
 ('20211102162953'),
 ('20211104214849'),
-('20220303171113');
+('20220303171113'),
+('20220311165157'),
+('20220311165534');
 
 

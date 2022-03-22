@@ -16,6 +16,10 @@ class User < ApplicationRecord
   has_many :child_events, through: :children
   has_many :stripe_prices
   has_many :entered_forms
+  has_many :messages
+  has_many :recieved_messages, foreign_key: "recipient_id", class_name: "Message"
+  has_many :as_provider_chats, foreign_key: "provider_id", class_name: "Chat"
+  has_one :as_guardian_chat, foreign_key: "guardian_id", class_name: "Chat"
   belongs_to :stripe_customer, primary_key: "stripe_id", optional: true
   scope :childless, -> { where.missing(:children) }
 
