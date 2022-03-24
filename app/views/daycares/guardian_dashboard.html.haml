@@ -79,9 +79,12 @@
             %h2.card-title Messages
           .card-body
             - if current_user.as_guardian_chat.present? 
-              %li.list-group-item= link_to "Message #{@daycare.owner.name}", [@daycare, current_user.as_guardian_chat]
+              %li.list-group-item
+                %span= link_to "Message #{@daycare.owner.name}", [@daycare, current_user.as_guardian_chat]
+                %span.badge.bg-danger.ms-2= current_user.as_guardian_chat.unread_messages_count(current_user)
             - else
               %li.list-group-item= button_to "Message #{@daycare.owner.name}", [@daycare, :chats], params: { chat: { guardian_id: current_user.id } }
+                
     .row.mb-4
       #messages.col-md-6
         .card

@@ -2,8 +2,8 @@ class MessagesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_daycare
   before_action :set_chat
-  before_action :set_message, only: %i[show edit update destroy]
-  before_action :authorize_message, only: %i[show edit update destroy]
+  before_action :set_message, only: %i[show edit update destroy mark_as_read]
+  before_action :authorize_message, only: %i[show edit update destroy mark_as_read]
 
   def show
     @message = policy_scope(Message).find(params[:id])
@@ -30,9 +30,15 @@ class MessagesController < ApplicationController
 
   def update
     if @message.update_attributes(permitted_attributes(@message))
-      render @message
+      render turbo_stream: turbo_stream.update(@message)
     else
       render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def mark_as_read
+    if @message.update(recipient_read_at: Time.now)
+      render turbo_stream: turbo_stream.update(@message)
     end
   end
 

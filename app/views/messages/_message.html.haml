@@ -1,8 +1,14 @@
+= turbo_stream_from message
 = turbo_frame_tag dom_id(message), class: "border-left pl-4 mt-4" do
-
-  .pb-4{ class: chat_message_class(message) }
+  .pb-4{ class: chat_message_class(message),
+    data: { controller: "message",
+            message_id_value: dom_id(message),
+            message_read_value: message.recipient_read_at.present?,
+            message_url_value:  mark_as_read_daycare_chat_message_url(message.chat.provider.owned_daycare.id, message.chat.id, message.id)} }
     %div
       .text-muted.small.text-nowrap.mt-2= message.created_at.localtime.to_formatted_s(:short)
       .flex-shrink-1.bg-light.rounded.py-2.px-3.mr-3
         .fw-light.small.fst-italic.mb-1= message.user.name
         = message.message_body
+      - if message.recipient_read_at.present?
+        .fw-light.small.fst-italic.mb-1= "read #{message.recipient_read_at.localtime.to_formatted_s(:short)}"

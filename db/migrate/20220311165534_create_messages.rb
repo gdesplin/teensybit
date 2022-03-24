@@ -5,6 +5,7 @@ class CreateMessages < ActiveRecord::Migration[6.1]
       t.references :user, null: false, foreign_key: true
       t.references :chat, null: false, foreign_key: true
       t.text :message_body
+      t.datetime :recipient_read_at
 
       t.timestamps
     end

@@ -5,6 +5,7 @@ class ChatsController < ApplicationController
   before_action :authorize_chat, only: :show
 
   def show
+    @chat.mark_messages_read_at(current_user)
   end
 
   def create
