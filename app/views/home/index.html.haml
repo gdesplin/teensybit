@@ -1,11 +1,10 @@
 %section#home-top-cover.cover-container.d-flex.w-100.h-100.py-5.text-center.mx-auto.flex-column.mb-5
   .row.py-lg-5
     .col-lg-6.col-md-8.mx-auto.light-grey-transparent.px-3.py-5.rounded
-      %h1.fw-light.text-white Teensy Bit
+      %h1.fw-light.text-white Teensy Bit (beta)
       %p.lead.text-light Replaces your hodge-podge of online tools to run your in home daycare.
       %p
-        %button.btn.btn-danger.text-light{"data-bs-target" => "#email-sign-up-get_started", "data-bs-toggle" => "modal", :type => "button"}
-          Get Started
+        = link_to "Start Free Trial", "/#pricing", { class: "btn btn-danger text-light"}
         %button.btn.btn-secondary{"data-bs-target" => "#email-sign-up-email_signup", "data-bs-toggle" => "modal", :type => "button"}
           Sign Up For Emails
 /
@@ -31,7 +30,7 @@
     / /.col-lg-4
     .col-lg-4
       %i.fas.fa-comments.fa-10x.text-primary
-      %h2 Sharing  Messaging
+      %h2 Sharing & Messaging
       %p Want to share a cute photo, have it sent to the appropriate parents in a few simple steps? Or send a message out to all your parents? Its never been easier.
       %p
         %a.btn.btn-secondary{:href => "#sharing", :role => "button"} View details
