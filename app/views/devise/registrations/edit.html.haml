@@ -31,7 +31,7 @@
         input_html: { autocomplete: "current-password" }
     .form-actions
       = f.button :submit, "Update", class: "btn-primary"
-  = button_to "Manage Subscriptions", %i[customer_portal stripe_sessions], { class: "btn btn-secondary my-4", data: { turbo: false }  }
+  = button_to "Manage Subscriptions", %i[customer_portal stripe_sessions], method: :post, { class: "btn btn-secondary my-4", data: { turbo: false }  }
   %h3 Cancel my account
   %p
     Unhappy? #{link_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete}

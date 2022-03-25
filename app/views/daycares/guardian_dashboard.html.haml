@@ -36,9 +36,11 @@
                     = number_to_currency(price.amount)
                     every #{price.recurring["interval_count"] if price.recurring["interval_count"].to_i > 1} #{price.recurring["interval"].pluralize(price.recurring["interval_count"].to_i)}
                   - unless subscribed
-                    = button_to "Set Up Autopay", { controller: :stripe_sessions, action: "subscription_checkout", params: { price_id: price.stripe_id } }, { class: "btn btn-primary", data: { turbo: false }, data: { turbo: false }   }
+                    = button_to "Set Up Autopay",
+                      { controller: :stripe_sessions, action: "subscription_checkout", method: :post,
+                      params: { price_id: price.stripe_id } }, { class: "btn btn-primary", data: { turbo: false } }
                   - else
-                    = button_to "Edit Payment Methods", %i[customer_portal stripe_sessions], { class: "btn btn-outline-secondary" }
+                    = button_to "Edit Payment Methods", %i[customer_portal stripe_sessions], { class: "btn btn-outline-secondary", method: :post, data: { turbo: false } }
   .row.mb-4
     #pictures.col-md-6
       .card
@@ -53,7 +55,7 @@
                   .card-body
                     %h5.card-title= picture.title
                     = link_to "View", [@daycare, picture], class: "btn btn-primary text-light mt-3 me-2"
-          = link_to "View More", [@daycare, :pictures], class: "btn btn-primary btn-lg text-light"
+          = link_to "View More", [@daycare, :pictures], class: "btn btn-primary btn-lg text-light" if current_user.viewable_pictures.present?
     #documents.col-md-6
       .card
         .card-header
@@ -70,7 +72,7 @@
                     = link_to "Upload Response Document", [:edit, @daycare, document], class: "btn btn-secondary text-light mt-3"
                     = link_to "Preview", rails_blob_path(document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
                     = link_to "Download", rails_blob_path(document.document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
-          = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light"
+          = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light" if current_user.viewable_documents.present?
   .row
     .row.mb-4
       #messages.col-md-6
@@ -79,11 +81,11 @@
             %h2.card-title Messages
           .card-body
             - if current_user.as_guardian_chat.present? 
-              %li.list-group-item
-                %span= link_to "Message #{@daycare.owner.name}", [@daycare, current_user.as_guardian_chat]
-                %span.badge.bg-danger.ms-2= current_user.as_guardian_chat.unread_messages_count(current_user)
+              %span= link_to "Message #{@daycare.owner.name}", [@daycare, current_user.as_guardian_chat]
+              %span.badge.bg-danger.ms-2= current_user.as_guardian_chat.unread_messages_count(current_user)
             - else
-              %li.list-group-item= button_to "Message #{@daycare.owner.name}", [@daycare, :chats], params: { chat: { guardian_id: current_user.id } }
+              = button_to "Message #{@daycare.owner.name}", [@daycare, :chats],
+                 { params: { chat: { guardian_id: current_user.id } }, class: "btn btn-primary text-white" }
                 
     .row.mb-4
       #messages.col-md-6
@@ -95,4 +97,4 @@
               - policy_scope(ChildEvent).last(8).each do |child_event|
                 %li.list-group-item= link_to "#{child_event.child.name}: #{child_event.description.truncate(20)} - #{child_event.happened_at.strftime("%m/%d/%Y at %I:%M%p")}", [@daycare, child_event]
             = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger btn-lg text-light"
-            = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light"
+            = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light" if policy_scope(ChildEvent).present?

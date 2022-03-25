@@ -39,10 +39,9 @@ class ChatsController < ApplicationController
 
   def build_chat
     @chat ||= Chat.new(permitted_attributes(Chat))
-    if current_user.provider?
-      @chat.provider = current_user
-    elsif current_user.guardian?
-      @provider.guardian = current_user
+    @chat.provider = @daycare.owner
+    if current_user.guardian?
+      @chat.guardian = current_user
     end
   end
 

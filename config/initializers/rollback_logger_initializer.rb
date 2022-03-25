@@ -1,1 +1,1 @@
-ActiveRecord::Base.send(:include, RollbackLogger)
+# ActiveRecord::Base.send(:include, RollbackLogger)

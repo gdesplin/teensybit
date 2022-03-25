@@ -13,7 +13,9 @@
           %li Full feature set!
           %li Credit Card Fees (2.9% + 30¢ per charge)
           %li 0.80% ACH Transfers
-        = button_to "Start Free Trial", { controller: :stripe_sessions, action: "subscription_checkout", params: { price_id: ENV["MONTHLY_PLAN_KEY"] } }, { class: "w-100 btn btn-lg btn-primary", data: { turbo: false } }
+        = button_to "Start Free Trial", { controller: :stripe_sessions, action: "subscription_checkout",
+          params: { price_id: ENV["MONTHLY_PLAN_KEY"], method: :post } },
+          { class: "w-100 btn btn-lg btn-primary", data: { turbo: false } }
   .col
     .card.mb-4.shadow-sm
       .card-header
@@ -28,4 +30,6 @@
           %li Full feature set!
           %li Credit Card Fees (2.9% + 30¢ per charge)
           %li 0.80% ACH Transfers
-        = button_to "Start Free Trial", { controller: :stripe_sessions, action: "subscription_checkout", params: { price_id: ENV["ANNUAL_PLAN_KEY"] }}, { class: "w-100 btn btn-lg btn-primary", data: { turbo: false } }
+        = button_to "Start Free Trial", { controller: :stripe_sessions, action: "subscription_checkout",
+          params: { price_id: ENV["ANNUAL_PLAN_KEY"], method: :post } },
+          { class: "w-100 btn btn-lg btn-primary", data: { turbo: false } }

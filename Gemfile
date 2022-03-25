@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby '3.0.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 7.0.2.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
@@ -43,7 +43,7 @@ gem 'jquery-rails'
 gem 'aws-sdk-s3', require: false
 gem 'pundit'
 gem 'active_storage_validations'
-gem 'pagy', '~> 3.5'
+gem 'pagy', '~> 4.11.0'
 
 group :development, :test do
   gem 'capybara'

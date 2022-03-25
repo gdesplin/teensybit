@@ -39,6 +39,6 @@ Rails.application.routes.draw do
   resources :stripe_webhooks, only: :create
   get 'terms', :to => 'home#terms'
   get 'privacy_policy', :to => 'home#privacy_policy'
-  get '/user' => "daycares#dashboard", :as => :user_root
+  get '/user' => "daycares#guardian_dashboard", :as => :user_root
   root to: 'home#index'
 end

@@ -103,7 +103,7 @@
                       = link_to "Preview", rails_blob_path(document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
                       = link_to "Download", rails_blob_path(document.document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
             = link_to "Upload Document", [:new, @daycare, :document], class: "btn btn-danger btn-lg text-light"
-            = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light"
+            = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light" if @daycare.documents.present?
     .row.mb-4
       #messages.col-md-6
         .card
@@ -117,7 +117,7 @@
                     %span= link_to "Message #{user.name}", [@daycare, user.as_guardian_chat]
                     %span.badge.bg-danger.ms-2= user.as_guardian_chat.unread_messages_count(current_user)
                 - else
-                  %li.list-group-item= button_to "Message #{user.name}", [@daycare, :chats], params: { chat: { guardian_id: user.id } }
+                  %li.list-group-item= button_to "Message #{user.name}", [@daycare, :chats], method: :post, params: { chat: { guardian_id: user.id } }
 
               
       #forms.col-md-6
@@ -139,7 +139,7 @@
               - @daycare.child_events.last(8).each do |child_event|
                 %li.list-group-item= link_to "#{child_event.child.name}: #{child_event.description.truncate(20)} - #{child_event.happened_at.strftime("%m/%d/%Y at %I:%M%p")}", [@daycare, child_event]
             = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger btn-lg text-light"
-            = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light"
+            = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light" if @daycare.child_events.present?
 
 - else
   .d-flex.h-100.text-center.text-white.bg-primary.cover-theme
