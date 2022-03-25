@@ -1,0 +1,6 @@
+.container
+  = simple_form_for([daycare, @broadcast_message]) do |f|
+    = f.input :recipient_ids, as: :check_boxes, collection: current_user.owned_daycare.users,
+      label: "Send To:", required: true, class: "hey"
+    = f.input :message_body
+    = f.submit "Send", class: "btn btn-primary mt-3"

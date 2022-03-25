@@ -108,7 +108,10 @@
       #messages.col-md-6
         .card
           .card-header
-            %h2.card-title Messages
+            %h2.card-title 
+              Messages
+              = link_to "Broadcast", [:new, @daycare, :broadcast_message], class: "btn btn-danger btn-lg text-light"
+
           .card-body
             %ul.list-group.list-group-flush.mb-3
               - @daycare.users.each do |user|

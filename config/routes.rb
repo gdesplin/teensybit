@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   }
   resources :contacts, only: :create
   resources :daycares do
+    resources :broadcast_messages, only: [:create, :new]
     resources :chats do
-      resources :messages, only: [:create, :edit, :update, :index] do
+      resources :messages, only: [:edit, :update, :index] do
         patch :mark_as_read, on: :member
       end
     end
