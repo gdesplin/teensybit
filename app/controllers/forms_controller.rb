@@ -31,8 +31,9 @@ class FormsController < ApplicationController
     @form.daycare_id = @daycare.id
     authorize_form
     if @form.save
-      redirect_to redirect_path, notice: "Form successfully uploaded"
+      redirect_to dashboard_path, notice: "Form successfully uploaded"
     else
+      puts @form.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -42,7 +43,7 @@ class FormsController < ApplicationController
 
   def update
     if @form.update(safe_params)
-      redirect_to redirect_path, notice: "Form successfully updated"
+      redirect_to dashboard_path, notice: "Form successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -50,17 +51,13 @@ class FormsController < ApplicationController
 
   def destroy
    if @form.destroy
-      redirect_to redirect_path, notice: "Form successfully deleted"
+      redirect_to dashboard_path, notice: "Form successfully deleted"
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   private
-
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
-  end
 
   def set_daycare
     @daycare = Daycare.find(params[:daycare_id])

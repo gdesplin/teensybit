@@ -17,15 +17,15 @@ class BroadcastMessage
 
   def save
     users.each do |user|
-      if user.as_guardian_chat.blank?
-        unless user.as_guardian_chat.create(provider_id: sender.id)
-          errors.add(:base, :chat_couldnt_create)
-        end
+      chat = user.as_guardian_chat
+      if chat.blank?
+        chat = Chat.create(guardian_id: user.id, provider_id: sender.id)
+        errors.add(:base, :chat_couldnt_create) unless chat.errors.blank?
       end
       messages.push({
         message_body: message_body,
         recipient_id: user.id,
-        chat_id: user.as_guardian_chat.id,
+        chat_id: chat.id,
         user_id: sender.id
       })
     end

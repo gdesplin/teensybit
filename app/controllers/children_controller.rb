@@ -18,7 +18,7 @@ class ChildrenController < ApplicationController
     @child.users << current_user if current_user.guardian?
     authorize @child
     if @child.save
-      redirect_to redirect_path, notice: "Child successfully created"
+      redirect_to dashboard_path, notice: "Child successfully created"
     else
       render :new, status: :unprocessable_entity
     end
@@ -29,7 +29,7 @@ class ChildrenController < ApplicationController
 
   def update
     if @child.update(safe_params)
-      redirect_to redirect_path, notice: "Child successfully updated"
+      redirect_to dashboard_path, notice: "Child successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -37,17 +37,13 @@ class ChildrenController < ApplicationController
 
   def destroy
     if @child.destroy
-      redirect_to redirect_path, notice: "Child record successfully deleted"
+      redirect_to dashboard_path, notice: "Child record successfully deleted"
     else 
       render :edit, status: :unprocessable_entity
     end
   end
 
   private
-
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
-  end
 
   def set_child
     @child = Child.find(params[:id]) || Child.new(safe_params)

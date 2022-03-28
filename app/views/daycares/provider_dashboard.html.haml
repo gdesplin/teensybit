@@ -10,36 +10,50 @@
       #children.col-md-6
         .card
           .card-header
-            %h2.card-title Children
+            %h2.card-title.d-flex
+              Children
+              = link_to 'Invite Parent/Guardian', %i[new user invitation], class: 'btn btn-lg ms-auto btn-danger text-light'
+              = link_to "Add Child", [:new, @daycare, :child], class: "btn btn-secondary ms-auto btn-lg text-light" if @daycare.users.present?
           .card-body
-            .row.row-cols-1.row-cols-lg-3.row-cols-md-2.g-4.mb-3
-              - @daycare.children.each do |child|
-                .col
-                  .card
-                    - if child.photo.attached?
-                      = image_tag(child.photo.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
-                    - else
-                      = image_tag("kid-taking-photo", size: "315x315", class: "card-img-top" )
-                    .card-body
-                      %h5.card-title= child.name
-                      %ul.list-group.list-group-flush
-                        %li.list-group-item.list-group-item-primary Parent(s)
-                        - child.users.each do |parent|
-                          %li.list-group-item= link_to parent.name, [@daycare, parent]
-                      = link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3"
-                      = link_to "View", [@daycare, child], class: "btn btn-primary text-light mt-3"
+            - if @daycare.children.present?
+              .row.row-cols-1.row-cols-lg-3.row-cols-md-2.g-4.mb-3
+                - @daycare.children.each do |child|
+                  .col
+                    .card
+                      - if child.photo.attached?
+                        = image_tag(child.photo.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
+                      - else
+                        = image_tag("kid-taking-photo", size: "315x315", class: "card-img-top" )
+                      .card-body
+                        %h5.card-title= child.name
+                        %ul.list-group.list-group-flush
+                          %li.list-group-item.list-group-item-primary Parent(s)
+                          - child.users.each do |parent|
+                            %li.list-group-item= link_to parent.name, [@daycare, parent]
+                        = link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3"
+                        = link_to "View", [@daycare, child], class: "btn btn-primary text-light mt-3"
+            - else
+              %p 
+                This is where your daycare children will go.
+                First click "Invite Parent/Guardian" (which sends them an email) and you or they can add a child for them.
             - if @daycare.users.present?
               - if @daycare.users.childless.present?
                 %li.list-group-item.list-group-item-primary Parents Without Children
                 %ul.list-group.list-group-flush
                   - @daycare.users.childless.each do |parent|
                     %li.list-group-item= link_to parent.name, [@daycare, parent]
-              = link_to "Add Child", [:new, @daycare, :child], class: "btn btn-secondary btn-lg text-light"
-            = link_to 'Invite Parent/Parent', %i[new user invitation], class: 'btn btn-lg btn-danger text-light'
+            
       #payments.col-md-6
         .card
           .card-header
-            %h2.card-title Payments
+            %h2.card-title.d-flex
+              Payments
+              - unless @daycare.stripe_account&.details_submitted&.present?
+                = link_to %i[create_account_link stripe_sessions], class: "stripe-connect  ms-auto", data: { turbo: false }  do
+                  - if @daycare.stripe_account.blank?
+                    %span Connect with
+                  - else
+                    %span Continue with
           .card-body
             - if @daycare.stripe_account&.details_submitted&.present?
               .row.row-cols-sm-1.row-cols-md-2.mb-3
@@ -64,85 +78,118 @@
                         = link_to "Delete", [@daycare, price], method: :delete, class: "btn btn-sm btn-danger text-light mt-2",  data: { confirm: "Are you sure?" }
               = link_to "Create Recurring Payment Plan", [:new, @daycare, :stripe_price], class: "btn btn-lg btn-danger text-light mt-2"
             - else
-              = link_to %i[create_account_link stripe_sessions], class: "stripe-connect", data: { turbo: false }  do
-                - if @daycare.stripe_account.blank?
-                  %span Connect with
-                - else
-                  %span Continue with
+              %p
+                This is where you will see your automatic payment plans your parents are on.
+                To get started, you must click "Connect With Stripe" 
+                to get set up with Stripe so that you can begin creating payment plans.
+                Then parents you've already added can sign in and enter their payment information for the plan.
     .row.mb-4
       #pictures.col-md-6
         .card
           .card-header
-            %h2.card-title Pictures
+            %h2.card-title.d-flex
+              Pictures
+              = link_to "Upload Picture", [:new, @daycare, :picture], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
-            .row.row-cols-1.row-cols-lg-2.g-4.mb-3
-              - @daycare.pictures.order(updated_at: :desc).last(4).each do |picture|
-                .col
-                  .card
-                    = image_tag(picture.picture.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
-                    .card-body
-                      %h5.card-title= picture.title
-                      = link_to "View", [@daycare, picture], class: "btn btn-primary text-light mt-3 me-2"
-                      = link_to "Edit", [:edit, @daycare, picture], class: "btn btn-secondary text-light mt-3"
-            = link_to "Upload Picture", [:new, @daycare, :picture], class: "btn btn-danger btn-lg text-light"
-            = link_to "View More", [@daycare, :pictures], class: "btn btn-primary btn-lg text-light"
+            - if @daycare.pictures.present?
+              .row.row-cols-1.row-cols-lg-2.g-4.mb-3
+                - @daycare.pictures.order(updated_at: :desc).last(4).each do |picture|
+                  .col
+                    .card
+                      = image_tag(picture.picture.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
+                      .card-body
+                        %h5.card-title= picture.title
+                        = link_to "View", [@daycare, picture], class: "btn btn-primary text-light mt-3 me-2"
+                        = link_to "Edit", [:edit, @daycare, picture], class: "btn btn-secondary text-light mt-3"
+              = link_to "View More", [@daycare, :pictures], class: "btn btn-primary btn-lg text-light"
+            - else
+              %p
+                This is were you will see your most recently uploaded pictures.
+                Get started uploading right away with "Upload Picture",
+                but to tag children (to auto notify their parents) you must first add parents and children.
       #documents.col-md-6
         .card
           .card-header
-            %h2.card-title Documents
+            %h2.card-title.d-flex
+              Documents
+              = link_to "Upload Document", [:new, @daycare, :document], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
-            .row.row-cols-1.row-cols-lg-2.g-4.mb-3
-              - @daycare.documents.order(updated_at: :desc).last(4).each do |document|
-                .col
-                  .card
-                    = image_tag(document.document.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" ) if document.document.image?
-                    .card-body
-                      %h5.card-title= document.title
-                      = link_to "View Details", [@daycare, document], class: "btn btn-primary text-light mt-3 me-2"
-                      = link_to "Edit", [:edit, @daycare, document], class: "btn btn-secondary text-light mt-3"
-                      = link_to "Preview", rails_blob_path(document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
-                      = link_to "Download", rails_blob_path(document.document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
-            = link_to "Upload Document", [:new, @daycare, :document], class: "btn btn-danger btn-lg text-light"
-            = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light" if @daycare.documents.present?
+            - if @daycare.pictures.present?
+              .row.row-cols-1.row-cols-lg-2.g-4.mb-3
+                - @daycare.documents.order(updated_at: :desc).last(4).each do |document|
+                  .col
+                    .card
+                      = image_tag(document.document.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" ) if document.document.image?
+                      .card-body
+                        %h5.card-title= document.title
+                        = link_to "View Details", [@daycare, document], class: "btn btn-primary text-light mt-3 me-2"
+                        = link_to "Edit", [:edit, @daycare, document], class: "btn btn-secondary text-light mt-3"
+                        = link_to "Preview", rails_blob_path(document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
+                        = link_to "Download", rails_blob_path(document.document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
+              = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light"
+            - else
+              %p
+                This is were you will see your most recently uploaded documents.
+                You can make these accessable to parents so they can view/download and reupload.
+                Get started uploading right away with "Upload Document",
+                but to send to specific parents you must first add them.
     .row.mb-4
       #messages.col-md-6
         .card
           .card-header
-            %h2.card-title 
+            %h2.card-title.d-flex 
               Messages
-              = link_to "Broadcast", [:new, @daycare, :broadcast_message], class: "btn btn-danger btn-lg text-light"
-
+              = link_to "Broadcast to Many", [:new, @daycare, :broadcast_message], class: "btn btn-danger ms-auto btn-lg text-light" if @daycare.users.present?
           .card-body
             %ul.list-group.list-group-flush.mb-3
-              - @daycare.users.each do |user|
-                - if user.as_guardian_chat.present? 
-                  %li.list-group-item
-                    %span= link_to "Message #{user.name}", [@daycare, user.as_guardian_chat]
-                    %span.badge.bg-danger.ms-2= user.as_guardian_chat.unread_messages_count(current_user)
-                - else
-                  %li.list-group-item= button_to "Message #{user.name}", [@daycare, :chats], method: :post, params: { chat: { guardian_id: user.id } }
+              - if @daycare.users.present?
+                - @daycare.users.each do |user|
+                  - if user.as_guardian_chat.present? 
+                    %li.list-group-item
+                      %span= link_to "Message #{user.name}", [@daycare, user.as_guardian_chat],
+                        class: "btn btn-danger ms-auto btn-lg text-light"
+                      %span.badge.bg-danger.ms-2= user.as_guardian_chat.unread_messages_count(current_user)
+                  - else
+                    %li.list-group-item= button_to "Message #{user.name}", [@daycare, :chats], method: :post, params: { chat: { guardian_id: user.id } },
+                      class: "btn btn-danger ms-auto btn-lg text-light"
+              - else
+                When you add parents, you will be able to begin chatting with them in app here.
+                You & they will receive email notification that they don't read right away.
+                You will also be able to message all or many parents with a "Broadcast to Many" button that appears when you have parents.
 
-              
       #forms.col-md-6
         .card
           .card-header
-            %h2.card-title Forms
+            %h2.card-title.d-flex
+              Forms
+              = link_to "Create Form", [:new, @daycare, :form], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
-            %ul.list-group.list-group-flush.mb-3
-              - @daycare.forms.last(8).each do |form|
-                %li.list-group-item= link_to form.title, [@daycare, form]
-            = link_to "Add Form", [:new, @daycare, :form], class: "btn btn-danger btn-lg text-light"
+            - if @daycare.forms.present?
+              %ul.list-group.list-group-flush.mb-3
+                - @daycare.forms.last(8).each do |form|
+                  %li.list-group-item= link_to form.title, [@daycare, form]
+            - else
+              %p
+                This is where your recently created forms will be. These are custom forms you build by clicking "Create Form".
+                These will allow your parents to fill out a custom form with different types of questions.
     .row.mb-4
       #messages.col-md-6
         .card
           .card-header
-            %h2.card-title Child Events
+            %h2.card-title.d-flex
+              Child Events
+              = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
             %ul.list-group.list-group-flush.mb-3
-              - @daycare.child_events.last(8).each do |child_event|
-                %li.list-group-item= link_to "#{child_event.child.name}: #{child_event.description.truncate(20)} - #{child_event.happened_at.strftime("%m/%d/%Y at %I:%M%p")}", [@daycare, child_event]
-            = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger btn-lg text-light"
-            = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light" if @daycare.child_events.present?
+              - if @daycare.child_events.present?
+                - @daycare.child_events.last(8).each do |child_event|
+                  %li.list-group-item= link_to "#{child_event.child.name}: #{child_event.description.truncate(20)} - #{child_event.happened_at.strftime("%m/%d/%Y at %I:%M%p")}", [@daycare, child_event]
+                = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light"
+              - else
+                %p 
+                  This is where your recent 'child events' will appear.
+                  These can be added by you or parents and can be things such as
+                  when a child took a bottle, a nap or whatever you'd like each other to know about a child.
 
 - else
   .d-flex.h-100.text-center.text-white.bg-primary.cover-theme
@@ -151,4 +198,4 @@
         %h1 Set Up Your Daycare
         %p.lead Before we can do anything you need to set up your daycare! Add the kids, parents, set up payments, create forms and more.
         %p.lead
-          = link_to "Get Started!", %i[new daycare], class: "btn btn-lg btn-secondary fw-bold border-white bg-white"
+          = link_to "Get Started!", %i[new daycare], class: "btn btn-lg ms-auto btn-secondary fw-bold border-white bg-white"

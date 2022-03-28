@@ -24,7 +24,7 @@ class PicturesController < ApplicationController
     @picture.user = current_user
     authorize_picture
     if @picture.save
-      redirect_to redirect_path, notice: "Picture successfully uploaded"
+      redirect_to dashboard_path, notice: "Picture successfully uploaded"
     else
       render :new, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class PicturesController < ApplicationController
 
   def update
     if @picture.update(safe_params)
-      redirect_to redirect_path, notice: "Picture successfully updated"
+      redirect_to dashboard_path, notice: "Picture successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,17 +43,13 @@ class PicturesController < ApplicationController
 
   def destroy
    if @picture.destroy
-      redirect_to redirect_path, notice: "Picture successfully deleted"
+      redirect_to dashboard_path, notice: "Picture successfully deleted"
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   private
-
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
-  end
 
   def set_daycare
     @daycare = Daycare.find(params[:daycare_id])

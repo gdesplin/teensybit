@@ -1,7 +1,7 @@
 class FormField < ApplicationRecord
-  belongs_to :form
+  belongs_to :form, inverse_of: :form_fields
   acts_as_list scope: :form, add_new_at: nil
-  has_many :form_field_options, -> { order(position: :asc) },  dependent: :destroy
+  has_many :form_field_options, -> { order(position: :asc) }, dependent: :destroy, inverse_of: :form_field
   accepts_nested_attributes_for :form_field_options, reject_if: :all_blank, allow_destroy: true
 
   enum field_kind: { 

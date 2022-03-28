@@ -40,7 +40,7 @@ class EnteredFormsController < ApplicationController
       end
       render :new, status: :unprocessable_entity
     elsif @entered_form.save
-      redirect_to redirect_path, notice: "Form successfully saved"
+      redirect_to dashboard_path, notice: "Form successfully saved"
     else
       render :new, status: :unprocessable_entity
     end
@@ -51,7 +51,7 @@ class EnteredFormsController < ApplicationController
 
   def update
     if @entered_form.update(safe_params)
-      redirect_to redirect_path, notice: "Form successfully updated"
+      redirect_to dashboard_path, notice: "Form successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -59,7 +59,7 @@ class EnteredFormsController < ApplicationController
 
   def destroy
    if @entered_form.destroy
-      redirect_to redirect_path, notice: "Form successfully deleted"
+      redirect_to dashboard_path, notice: "Form successfully deleted"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -71,10 +71,6 @@ class EnteredFormsController < ApplicationController
     @entered_form.form.form_fields.order(:position).each do |form_field|
       @entered_form.entered_form_fields << EnteredFormField.new(form_field_id: form_field.id)
     end
-  end
-
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
   end
 
   def set_daycare

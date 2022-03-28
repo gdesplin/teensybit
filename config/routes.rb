@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :daycares do
     resources :broadcast_messages, only: [:create, :new]
     resources :chats do
-      resources :messages, only: [:edit, :update, :index] do
+      resources :messages, only: [:edit, :update, :create] do
         patch :mark_as_read, on: :member
       end
     end
@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :stripe_webhooks, only: :create
   get 'terms', :to => 'home#terms'
   get 'privacy_policy', :to => 'home#privacy_policy'
+  get 'check_email', :to => 'home#check_email'
   get '/user' => "daycares#guardian_dashboard", :as => :user_root
   root to: 'home#index'
 end

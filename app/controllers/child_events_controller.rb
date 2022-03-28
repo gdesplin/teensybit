@@ -22,7 +22,7 @@ class ChildEventsController < ApplicationController
     @child_event.user = current_user
     authorize_child_event
     if @child_event.save
-      redirect_to redirect_path, notice: "Child event successfully uploaded"
+      redirect_to dashboard_path, notice: "Child event successfully uploaded"
     else
       render :new, status: :unprocessable_entity
     end
@@ -33,7 +33,7 @@ class ChildEventsController < ApplicationController
 
   def update
     if @child_event.update(safe_params)
-      redirect_to redirect_path, notice: "Child event successfully updated"
+      redirect_to dashboard_path, notice: "Child event successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -41,17 +41,13 @@ class ChildEventsController < ApplicationController
 
   def destroy
    if @child_event.destroy
-      redirect_to redirect_path, notice: "Child event successfully deleted"
+      redirect_to dashboard_path, notice: "Child event successfully deleted"
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   private
-
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
-  end
 
   def set_daycare
     @daycare = Daycare.find(params[:daycare_id])

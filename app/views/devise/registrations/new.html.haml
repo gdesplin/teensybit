@@ -1,5 +1,7 @@
 .container
-  %h2 Sign up
+  %h2 
+  %p
+    Create your account and then check your email to confirm your email to continue.
   = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
     = f.error_notification
     .form-inputs

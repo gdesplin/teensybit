@@ -27,7 +27,7 @@ class StripeSessionsController < ApplicationController
     flash.notice = "Your subscription was successful"
     # session = Stripe::Checkout::Session.retrieve(params[:session_id])
     # customer = Stripe::Customer.retrieve(session.customer)
-    redirect_to redirect_path
+    redirect_to dashboard_path
   end
 
   def subscription_checkout_canceled
@@ -55,12 +55,6 @@ class StripeSessionsController < ApplicationController
     end
     account_link = StripeSession.new.create_account_link(account_id)
     redirect_to account_link.url
-  end
-
-  private
-
-  def redirect_path
-    @redirect_path = current_user.guardian? ? guardian_dashboard_daycares_url : provider_dashboard_daycares_url
   end
 
 end

@@ -8,7 +8,7 @@ class BroadcastMessagesController < ApplicationController
     @broadcast_message = BroadcastMessage.new(permitted_attributes(BroadcastMessage))
     @broadcast_message.sender = current_user
     if @broadcast_message.save
-      redirect_to redirect_path
+      redirect_to dashboard_path
     else
       render :new, status: :unprocessable_entity
     end
@@ -21,10 +21,6 @@ class BroadcastMessagesController < ApplicationController
 
   private
   
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
-  end
-
   def set_daycare
     @daycare = Daycare.find(params[:daycare_id])
   end

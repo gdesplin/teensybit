@@ -24,7 +24,7 @@ class DocumentsController < ApplicationController
     @document.user = current_user
     authorize_document
     if @document.save
-      redirect_to redirect_path, notice: "Document successfully uploaded"
+      redirect_to dashboard_path, notice: "Document successfully uploaded"
     else
       render :new, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class DocumentsController < ApplicationController
 
   def update
     if @document.update(safe_params)
-      redirect_to redirect_path, notice: "Document successfully updated"
+      redirect_to dashboard_path, notice: "Document successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -43,17 +43,13 @@ class DocumentsController < ApplicationController
 
   def destroy
    if @document.destroy
-      redirect_to redirect_path, notice: "Document successfully deleted"
+      redirect_to dashboard_path, notice: "Document successfully deleted"
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   private
-
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
-  end
 
   def set_daycare
     @daycare = Daycare.find(params[:daycare_id])

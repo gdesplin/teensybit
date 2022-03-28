@@ -14,7 +14,7 @@ class ChatsController < ApplicationController
     if @chat.save
       redirect_to [@daycare, @chat]
     else
-      redirect_to redirect_path
+      redirect_to dashboard_path
     end
   end
 
@@ -22,10 +22,6 @@ class ChatsController < ApplicationController
 
   def recipient
     @recipient ||= User.find(params[:recipient_id])
-  end
-
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
   end
 
   def set_daycare

@@ -48,10 +48,6 @@ class MessagesController < ApplicationController
     @recipient ||= User.find(params[:recipient_id])
   end
 
-  def redirect_path
-    @redirect_path = current_user.guardian? ? [:guardian_dashboard, :daycares] : [:provider_dashboard, :daycares]
-  end
-
   def set_chat
     @chat = Chat.find(params[:chat_id])
   end

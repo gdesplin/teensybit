@@ -1,7 +1,7 @@
 class FormPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
-      user.owned_daycare&.forms.order(updated_at: :desc)
+      user.owned_daycare&.forms
     end
   end
 

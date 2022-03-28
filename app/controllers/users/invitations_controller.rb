@@ -18,7 +18,10 @@ class Users::InvitationsController < Devise::InvitationsController
   end
 
   def after_accept_path_for(resource)
-    guardian_dashboard_daycares_path
+    dashboard_path
   end
 
+  def after_invite_path_for(resource)
+    dashboard_path
+  end
 end
