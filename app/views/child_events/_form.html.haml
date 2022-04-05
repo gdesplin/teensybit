@@ -1,0 +1,11 @@
+- action_text = child_event.persisted? ? "Edit Child Event" : "Add Child Event"
+.container
+  %h1= action_text
+  = simple_form_for([daycare, child_event]) do |f|
+    = f.association :child, collection: policy_scope(Child), prompt: "Select Child"
+    = f.input :description
+    = f.text_field :happened_at, data: { controller: "flatpickr", flatpickr_date_format: "Y-m-d H:i", flatpickr_enable_time: "true"}
+    .col-auto
+      = f.submit "Save", class: "btn btn-primary mt-3"
+  = link_to "Delete", [daycare, child_event], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"} if child_event.persisted?
+

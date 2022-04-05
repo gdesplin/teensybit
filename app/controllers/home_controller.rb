@@ -7,4 +7,7 @@ class HomeController < ApplicationController
 
   def terms
   end
+
+  def check_your_email
+  end
 end

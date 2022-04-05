@@ -1,0 +1,112 @@
+#daycare.container.dashboard
+  .row.mb-4
+    .col-12.bg-primary.rounded.text-center.my-3.text-light
+      %h1.py-4
+        Welcome to #{current_user.daycare.name}, #{current_user.first_name}!
+    #children.col-md-6
+      .card
+        .card-header
+          %h2.card-title Children
+        .card-body
+          .row.row-cols-1.row-cols-lg-2.row-cols-md-2.g-4.mb-3
+            - current_user.children.each do |child|
+              .col
+                .card
+                  - if child.photo.attached?
+                    = image_tag(child.photo.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
+                  - else
+                    = image_tag("kid-taking-photo", size: "315x315", class: "card-img-top" )
+                  .card-body
+                    %h5.card-title= child.name
+                    = link_to "Edit", [:edit, @daycare, child], class: "btn btn-primary text-light mt-3"
+          = link_to "Add Child", [:new, @daycare, :child], class: "btn btn-danger text-light mt-3"
+    #payments.col-md-6
+      .card
+        .card-header
+          %h2.card-title Payments
+        .card-body
+          - if current_user.stripe_prices.present?
+            - current_user.stripe_prices.active.each do |price|
+              - subscribed = current_user.stripe_customer&.stripe_subscriptions&.find { |s| s.stripe_price_id == price.stripe_id }&.present?
+              .card
+                .card-body
+                  %h5.card-title= price.nickname
+                  %h6.card-subtitle.mb-2.text-muted= subscribed ? "Active" : "Inactive"
+                  %p.card-text
+                    = number_to_currency(price.amount)
+                    every #{price.recurring["interval_count"] if price.recurring["interval_count"].to_i > 1} #{price.recurring["interval"].pluralize(price.recurring["interval_count"].to_i)}
+                  - unless subscribed
+                    = button_to "Set Up Autopay",
+                      { controller: :stripe_sessions, action: "subscription_checkout", method: :post,
+                      params: { price_id: price.stripe_id } }, { class: "btn btn-primary", data: { turbo: false } }
+                  - else
+                    = button_to "Edit Payment Methods", %i[customer_portal stripe_sessions], { class: "btn btn-outline-secondary", method: :post, data: { turbo: false } }
+  .row.mb-4
+    #pictures.col-md-6
+      .card
+        .card-header
+          %h2.card-title Pictures
+        .card-body
+          .row.row-cols-1.row-cols-lg-2.g-4.mb-3
+            - current_user.viewable_pictures.order(updated_at: :desc).last(4).each do |picture|
+              .col
+                .card
+                  = image_tag(picture.picture.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
+                  .card-body
+                    %h5.card-title= picture.title
+                    = link_to "View", [@daycare, picture], class: "btn btn-primary text-light mt-3 me-2"
+          = link_to "View More", [@daycare, :pictures], class: "btn btn-primary btn-lg text-light" if current_user.viewable_pictures.present?
+    #documents.col-md-6
+      .card
+        .card-header
+          %h2.card-title Documents
+        .card-body
+          .row.row-cols-1.row-cols-lg-2.g-4.mb-3
+            - current_user.viewable_documents.order(updated_at: :desc).last(4).each do |document|
+              .col
+                .card
+                  = image_tag(document.document.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" ) if document.document.image?
+                  .card-body
+                    %h5.card-title= document.title
+                    = link_to "View Details", [@daycare, document], class: "btn btn-primary text-light mt-3 me-2"
+                    = link_to "Upload Response Document", [:edit, @daycare, document], class: "btn btn-secondary text-light mt-3"
+                    = link_to "Preview", rails_blob_path(document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
+                    = link_to "Download", rails_blob_path(document.document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
+          = link_to "View More", [@daycare, :documents], class: "btn btn-primary btn-lg text-light" if current_user.viewable_documents.present?
+  .row
+    .row.mb-4
+      #messages.col-md-6
+        .card
+          .card-header
+            %h2.card-title Messages
+          .card-body
+            - if current_user.as_guardian_chat.present? 
+              %span= link_to "Message #{@daycare.owner.name}", [@daycare, current_user.as_guardian_chat]
+              %span.badge.bg-danger.ms-2= current_user.as_guardian_chat.unread_messages_count(current_user)
+            - else
+              = button_to "Message #{@daycare.owner.name}", [@daycare, :chats],
+                 { params: { chat: { guardian_id: current_user.id } }, class: "btn btn-primary text-white" }
+      #forms.col-md-6
+        .card
+          .card-header
+            %h2.card-title Forms
+          .card-body
+            %ul.list-group.list-group-flush.mb-3
+              - current_user.viewable_forms.last(8).each do |form|
+                - entered_form = current_user.entered_forms.find_by(form_id: form.id)
+                - if entered_form.present?
+                  %li.list-group-item= link_to form.title, [@daycare, entered_form]
+                - else
+                  %li.list-group-item= link_to form.title, new_daycare_entered_form_path(daycare_id: @daycare.id, form_id: form.id)
+                
+    .row.mb-4
+      #messages.col-md-6
+        .card
+          .card-header
+            %h2.card-title Child Events
+          .card-body
+            %ul.list-group.list-group-flush.mb-3
+              - policy_scope(ChildEvent).last(8).each do |child_event|
+                %li.list-group-item= link_to "#{child_event.child.name}: #{child_event.description.truncate(20)} - #{child_event.happened_at.strftime("%m/%d/%Y at %I:%M%p")}", [@daycare, child_event]
+            = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger btn-lg text-light"
+            = link_to "View More", [@daycare, :child_events], class: "btn btn-primary btn-lg text-light" if policy_scope(ChildEvent).present?

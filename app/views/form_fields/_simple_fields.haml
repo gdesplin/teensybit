@@ -1,0 +1,12 @@
+.card.my-3.form_question
+  .card-body
+    %h5.card-title= name
+    = form_fields_form.input :field_kind, as: :hidden
+    = form_fields_form.input :question
+    = form_fields_form.input :description
+    = form_fields_form.input :position, as: :hidden
+    = form_fields_form.input :_destroy, as: :hidden
+    = form_fields_form.input :required
+    = link_to "#", class: "btn btn-sm btn-danger text-white",
+      data: { action: "click->nested-form#removeAssociation" } do
+      %i.fa.fa-trash

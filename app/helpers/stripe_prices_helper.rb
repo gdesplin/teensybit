@@ -1,0 +1,2 @@
+module StripePricesHelper
+end

@@ -1,0 +1,7 @@
+- chat ||= @chat
+.container
+  = simple_form_for([daycare, chat, message], data: { controller: "reset-form", action: 'turbo:submit-end->reset-form#reset' }) do |f|
+    = f.input :recipient_id, as: :hidden
+    = f.input :chat_id, as: :hidden
+    = f.input :message_body
+    = f.submit "Send", class: "btn btn-primary mt-3"

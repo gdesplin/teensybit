@@ -1,0 +1,35 @@
+.row.row-cols-1.row-cols-md-2.mb-3.text-center
+  .col
+    .card.mb-4.shadow-sm
+      .card-header
+        %h4.my-0.fw-normal Monthly
+      .card-body
+        %h1.card-title.pricing-card-title
+          $9.99
+          %small.text-muted / mo
+        %ul.list-unstyled.mt-3.mb-4
+          %li.fw-bold Two week free trial, cancel anytime! (beta)
+          %li Get started for a low price
+          %li Full feature set!
+          %li Credit Card Fees (2.9% + 30¢ per charge)
+          %li 0.80% ACH Transfers
+        = button_to "Start Free Trial", { controller: :stripe_sessions, action: "subscription_checkout",
+          params: { price_id: ENV["MONTHLY_PLAN_KEY"], method: :post } },
+          { class: "w-100 btn btn-lg btn-primary", data: { turbo: false } }
+  .col
+    .card.mb-4.shadow-sm
+      .card-header
+        %h4.my-0.fw-normal Yearly
+      .card-body
+        %h1.card-title.pricing-card-title
+          $99
+          %small.text-muted / year
+        %ul.list-unstyled.mt-3.mb-4
+          %li.fw-bold Two week free trial, cancel anytime! (beta)
+          %li Savings of $20 per year
+          %li Full feature set!
+          %li Credit Card Fees (2.9% + 30¢ per charge)
+          %li 0.80% ACH Transfers
+        = button_to "Start Free Trial", { controller: :stripe_sessions, action: "subscription_checkout",
+          params: { price_id: ENV["ANNUAL_PLAN_KEY"], method: :post } },
+          { class: "w-100 btn btn-lg btn-primary", data: { turbo: false } }

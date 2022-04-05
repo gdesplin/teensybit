@@ -1,0 +1,25 @@
+.container.mt-3
+  .row
+    .col-md-6
+      .card
+        = image_tag(@document.document.variant(resize_to_limit: [555, 555]), class: "img-card-top") if @document.document.image?
+        .card-body
+          %h5.card-title= @document.title
+          %p.card-text= @document.description
+          %ul.list-group.list-group-flush
+            %li.list-group-item= "Created at: #{@document.created_at.strftime("%b %d, %Y: %l:%M:%S%P %Z")}"
+            %li.list-group-item= "Updated at: #{@document.updated_at.strftime("%b %d, %Y: %l:%M:%S%P %Z")}"
+
+          - if @document.users.present? && current_user.provider?
+            %li.list-group-item.list-group-item-primary Parents available to:
+            %ul.list-group.list-group-flush
+              - @document.users.each do |user|
+                %li.list-group-item= link_to user.name, [@daycare, user]
+          = link_to "Preview Original Document", rails_blob_path(@document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
+          = link_to "Download Original Document", rails_blob_path(@document.document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
+          - if @document.response_document.attached?
+            = link_to "Preview Response Document", rails_blob_path(@document.response_document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
+            = link_to "Download Response Document", rails_blob_path(@document.response_document, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
+          - edit_text = current_user.provider? ? "Edit" : "Upload Response Document"
+          %div
+            = link_to edit_text, [:edit, @daycare, @document], class: "btn btn-secondary text-light mt-3" if policy(@document).edit?

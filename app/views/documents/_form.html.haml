@@ -1,0 +1,29 @@
+-# - action_text = @document.persisted? ? "Edit Document" : "Add Document"
+.container
+  %h1= action_text
+  = simple_form_for([@daycare, @document]) do |f|
+
+    - if current_user.provider?
+      = f.input :document, as: "file"
+      - if @document.document.attached?
+        %small.form-text.text-muted.d-block.mb-3
+          ^ This will replace the current file
+      = f.association :users, collection: current_user.owned_daycare.users, prompt: "Make Available To"
+      = f.input :title
+      = f.input :description
+      = f.input :public_to_daycare, as: :boolean, hint: " Allow all parents can view this document"
+    = image_tag(@document.document.variant(resize_to_limit: [555, 555]), class: "img-fluid" ) if @document.document.attached? && @document.document.image?
+    = link_to "Preview Original Document", rails_blob_path(@document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
+    %hr
+    - if current_user.guardian?
+      = f.input :response_document, as: "file"
+      - if @document.response_document.attached?
+        %small.form-text.text-muted.d-block.mb-3
+          ^ This will replace the current file
+  
+    %div= image_tag(@document.response_document.variant(resize_to_limit: [555, 555]), class: "img-fluid" ) if @document.response_document.attached? && @document.response_document.image?
+    = link_to "Preview Response Document", rails_blob_path(@document.response_document, disposition: 'preview'), class: "btn btn-primary text-light mt-3" if @document.response_document.attached?
+
+    %div= f.submit "Save", class: "btn btn-primary mt-3 text-light"
+  = link_to "Delete", [@daycare, @document], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"} if @document.persisted?
+

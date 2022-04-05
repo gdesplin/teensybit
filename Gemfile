@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.2'
+ruby '3.0.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.0'
+gem 'rails', '~> 7.0.2.3'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
 # Use Puma as the app server
@@ -13,8 +13,6 @@ gem 'puma', '~> 5.0'
 gem 'sass-rails', '>= 6'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'webpacker', '~> 5.0'
-# Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5.2.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
@@ -23,20 +21,38 @@ gem 'redis', '~> 4.0'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.12.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 
+gem 'acts_as_list'
 gem 'simple_form'
 gem 'faraday'
 gem 'mailgun-ruby', '~>1.2.3'
 gem 'invisible_captcha'
+gem 'devise'
+gem 'devise_invitable', '~>2.0.6'
+gem 'stripe'
+gem 'money-rails', '~>1.12'
+gem 'json-schema'
+gem 'sidekiq'
+gem 'haml-rails', '~> 2.0'
+gem 'hotwire-rails'
+gem 'jquery-rails'
+gem 'aws-sdk-s3', require: false
+gem 'pundit'
+gem 'active_storage_validations'
+gem 'pagy', '~> 4.11.0'
 
 group :development, :test do
+  gem 'capybara'
+  gem 'rspec-rails'
+  gem 'selenium-webdriver'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'dotenv-rails'
+  gem 'solargraph'
 end
 
 group :development do
@@ -51,11 +67,14 @@ group :development do
 end
 
 group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara', '>= 3.26'
-  gem 'selenium-webdriver'
-  # Easy installation and use of web drivers to run system tests with browsers
-  gem 'webdrivers'
+  gem 'factory_bot_rails'
+  gem 'faker'
+  gem 'pundit-matchers'
+  gem 'rspec-sidekiq'
+  gem 'shoulda-matchers'
+  gem 'simplecov', require: false
+  gem 'stripe-ruby-mock', require: 'stripe_mock'
+  gem 'webmock'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

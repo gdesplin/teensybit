@@ -1,0 +1,16 @@
+.container
+  .card.mt-3
+    .card-header
+      %h2.card-title Child Events
+    .card-body
+      .row.row-cols-1.row-cols-lg-5.row-cols-md-3.row-cols-sm-2.g-4.mb-3
+        - @child_events.each do |child_event|
+          .col
+            .card
+              .card-body
+                %h5.card-title= child_event.child.name
+                %p.card-text= child_event.description.truncate(66)
+                %p.card-text= child_event.happened_at.strftime("%m/%d/%Y at %I:%M%p")
+                = link_to "View", [@daycare, child_event], class: "btn btn-primary text-light mt-3 me-2"
+                = link_to "Edit", [:edit, @daycare, child_event], class: "btn btn-secondary text-light mt-3" if policy(child_event).edit?
+      != pagy_bootstrap_nav(@pagy)

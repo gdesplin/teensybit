@@ -1,0 +1,7 @@
+%li.list-group-item.mt-2.field_option.nested_fields
+  = form_field_options_form.input :name, label: "Option"
+  = form_field_options_form.input :position, as: :hidden
+  = form_field_options_form.input :_destroy, as: :hidden
+  = link_to "#", class: "btn btn-sm btn-danger text-white",
+    data: { action: "click->nested-form#removeAssociation" } do
+    %i.fa.fa-trash

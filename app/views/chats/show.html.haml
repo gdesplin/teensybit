@@ -1,0 +1,9 @@
+.container
+  .card.mt-3
+    .card-header
+      - other_participant = current_user.guardian? ? @chat.provider : @chat.guardian
+      %h2.card-title= "Messages with #{other_participant.name}"
+    = render partial: "messages/form",
+      locals: { daycare: @daycare, chat: @chat, message: Message.new(recipient: other_participant, chat_id: @chat.id) }
+    .card-body.position-relative
+      = render partial: "chats/chat", locals: { chat: @chat }

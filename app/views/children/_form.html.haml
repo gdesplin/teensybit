@@ -1,0 +1,15 @@
+- action_text = @child.persisted? ? "Edit Child" : "Add Child"
+.container
+  %h1= action_text
+  = simple_form_for([@daycare, @child]) do |f|
+    = f.input :name, label: "Child's Name"
+    = f.association :users, collection: current_user.owned_daycare.users, prompt: "Choose Parents/Guardians" if current_user.provider?
+    = image_tag(@child.photo.variant(resize_to_fill: [315, 315, gravity: 'center']), size: "315x315", class: "img-fluid" ) if child.photo.attached?
+    = f.input :photo, as: "file"
+    %small.form-text.text-muted.d-block
+      This image will display as a SQUARE image.
+    - if child.photo.attached?
+      %small.form-text.text-muted.d-block
+        This will replace the current image
+    = f.submit "Save", class: "btn btn-primary mt-3"
+  = link_to "Delete", [@daycare, @child], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"} if @child.persisted?

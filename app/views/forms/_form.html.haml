@@ -1,0 +1,25 @@
+- action_text = @form.persisted? ? "Edit Form" : "Add Form"
+.container
+  %h1= action_text
+  = simple_form_for([@daycare, @form]) do |f|
+    = f.input :title
+    = f.input :description
+    %h3 Questions
+    %p.fw-lighter Drag & drop to reorder
+    .form_fields{ data: { controller: "nested-form" } }
+      = render partial: "form_fields/templates", locals: { f: f }
+      .orderable{ data: { controller: "sortable",
+        sortable_selector_value: ".form_question",
+        action: "nested-form:addAssociation@window->sortable#listen",
+        nested_form_target: "insertElement" } }
+        - @form.form_fields.each do |form_field|
+          = f.simple_fields_for :form_fields, form_field do |form_fields_form|
+            = render partial: "form_fields/form", locals: { form_fields_form: form_fields_form }
+      .mb-3
+        = select_tag(:new_form_field_kind, options_for_select(FormField.field_kind_attributes_for_select), prompt: "Select Field Kind To Add...", class: "form-select", data: { nested_form_target: "association" } )
+        = link_to "Add Form Field", "#", class: "btn btn-primary mt-3", data: { action: "click->nested-form#addAssociation" }
+    = f.input :published_to_daycare, as: :boolean, hint: " Allow all parents to view this form"
+    = f.association :users, collection: current_user.owned_daycare.users, prompt: "Share To Parents"
+    .col-auto
+      = f.submit "Save", class: "btn btn-primary mt-3"
+  = link_to "Delete", [@daycare, @form], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"} if @form.persisted?

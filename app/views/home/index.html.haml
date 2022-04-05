@@ -1,0 +1,109 @@
+%section#home-top-cover.cover-container.d-flex.w-100.h-100.py-5.text-center.mx-auto.flex-column.mb-5
+  .row.py-lg-5
+    .col-lg-6.col-md-8.mx-auto.light-grey-transparent.px-3.py-5.rounded
+      %h1.fw-light.text-white Teensy Bit (beta)
+      %p.lead.text-light Replaces your hodge-podge of online tools to run your in home daycare.
+      %p
+        = link_to "Start Free Trial", "/#pricing", { class: "btn btn-danger text-light"}
+        %button.btn.btn-secondary{"data-bs-target" => "#email-sign-up-email_signup", "data-bs-toggle" => "modal", :type => "button"}
+          Sign Up For Emails
+/
+  Marketing messaging and featurettes
+  \==================================================
+/ Wrap the rest of the page in another container to center all the content.
+.container.marketing
+  / Three columns of text below the carousel
+  .row
+    .col-lg-4
+      %i.fas.fa-money-bill-wave.fa-10x.text-success
+      %h2 Auto Payments
+      %p No more late daycare payments, manually sending invoices or spending hours a month on dealing with money, now you can have that time back for yourself.
+      %p
+        %a.btn.btn-secondary{:href => "#payments", :role => "button"} View details
+    / /.col-lg-4
+    .col-lg-4
+      %i.fas.fa-file-alt.fa-10x.text-warning
+      %h2 Online Paperwork
+      %p Need some daycare paper work signed and returned? No more printing, or holding up parents at the door. They can complete and return online.
+      %p
+        %a.btn.btn-secondary{:href => "#paperwork", :role => "button"} View details
+    / /.col-lg-4
+    .col-lg-4
+      %i.fas.fa-comments.fa-10x.text-primary
+      %h2 Sharing & Messaging
+      %p Want to share a cute photo, have it sent to the appropriate parents in a few simple steps? Or send a message out to all your parents? Its never been easier.
+      %p
+        %a.btn.btn-secondary{:href => "#sharing", :role => "button"} View details
+    / /.col-lg-4
+  / /.row
+  / START THE FEATURETTES
+  #features
+    %hr.featurette-divider
+      #payments.row.featurette
+        .col-md-7
+          %h2.featurette-heading
+            Auto Payments.
+            %span.text-muted Keep your bank account full.
+          %p.lead Never have a missed or late payment again. You will be able to set all your parents up on an automatic daycare payment schedule that will save you time and ensure you get your hard earned dollars into your account. If auto payments aren't for you, then we will send invoices for you, and reminders via many communication channels to ensure you get your payments.
+          .w-100.mb-3.btn.btn-lg-btn-primary= link_to "Get Auto-Payments", "/#pricing"
+        .col-md-5.xl-font.d-inline-flex.align-items-center.justify-content-center
+          = image_tag("paying-online.jpg", class: "img-fluid featurette-image mx-auto")
+      %hr.featurette-divider
+        #paperwork.row.featurette
+          .col-md-7.order-md-2
+            %h2.featurette-heading
+              Online Paperwork.
+              %span.text-muted Save yourself headaches.
+            %p.lead There are so many forms that parents need to read, sign, and for you to keep up on. Create these in the app so it will keep up on them automatically for you, and make them available wherever the internet is!
+            .w-100.mb-3.btn.btn-lg-btn-primary= link_to "Get Online Paperwork", "/#pricing"
+          .col-md-5.xl-font.d-inline-flex.align-items-center.justify-content-center.order-md-1
+            = image_tag("online-paper-work.jpg", class: "img-fluid featurette-image mx-auto")
+        %hr.featurette-divider
+          #sharing.row.featurette
+            .col-md-7
+              %h2.featurette-heading
+                Photo & file sharing.
+                %span.text-muted Easy for you, and parents love it!
+              %p.lead Take a photo, tag the kids in it, done. Its now automatically shared and available to the parents it may concern. Do this with any document or text you may need to share with parents. Easy, simple and saves you time and makes parents happy!
+              .w-100.mb-3.btn.btn-lg-btn-primary= link_to " Get Photo & File Sharing", "/#pricing"
+            .col-md-5.xl-font.d-inline-flex.align-items-center.justify-content-center
+              = image_tag("kid-taking-photo.jpg", class: "img-fluid featurette-image mx-auto")
+          %hr.featurette-divider
+            #messaging.row.featurette
+              .col-md-7.order-md-2
+                %h2.featurette-heading
+                  Messaging.
+                  %span.text-muted Broadcast, instant message and report.
+                %p.lead Often you need to message all your parents in your daycare, or a select group of them. This makes it easy to message them via email, text or in-app messages. Report on important events that happen, like when they took a bottle or napped. All in one place. Easy.
+                .w-100.mb-3.btn.btn-lg-btn-primary= link_to "Get Messaging", "/#pricing"
+              .col-md-5.xl-font.d-inline-flex.align-items-center.justify-content-center.order-md-1
+                = image_tag("messaging.jpg", class: "img-fluid featurette-image mx-auto")
+            %hr.featurette-divider
+            / /END THE FEATURETTES
+            / START THE PRICING
+            #pricing.col-12.text-center.mb-4
+              %h2.featurette-heading Pricing.
+              %h3.text-muted One simple set of features, two ways to pay. 14 day trial!
+            = render partial: "shared/subscription_cards"
+            / /END THE PRICING
+            / START CONTACT
+            #contact{"data-controller" => "contact-form"}
+              .row.justify-content-center.mb-3
+                #contact.col-12.text-center.mb-4
+                  %h2.featurette-heading Contact Us.
+                  %h3.text-muted Do you have a question for us?
+                .card
+                  .card-body
+                    = simple_form_for Contact.new, local: true do |f|
+                      = f.error_notification
+                      = invisible_captcha
+                      = f.input :source, as: :hidden, input_html: { value: "message" }
+                      = f.input :name
+                      = f.input :email
+                      = f.input :message
+                      = f.input :opt_in_emails, as: :boolean, label: "Opt In To Receive Emails"
+                      = f.button :submit, "Submit", class: "btn-primary"
+            / /END CONTACT
+            - Contact.sources.keys.each do |source|
+              = render partial: "contacts/email_opt_in_modal", locals: { modal_name: "email-sign-up-#{source}", source: source}
+          / /.container

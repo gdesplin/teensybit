@@ -1,0 +1,21 @@
+= simple_form_for([@daycare, @stripe_price]) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+  .form-inputs
+    = f.input :nickname, label: "Name"
+    = f.simple_fields_for :recurring, OpenStruct.new(@stripe_price.recurring) do |field|
+      .row
+        .col-2
+          = f.label "Recurring Time Period:"
+        .col-2
+          = field.input :interval_count, as: :integer, label: false, placeholder: "Enter a number", required: true
+        .col-2
+          = field.input :interval, collection: %w[month year week day], prompt: "Select Time Period", label: false, required: true
+    = f.input :amount, label: "Amount" do
+      .input-group
+        %span.input-group-text $
+        = f.input_field :amount, class: "form-control"
+    = f.association :user, collection: current_user.owned_daycare.users, prompt: "Choose Parent/Guardian"
+  .form-actions
+    = link_to 'Cancel', [:provider_dashboard, :daycares], class: "btn btn-secondary"
+    = f.button :submit, "Save", class: "btn btn-primary"

@@ -1,0 +1,26 @@
+.container
+  .card.mt-3
+    .card-header
+      %h2.card-title Parent/Guardian
+    .card-body
+      %h5.card-title= @user.name
+      %ul.list-group.list-group-flush
+        %li.list-group-item= "Email: #{@user.email}"
+        %li.list-group-item= "Address Line One: #{@user.address}"
+        %li.list-group-item= "Address Line Two: #{@user.address_two}"
+        %li.list-group-item= "City: #{@user.city}"
+        %li.list-group-item= "State: #{@user.state}"
+        %li.list-group-item= "Zip: #{@user.zip}"
+        %li.list-group-item= "Phone: #{@user.phone}"
+        %li.list-group-item= "City: #{@user.city}"
+        %li.list-group-item= "City: #{@user.city}"
+        %li.list-group-item= "Sign in Count: #{@user.sign_in_count}"
+        %li.list-group-item= "Last Sign In at: #{@user.last_sign_in_at&.strftime("%b %d, %Y: %l:%M:%S%P %Z")}"
+        %li.list-group-item= "Locked at: #{@user.locked_at&.strftime("%b %d, %Y: %l:%M:%S%P %Z")}"
+        %li.list-group-item= "Invitation sent at: #{@user.invitation_sent_at&.strftime("%b %d, %Y: %l:%M:%S%P %Z")}"
+        %li.list-group-item= "Invitation accepted at: #{@user.invitation_accepted_at&.strftime("%b %d, %Y: %l:%M:%S%P %Z")}"
+        %li.list-group-item= link_to "Delete", [@daycare, @user], method: :delete, class: "btn btn-danger text-light mt-2", data: { confirm: "Are you sure? This will stop/remove any payment plans for this parent and delete any children records (that don't have another parent)." }
+    .card-footer
+      = link_to "Back to Dashboard", [:provider_dashboard, :daycares], class: "btn btn-secondary"
+
+    

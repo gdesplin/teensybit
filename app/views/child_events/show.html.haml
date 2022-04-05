@@ -1,0 +1,9 @@
+.container.mt-3
+  .row
+    .col-md-6
+      .card
+        .card-body
+          %h5.card-title= @child_event.child.name
+          %p.card-text= @child_event.description
+          %p.card-text= @child_event.happened_at.strftime("at %m/%d/%Y at %I:%M%p")
+          = link_to "Edit", [:edit, @daycare, @child_event], class: "btn btn-secondary text-light mt-3" if policy(@child_event).edit?

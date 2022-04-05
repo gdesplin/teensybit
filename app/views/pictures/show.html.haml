@@ -1,0 +1,14 @@
+.container.mt-3
+  .row
+    .col-md-6
+      .card
+        = image_tag(@picture.picture.variant(resize_to_limit: [555, 555]), class: "img-card-top" )
+        .card-body
+          %h5.card-title= @picture.title
+          %p.card-text= @picture.description
+          - if @picture.children.present? && current_user.provider?
+            %li.list-group-item.list-group-item-primary Tagged Children
+            %ul.list-group.list-group-flush
+              - @picture.children.each do |child|
+                %li.list-group-item= link_to child.name, [@daycare, child]
+          = link_to "Edit", [:edit, @daycare, @picture], class: "btn btn-secondary text-light mt-3" if policy(@picture).edit?

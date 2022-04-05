@@ -1,0 +1,3 @@
+= entered_form_fields_form.input :form_field_id, as: :hidden
+= render partial: "entered_form_fields/#{entered_form_fields_form.object.form_field.field_kind}",
+  locals: { entered_form_fields_form: entered_form_fields_form }
