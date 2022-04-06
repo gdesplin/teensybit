@@ -62,7 +62,7 @@ Rails.application.configure do
   config.active_job.queue_adapter     = :sidekiq
   # config.active_job.queue_name_prefix = "teensybit_production"
 
-  config.action_mailer.default_url_options = { :host => 'https://www.teensybit.com' }
+  Rails.application.routes.default_url_options[:host] = "https://www.teensybit.com"
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :mailgun
   config.action_mailer.mailgun_settings = {
