@@ -5,4 +5,5 @@ Amount: #{@stripe_invoice.total}
 
 Date:
 - @stripe_invoice.created_at
-= link_to "View Invoice", @stripe_invoice.hosted_invoice_url
+View Invoice at:
+!= @stripe_invoice.hosted_invoice_url

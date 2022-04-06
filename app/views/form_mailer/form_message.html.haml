@@ -1,1 +1,1 @@
-%h2= "Your daycare, #{@form.daycare.name} has created a form for you on Teensy Bit. #{link_to "Fill #{@form.title} it out!", [@form.daycare, @form]}"
+%h2= "Your daycare, #{@form.daycare.name} has created a form for you on Teensy Bit. #{link_to("Check #{@form.title} it out!", [@form.daycare, @form]).html_safe}"
