@@ -1,1 +1,1 @@
-= "Your daycare, #{@document.daycare.name} has uploaded a document for you on Teensy Bit. #{link_to "Check #{@document.title} it out!", [@document.daycare, @document]}"
+= "Your daycare, #{@document.daycare.name} has uploaded a document for you on Teensy Bit. Check #{@document.title} it out! #{daycare_document_url(@document.daycare, @document).html_safe}"
