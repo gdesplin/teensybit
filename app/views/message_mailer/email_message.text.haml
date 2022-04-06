@@ -1,5 +1,4 @@
 You have an unread message at Teensybit
-= "You can read it here': #{[@message.chat.provider.owned_daycare, @message.chat]}. It reads:"
+!= "You can read it here': #{daycare_chat_url(@message.chat.provider.owned_daycare, @message.chat)}. It reads:"
 
 = @message.message_body
-``
