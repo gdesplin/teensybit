@@ -84,3 +84,4 @@ production:
   database: teensybit_production
   username: teensybit
   password: <%= ENV['TEENSYBIT_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
