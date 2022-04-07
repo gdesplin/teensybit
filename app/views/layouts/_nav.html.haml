@@ -1,13 +1,11 @@
 %nav.navbar.navbar-expand-lg.navbar-light.bg-light
   .container
-    %a.navbar-brand{:href => "#"} Teensy Bit
+    = link_to "Teensy Bit", :root, class: "navbar-brand"
     %button.navbar-toggler{"aria-controls" => "navbarNavDropdown", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarNavDropdown", "data-bs-toggle" => "collapse", :type => "button"}
       %span.navbar-toggler-icon
     #navbarNavDropdown.collapse.navbar-collapse.me-auto
       %ul.navbar-nav
         - if current_user.blank?
-          %li.nav-item
-            = link_to "Home", :root, class: "nav-link"
           %li.nav-item
             %a.nav-link{:href => "/#features"} Features
           %li.nav-item

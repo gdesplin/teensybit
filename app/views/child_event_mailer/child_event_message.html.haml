@@ -1,0 +1,5 @@
+%h2= "Your daycare, #{@child_event.child.daycare.name} has logged a child event on Teensy Bit."
+%h2!= link_to("Check it out!", [@child_event.child.daycare, @child_event])
+%h5= @child_event.child.name
+%p= @child_event.description
+%p= @child_event.happened_at.strftime("at %m/%d/%Y at %I:%M%p")
