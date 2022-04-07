@@ -1,0 +1,6 @@
+= "Your daycare, #{@child_event.child.daycare.name} has logged a child event on Teensy Bit."
+= "Check it out!"
+= daycare_child_event_url(@child_event.child.daycare, @child_event)
+= @child_event.child.name
+= @child_event.description
+= @child_event.happened_at.strftime("at %m/%d/%Y at %I:%M%p")
