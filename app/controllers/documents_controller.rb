@@ -60,7 +60,7 @@ class DocumentsController < ApplicationController
   end
 
   def safe_params
-    params.require(:document).permit(policy(@document).permitted_attributes)
+    params.require(:document).permit(policy(Document).permitted_attributes)
   end
 
   def authorize_document
