@@ -13,7 +13,7 @@
       = f.input :description
       = f.input :public_to_daycare, as: :boolean, hint: " Allow all parents can view this document"
     = image_tag(@document.document.variant(resize_to_limit: [555, 555]), class: "img-fluid" ) if @document.document.attached? && @document.document.image?
-    = link_to "Preview Original Document", rails_blob_path(@document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
+    = link_to "Preview Original Document", rails_blob_path(@document.document, disposition: 'preview'), class: "btn btn-primary text-light mt-3" if @document.document.attached?
     %hr
     - if current_user.guardian?
       = f.input :response_document, as: "file"
