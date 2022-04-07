@@ -114,7 +114,7 @@
               Documents
               = link_to "Upload Document", [:new, @daycare, :document], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
-            - if @daycare.pictures.present?
+            - if @daycare.documents.present?
               .row.row-cols-1.row-cols-lg-2.g-4.mb-3
                 - @daycare.documents.order(updated_at: :desc).last(4).each do |document|
                   .col
