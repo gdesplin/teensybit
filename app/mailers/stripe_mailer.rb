@@ -23,6 +23,13 @@ class StripeMailer < ApplicationMailer
     mail(to: params[:email], subject: "#{params[:daycare_name]} - Teensy Bit Autopayment Started")
   end
 
+  def successful_autopayment_provider_created
+    @stripe_price = params[:stripe_price]
+    @name = params[:name]
+    mail(to: params[:email], subject: "#{params[:daycare_name]} - Teensy Bit Autopayment Started")
+  end
+
+
   def subscription_updated
 
   end

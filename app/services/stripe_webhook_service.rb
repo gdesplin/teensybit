@@ -142,7 +142,7 @@ class StripeWebhookService
       StripeMailer.with(stripe_price: stripe_price, email: stripe_customer.email, name: stripe_customer.name, daycare_name: stripe_customer.user.daycare.name)
       .successful_autopayment_created.deliver_later
       StripeMailer.with(stripe_price: stripe_price, email: stripe_customer.user.daycare.owner.email, name: stripe_customer.name, daycare_name: stripe_customer.user.daycare.name)
-        .successful_autopayment_created.deliver_later
+        .successful_autopayment_provider_created.deliver_later
     end
   end
 
