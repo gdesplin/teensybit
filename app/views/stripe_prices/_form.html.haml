@@ -5,11 +5,11 @@
     = f.input :nickname, label: "Name"
     = f.simple_fields_for :recurring, OpenStruct.new(@stripe_price.recurring) do |field|
       .row
-        .col-2
+        .col-md-2
           = f.label "Recurring Time Period:"
-        .col-2
+        .col-md-2
           = field.input :interval_count, as: :integer, label: false, placeholder: "Enter a number", required: true
-        .col-2
+        .col-md-2
           = field.input :interval, collection: %w[month year week day], prompt: "Select Time Period", label: false, required: true
     = f.input :amount, label: "Amount" do
       .input-group
