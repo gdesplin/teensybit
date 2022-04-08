@@ -2,7 +2,7 @@ class StripeWebhooksController < ApplicationController
   protect_from_forgery except: :create
 
   def create
-    if StripeWebhookService.new(request, ENV['STRIPE_API_KEY']).log_event
+    if StripeWebhookService.new(request, ENV['STRIPE_WEB_HOOK_SECRET']).log_event
       head :no_content
     else
       head 500
@@ -10,7 +10,7 @@ class StripeWebhooksController < ApplicationController
   end
 
   def connect
-    if StripeWebhookService.new(request, ENV['STRIPE_CONNECT_API_KEY']).log_event
+    if StripeWebhookService.new(request, ENV['STRIPE_WEB_HOOK_CONNECT_SECRET']).log_event
       head :no_content
     else
       head 500
