@@ -17,6 +17,7 @@ class StripePrice < ApplicationRecord
   validates :nickname, :recurring, :amount, presence: true
   validates :recurring, json_schema: true
   validates :stripe_id, uniqueness: true
+  validates :amount, numericality: { greater_than: 0 }
 
   enum kind: { recurring: 0, one_time: 1 }
 end
