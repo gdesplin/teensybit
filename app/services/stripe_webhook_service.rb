@@ -3,10 +3,10 @@ class StripeWebhookService
 
   attr_accessor :request, :payload, :webhook_secret, :event, :event_type, :data, :data_object
 
-  def initialize(request, stripe_api_key)
+  def initialize(request, webhook_secret)
     @request = request
-    Stripe.api_key = stripe_api_key
-    @webhook_secret = ENV['STRIPE_WEB_HOOK_SECRET']
+    Stripe.api_key = ENV['STRIPE_API_KEY']
+    @webhook_secret = webhook_secret
     @payload = request.body.read
     retrieve_event
   end
