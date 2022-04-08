@@ -1,7 +1,7 @@
 .container
   %p.mt-3
     %strong Stripe ID:
-    = @stripe_price.stripe_id.presence || "Refresh for Stripe ID"
+    = @stripe_price&.stripe_id.presence || "Refresh for Stripe ID"
   %p
     %strong Active:
     = @stripe_price.active

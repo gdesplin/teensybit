@@ -16,7 +16,7 @@ class StripePricesController < ApplicationController
     stripe_price_hash = @stripe_price.as_json.symbolize_keys
     stripe_price_hash[:stripe_account_id] = @daycare.stripe_account.stripe_id
     @stripe_price.recurring["interval_count"] = @stripe_price.recurring["interval_count"].to_i if @stripe_price.recurring["interval_count"].present?
-    render :new and return unless @stripe_price.valid?
+    render :new, status: :unprocessable_entity and return unless @stripe_price.valid?
 
     stripe_price_object = StripeSession.new.create_price(stripe_price_hash)
     @stripe_price.stripe_id = stripe_price_object.id
@@ -24,7 +24,7 @@ class StripePricesController < ApplicationController
     authorize_stripe_price
   
     if @stripe_price.save
-      redirect_to [@daycare, @stripe_price], notice: 'Stripe price was successfully created.'
+      redirect_to dashboard_path, notice: 'Stripe price was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end

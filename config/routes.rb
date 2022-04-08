@@ -37,7 +37,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :stripe_webhooks, only: :create
+  resources :stripe_webhooks, only: :create do
+    post :connect, on: :collection
+  end
   get 'terms', :to => 'home#terms'
   get 'privacy_policy', :to => 'home#privacy_policy'
   get 'check_email', :to => 'home#check_email'
