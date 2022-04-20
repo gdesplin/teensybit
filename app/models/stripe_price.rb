@@ -9,13 +9,14 @@ class StripePrice < ApplicationRecord
 
   RECURRING_SCHEMA = {
     "required" => ["interval", "interval_count"],
+    "$schema" => "http://json-schema.org/draft-04/schema#",
     "properties" => {
       "interval" => { "type" => "string" },
       "interval_count" => { "type" => "integer" }
     }
   }
   validates :nickname, :recurring, :amount, presence: true
-  validates :recurring, json_schema: true
+  validates :recurring, json: { schema: RECURRING_SCHEMA }
   validates :stripe_id, uniqueness: true
   validates :amount, numericality: { greater_than: 0 }
 

@@ -4,4 +4,5 @@ class StripePaymentIntent < ApplicationRecord
 
   monetize :amount_received_cents
   validates :stripe_id, uniqueness: true
+  validates :stripe_id, presence: true
 end

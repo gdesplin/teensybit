@@ -5,7 +5,7 @@ class BroadcastMessage
 
   attr_accessor :id, :message_body, :recipient_ids, :users, :sender, :messages
 
-  validates :message_body, :users, :sender, presence: true
+  validates :message_body, :users, :sender, :recipient_ids, presence: true
 
   def users
     @users ||= User.where(id: recipient_ids)
