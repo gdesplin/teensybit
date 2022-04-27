@@ -10,8 +10,25 @@ RSpec.describe StripePricePolicy, type: :policy do
 
   subject { described_class }
 
-
   permissions :create? do
+    it "denies if daycare doesn't belong to provider" do
+      expect(subject).not_to permit(User.new(kind: :provider), StripePrice.new(stripe_product_id: stripe_product.id))
+    end
+    it "accepts if daycare does belong to provider" do
+      expect(subject).to permit(provider, stripe_price)
+    end
+  end
+
+  permissions :new? do
+    it "denies if daycare doesn't belong to provider" do
+      expect(subject).not_to permit(User.new(kind: :provider), StripePrice.new(stripe_product_id: stripe_product.id))
+    end
+    it "accepts if daycare does belong to provider" do
+      expect(subject).to permit(provider, stripe_price)
+    end
+  end
+
+  permissions :destroy? do
     it "denies if daycare doesn't belong to provider" do
       expect(subject).not_to permit(User.new(kind: :provider), StripePrice.new(stripe_product_id: stripe_product.id))
     end

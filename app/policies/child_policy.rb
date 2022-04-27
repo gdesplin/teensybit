@@ -2,7 +2,7 @@ class ChildPolicy < ApplicationPolicy
   class Scope < Scope
     def resolve
       if user.provider?
-        user.owned_daycare&.children.order(name: :asc)
+        user.owned_daycare&.children&.order(name: :asc)
       elsif user.guardian?
         user.children.order(name: :asc)
       else
@@ -16,8 +16,6 @@ class ChildPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.daycare
     elsif user.guardian?
       user.daycare.present? && user.daycare == record.daycare
-    else
-      false
     end
   end
 
@@ -26,8 +24,6 @@ class ChildPolicy < ApplicationPolicy
       user.owned_daycare.present?
     elsif user.guardian?
       user.daycare.present? && user.daycare == record.daycare
-    else
-      false
     end
   end
 
@@ -36,8 +32,6 @@ class ChildPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.daycare
     elsif user.guardian?
       record.users.where(id: user.id).present?
-    else
-      false
     end
   end
 
@@ -46,8 +40,6 @@ class ChildPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.daycare
     elsif user.guardian?
       record.users.where(id: user.id).present?
-    else
-      false
     end
   end
   
@@ -56,8 +48,6 @@ class ChildPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.daycare
     elsif user.guardian?
       record.users.where(id: user.id).present?
-    else
-      false
     end
   end
 
@@ -66,8 +56,6 @@ class ChildPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.daycare
     elsif user.guardian?
       record.users.where(id: user.id).present?
-    else
-      false
     end
   end
 

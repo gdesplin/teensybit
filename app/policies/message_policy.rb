@@ -38,7 +38,7 @@ class MessagePolicy < ApplicationPolicy
   end
 
   def new?
-    return if user.provider? && user.owned_daycare.present? || user.guardian?
+    return user.provider? && user.owned_daycare.present? || user.guardian?
   end
 
   def permitted_attributes_for_create

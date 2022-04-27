@@ -15,7 +15,7 @@ class BroadcastMessagesController < ApplicationController
   end
 
   def new
-    @broadcast_message = BroadcastMessage.new(sender: current_user)
+    @broadcast_message = BroadcastMessage.new(sender_id: current_user.id)
     authorize @broadcast_message
   end
 

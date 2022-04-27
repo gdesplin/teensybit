@@ -72,6 +72,7 @@ class User < ApplicationRecord
 
   def deactive_stripe_prices
     return unless guardian?
+
     stripe_prices.each do |price|
       DeactivateStripePriceJob.perform_later(price.stripe_id, daycare.stripe_account.stripe_id)
     end

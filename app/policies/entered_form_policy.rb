@@ -32,8 +32,6 @@ class EnteredFormPolicy < ApplicationPolicy
       record.daycare == user.owned_daycare
     elsif user.guardian?
       record.user == user
-    else
-      false
     end
   end
 

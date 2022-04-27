@@ -16,8 +16,6 @@ class ChildEventPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.child.daycare
     elsif user.guardian?
       user.children.where(id: record.child_id).present?
-    else
-      false
     end
   end
 
@@ -26,8 +24,6 @@ class ChildEventPolicy < ApplicationPolicy
       user.owned_daycare.present?
     elsif user.guardian?
       user.daycare.present?
-    else
-      false
     end
   end
 
@@ -36,8 +32,6 @@ class ChildEventPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.child.daycare
     elsif user.guardian?
       user.children.where(id: record.child_id).present?
-    else
-      false
     end
   end
 
@@ -46,8 +40,6 @@ class ChildEventPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.child.daycare
     elsif user.guardian?
       record.user_id == user.id
-    else
-      false
     end
   end
   
@@ -56,8 +48,6 @@ class ChildEventPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.child.daycare
     elsif user.guardian?
       record.user_id == user.id
-    else
-      false
     end
   end
 
@@ -66,8 +56,6 @@ class ChildEventPolicy < ApplicationPolicy
       user.owned_daycare.present? && user.owned_daycare == record.child.daycare
     elsif user.guardian?
       record.user_id == user.id
-    else
-      false
     end
   end
 

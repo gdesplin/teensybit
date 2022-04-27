@@ -1,13 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe ChildPolicy, type: :policy do
+  let!(:daycare) { create(:daycare, user_id: provider.id) }
   let(:provider) { create(:user, kind: :provider) }
-  let(:daycare) { create(:daycare, user_id: provider.id) }
   let(:guardian) { create(:user, kind: :guardian, daycare: daycare) }
   let(:child) { create(:child, users: [guardian], daycare: daycare)}
 
   subject { described_class }
-  
+
+  permissions ".scope" do
+    it "only shows children providers owned daycare has" do
+      expect(ChildPolicy::Scope.new(provider, ChildEvent).resolve).to eq provider.owned_daycare&.children.order(name: :asc)
+    end
+    it "only shows children guardians children are in" do
+      expect(ChildPolicy::Scope.new(guardian, ChildEvent).resolve).to eq guardian.children.order(name: :asc)
+    end
+  end
+
   permissions :create? do
     it "denies if child doesn't belong to providers owned daycare" do
       expect(subject).not_to permit(User.new(kind: :provider), Child.new(daycare: daycare))

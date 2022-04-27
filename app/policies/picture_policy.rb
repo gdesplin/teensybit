@@ -16,8 +16,6 @@ class PicturePolicy < ApplicationPolicy
       record.daycare == user.owned_daycare
     elsif user.guardian?
       user.viewable_pictures.exists?(record.id)
-    else
-      false
     end
   end
 
