@@ -9,11 +9,10 @@
         %h1.py-4= current_user.owned_daycare.name
       #children.col-md-6
         .card
-          .card-header
-            %h2.card-title.d-flex
-              Children
-              = link_to 'Invite Parent/Guardian', %i[new user invitation], class: 'btn btn-lg ms-auto btn-danger text-light'
-              = link_to "Add Child", [:new, @daycare, :child], class: "btn btn-secondary ms-auto btn-lg text-light" if @daycare.users.present?
+          .card-header.d-flex.flex-wrap
+            %h2.card-title.me-auto Children
+            = link_to "Invite Parent", %i[new user invitation], class: "btn btn-lg btn-danger text-light mx-2"
+            = link_to "Add Child", [:new, @daycare, :child], class: "btn btn-secondary btn-lg text-light" if @daycare.users.present?
           .card-body
             - if @daycare.children.present?
               .row.row-cols-1.row-cols-lg-3.row-cols-md-2.g-4.mb-3
@@ -45,8 +44,8 @@
             
       #payments.col-md-6
         .card
-          .card-header
-            %h2.card-title.d-flex
+          .card-header.d-flex.flex-wrap
+            %h2.card-title.me-auto
               Payments
               - unless @daycare.stripe_account&.details_submitted&.present?
                 = link_to %i[create_account_link stripe_sessions], class: "stripe-connect  ms-auto", data: { turbo: false }  do
@@ -86,10 +85,9 @@
     .row.mb-4
       #pictures.col-md-6
         .card
-          .card-header
-            %h2.card-title.d-flex
-              Pictures
-              = link_to "Upload Picture", [:new, @daycare, :picture], class: "btn btn-danger ms-auto btn-lg text-light"
+          .card-header.d-flex.flex-wrap
+            %h2.card-title.me-auto Pictures
+            = link_to "Upload Picture", [:new, @daycare, :picture], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
             - if @daycare.pictures.present?
               .row.row-cols-1.row-cols-lg-2.g-4.mb-3
@@ -109,10 +107,9 @@
                 but to tag children (to auto notify their parents) you must first add parents and children.
       #documents.col-md-6
         .card
-          .card-header
-            %h2.card-title.d-flex
-              Documents
-              = link_to "Upload Document", [:new, @daycare, :document], class: "btn btn-danger ms-auto btn-lg text-light"
+          .card-header.d-flex.flex-wrap
+            %h2.card-title.me-auto Documents
+            = link_to "Upload Document", [:new, @daycare, :document], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
             - if @daycare.documents.present?
               .row.row-cols-1.row-cols-lg-2.g-4.mb-3
@@ -136,10 +133,9 @@
     .row.mb-4
       #messages.col-md-6
         .card
-          .card-header
-            %h2.card-title.d-flex 
-              Messages
-              = link_to "Broadcast to Many", [:new, @daycare, :broadcast_message], class: "btn btn-danger ms-auto btn-lg text-light" if @daycare.users.present?
+          .card-header.d-flex.flex-wrap
+            %h2.card-title.me-auto Messages
+            = link_to "Broadcast to Many", [:new, @daycare, :broadcast_message], class: "btn btn-danger ms-auto btn-lg text-light" if @daycare.users.present?
           .card-body
             %ul.list-group.list-group-flush.mb-3
               - if @daycare.users.present?
@@ -159,10 +155,9 @@
 
       #forms.col-md-6
         .card
-          .card-header
-            %h2.card-title.d-flex
-              Forms
-              = link_to "Create Form", [:new, @daycare, :form], class: "btn btn-danger ms-auto btn-lg text-light"
+          .card-header.d-flex.flex-wrap
+            %h2.card-title.me-auto Forms
+            = link_to "Create Form", [:new, @daycare, :form], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
             - if @daycare.forms.present?
               %ul.list-group.list-group-flush.mb-3
@@ -175,10 +170,9 @@
     .row.mb-4
       #messages.col-md-6
         .card
-          .card-header
-            %h2.card-title.d-flex
-              Child Events
-              = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger ms-auto btn-lg text-light"
+          .card-header.d-flex.flex-wrap
+            %h2.card-title.me-auto Child Events
+            = link_to "Add Child Event", [:new, @daycare, :child_event], class: "btn btn-danger ms-auto btn-lg text-light"
           .card-body
             %ul.list-group.list-group-flush.mb-3
               - if @daycare.child_events.present?
