@@ -12,24 +12,24 @@ RSpec.describe "/daycares/{daycare_id}/users", type: :request do
 
   describe "GET /show" do
     it "renders a successful response" do
-      existing_user
-      get daycare_user_path(daycare.id, existing_user.id)
+      user
+      get daycare_user_path(daycare.id, user.id)
       expect(response).to be_successful
     end
   end
 
 
   describe "DELETE /destroy" do
-    before { existing_user }
+    before { user }
 
     it "destroys the requested user" do
       expect {
-        delete daycare_user_path(daycare.id, existing_user.id)
+        delete daycare_user_path(daycare.id, user.id)
       }.to change(User, :count).by(-1)
     end
 
     it "redirects to the users list" do
-      delete daycare_user_path(daycare.id, existing_user.id)
+      delete daycare_user_path(daycare.id, user.id)
       expect(response.code).to redirect_to([:provider_dashboard, :daycares])
     end
   end
