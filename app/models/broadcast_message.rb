@@ -3,12 +3,16 @@ class BroadcastMessage
   include ActiveModel::Model
   include ActiveModel::Callbacks
 
-  attr_accessor :id, :message_body, :recipient_ids, :users, :sender, :messages
+  attr_accessor :id, :message_body, :recipient_ids, :users, :sender_id, :sender, :messages
 
-  validates :message_body, :users, :sender, presence: true
+  validates :message_body, :sender_id, :recipient_ids, presence: true
+
+  def sender
+    @sender ||= User.find(sender_id)
+  end
 
   def users
-    @users ||= User.where(id: recipient_ids)
+    @users ||= sender.owned_daycare.users.where(id: recipient_ids)
   end
   
   def messages
@@ -16,6 +20,8 @@ class BroadcastMessage
   end
 
   def save
+    return false unless valid?
+    
     users.each do |user|
       chat = user.as_guardian_chat
       if chat.blank?

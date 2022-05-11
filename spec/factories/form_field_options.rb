@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :form_field_option do
-    label { "MyString" }
-    value { "MyString" }
+    name { "MyString" }
+    position { 1 }
     form_field { nil }
   end
 end

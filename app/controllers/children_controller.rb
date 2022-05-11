@@ -13,7 +13,7 @@ class ChildrenController < ApplicationController
   end
 
   def create
-    @child = Child.new(safe_params)
+    @child = Child.new(permitted_attributes(Child))
     @child.daycare_id = @daycare.id
     @child.users << current_user if current_user.guardian?
     authorize @child
@@ -28,7 +28,7 @@ class ChildrenController < ApplicationController
   end
 
   def update
-    if @child.update(safe_params)
+    if @child.update(permitted_attributes(Child))
       redirect_to dashboard_path, notice: "Child successfully updated"
     else
       render :edit, status: :unprocessable_entity
@@ -46,15 +46,11 @@ class ChildrenController < ApplicationController
   private
 
   def set_child
-    @child = Child.find(params[:id]) || Child.new(safe_params)
+    @child = Child.find(params[:id]) || Child.new(permitted_attributes(Child))
   end
 
   def set_daycare
     @daycare = Daycare.find(params[:daycare_id])
-  end
-
-  def safe_params
-    params.require(:child).permit(:name, :photo, user_ids: [])
   end
 
   def authorize_child

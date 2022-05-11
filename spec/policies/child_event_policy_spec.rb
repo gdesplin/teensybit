@@ -42,6 +42,21 @@ RSpec.describe ChildEventPolicy, type: :policy do
     end
   end
 
+  permissions :create? do
+    it "denies if child_event doesn't belong to providers owned daycare" do
+      expect(subject).not_to permit(provider, child_event_3)
+    end
+    it "accepts if child_event does belong to providers owned daycare" do
+      expect(subject).to permit(provider, child_event)
+    end
+    it "denies if child_event's guardian doesn't have child" do
+      expect(subject).not_to permit(guardian, child_event_2)
+    end
+    it "accepts if child_event's guardian does have child" do
+      expect(subject).to permit(guardian, child_event)
+    end
+  end
+
   permissions :new? do
     it "denies if provider doesn't have an owned daycare" do
       expect(subject).not_to permit(provider_3, ChildEvent.new)

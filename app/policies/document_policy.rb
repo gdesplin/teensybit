@@ -24,8 +24,6 @@ class DocumentPolicy < ApplicationPolicy
       record.daycare == user.owned_daycare
     elsif user.guardian?
       user.viewable_documents.exists?(record.id)
-    else
-      false
     end
   end
 
@@ -34,8 +32,6 @@ class DocumentPolicy < ApplicationPolicy
       record.daycare == user.owned_daycare
     elsif user.guardian?
       user.viewable_documents.exists?(record.id)
-    else
-      false
     end
   end
 
@@ -44,8 +40,6 @@ class DocumentPolicy < ApplicationPolicy
       record.daycare == user.owned_daycare
     elsif user.guardian?
       user.viewable_documents.exists?(record.id)
-    else
-      false
     end
   end
 

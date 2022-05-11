@@ -1,14 +1,18 @@
 class StripePricesController < ApplicationController
   before_action :set_daycare
-  before_action :set_stripe_price, only: %i[index destroy]
-  before_action :authorize_stripe_price, only: %i[index destroy]
+  before_action :set_stripe_price, only: %i[destroy show]
+  before_action :authorize_stripe_price, only: %i[destroy show]
 
   def index
+    authorize StripePrice
     @stripe_prices = stripe_price_scope
   end
 
   def new
     @stripe_price = StripePrice.new
+  end
+
+  def show
   end
 
   def create
@@ -24,15 +28,15 @@ class StripePricesController < ApplicationController
     authorize_stripe_price
   
     if @stripe_price.save
-      redirect_to dashboard_path, notice: 'Stripe price was successfully created.'
+      redirect_to daycare_stripe_price_path(@daycare.id, @stripe_price.id), notice: 'Payment Plan was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
-    DeactivateStripePriceJob.perform_later(price.stripe_id, @daycare.stripe_account.stripe_id)
-    redirect_to [:provider_dashboard, :daycares], notice: 'Stripe price was successfully destroyed.'
+    DeactivateStripePriceJob.perform_later(@stripe_price.stripe_id, @daycare.stripe_account.stripe_id)
+    redirect_to [:provider_dashboard, :daycares], notice: 'Payment Plan was successfully deactivated.'
   end
 
   private
@@ -55,6 +59,10 @@ class StripePricesController < ApplicationController
 
   def authorize_stripe_price
     authorize @stripe_price
+  end
+
+  def pundit_user
+    DaycareUserContext.new(current_user, @daycare)
   end
 
 end

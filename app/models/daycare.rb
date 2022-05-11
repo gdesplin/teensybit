@@ -9,6 +9,8 @@ class Daycare < ApplicationRecord
   belongs_to :owner, class_name: 'User', foreign_key: :user_id
   has_one :stripe_account
 
+  validates :name, presence: true
+
   def has_active_subscription?
     owner.has_active_subscription?
   end

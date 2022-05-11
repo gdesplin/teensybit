@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :form do
     daycare { nil }
-    title { "MyString" }
-    description { "MyText" }
+    title { Faker::Lorem.unique.word }
+    description { Faker::Lorem.words }
   end
 end

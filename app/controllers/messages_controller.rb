@@ -5,15 +5,6 @@ class MessagesController < ApplicationController
   before_action :set_message, only: %i[show edit update destroy mark_as_read]
   before_action :authorize_message, only: %i[show edit update destroy mark_as_read]
 
-  def show
-    @message = policy_scope(Message).find(params[:id])
-  end
-
-  def new
-    @message = @daycare.messages.new
-    authorize_message
-  end
-
   def create
     @message = @chat.messages.new(permitted_attributes(Message))
     @message.user = current_user
@@ -21,7 +12,7 @@ class MessagesController < ApplicationController
     if @message.save
       render turbo_stream: turbo_stream.prepend(@message.chat, @message)
     else
-      render :new, status: :unprocessable_entity
+      head :unprocessable_entity, content_type: "text/html"
     end
   end
 
@@ -29,10 +20,10 @@ class MessagesController < ApplicationController
   end
 
   def update
-    if @message.update_attributes(permitted_attributes(@message))
+    if @message.update(permitted_attributes(@message))
       render turbo_stream: turbo_stream.update(@message)
     else
-      render :edit, status: :unprocessable_entity
+      head :unprocessable_entity, content_type: "text/html"
     end
   end
 

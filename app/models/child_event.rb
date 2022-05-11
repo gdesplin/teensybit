@@ -4,6 +4,8 @@ class ChildEvent < ApplicationRecord
 
   after_save :message_user
 
+  validates :happened_at, presence: true
+
   private
 
   def message_user

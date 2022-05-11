@@ -1,0 +1,5 @@
+= "#{@name} successfully began an autopayment plan with your daycare!"
+= "Their payment method will be charged #{number_to_currency(@stripe_price.amount)} every #{@stripe_price.recurring["interval_count"] if @stripe_price.recurring["interval_count"].to_i > 1} #{@stripe_price.recurring["interval"].pluralize(@stripe_price.recurring["interval_count"].to_i)}"
+
+Sign In
+!= new_user_session_url

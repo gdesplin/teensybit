@@ -16,11 +16,13 @@ class ChatPolicy < ApplicationPolicy
   end
 
   def create?
-    record.guardian == user || record.provider == user
+    return false if record.guardian.blank?
+
+    (record.guardian == user && record.provider == record.guardian.daycare.owner) ||
+      (record.provider == user && record.provider == record.guardian.daycare.owner)
   end
 
   def permitted_attributes
-    [:provider_id, :guardian_id]
+    [:guardian_id]
   end
-
 end

@@ -6,7 +6,8 @@ class PicturesController < ApplicationController
   before_action :authorize_picture, only: %i[show edit update destroy]
 
   def index
-   @pagy, @pictures = pagy(policy_scope(Picture))
+    authorize Picture
+    @pagy, @pictures = pagy(policy_scope(Picture))
   end
 
   def show
@@ -24,7 +25,7 @@ class PicturesController < ApplicationController
     @picture.user = current_user
     authorize_picture
     if @picture.save
-      redirect_to dashboard_path, notice: "Picture successfully uploaded"
+      redirect_to daycare_picture_path(@daycare, @picture), notice: "Picture successfully uploaded"
     else
       render :new, status: :unprocessable_entity
     end
@@ -35,7 +36,7 @@ class PicturesController < ApplicationController
 
   def update
     if @picture.update(safe_params)
-      redirect_to dashboard_path, notice: "Picture successfully updated"
+      redirect_to daycare_picture_path(@daycare, @picture), notice: "Picture successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
@@ -65,6 +66,10 @@ class PicturesController < ApplicationController
 
   def authorize_picture
     authorize @picture
+  end
+
+  def pundit_user
+    DaycareUserContext.new(current_user, @daycare)
   end
 
 end
