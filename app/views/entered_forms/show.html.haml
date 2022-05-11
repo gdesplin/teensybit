@@ -13,3 +13,6 @@
                 %p.card-text= entered_form_field.answer
                 
           = link_to "Edit", [:edit, @daycare, @entered_form], class: "btn btn-secondary text-light mt-3" if policy(@entered_form).edit?
+          = link_to "Fill Again", new_daycare_entered_form_path(daycare_id: @daycare.id, form_id: @entered_form.form.id),
+            class: "btn btn-secondary text-light mt-3" if policy(@entered_form).new?
+
