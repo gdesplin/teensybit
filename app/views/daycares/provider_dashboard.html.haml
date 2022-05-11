@@ -23,7 +23,7 @@
                       - if child.photo.attached?
                         = image_tag(child.photo.variant(resize_to_fill: [315, 315, gravity: 'center']), class: "card-img-top" )
                       - else
-                        = image_tag("kid-taking-photo", size: "315x315", class: "card-img-top" )
+                        = image_pack_tag("kid-taking-photo.jpg", size: "315x315", class: "card-img-top" )
                       .card-body
                         %h5.card-title= child.name
                         %ul.list-group.list-group-flush

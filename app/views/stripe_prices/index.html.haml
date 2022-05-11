@@ -16,13 +16,13 @@
       %tr
         %td= stripe_price.stripe_id
         %td= stripe_price.active
-        %td= stripe_price.currency
+        %td= stripe_price.amount_currency
         %td= stripe_price.nickname
-        %td= stripe_price.stripe_recurring_id
+        %td= stripe_price.stripe_product_id
+        %td= stripe_price.recurring
         %td= stripe_price.kind
-        %td= stripe_price.unit_amount
-        %td= link_to 'Show', stripe_price
-        %td= link_to 'Edit', edit_stripe_price_path(stripe_price)
-        %td= link_to 'Destroy', stripe_price, method: :delete, data: { confirm: 'Are you sure?' }
+        %td= stripe_price.amount
+        %td= link_to 'Show', [@daycare, stripe_price]
+        %td= link_to 'Destroy', [@daycare, stripe_price], method: :delete, data: { confirm: 'Are you sure?' }
 %br/
-= link_to 'New Stripe Price', new_stripe_price_path
+= link_to 'New Stripe Price', new_daycare_stripe_price_path(@daycare)

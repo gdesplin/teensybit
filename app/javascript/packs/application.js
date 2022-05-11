@@ -8,13 +8,16 @@ import * as ActiveStorage from "@rails/activestorage";
 import "channels";
 import "bootstrap";
 import "@fortawesome/fontawesome-free/css/all";
-import "../stylesheets/application";
-import "../stylesheets/stripe_connect";
+import "src/stylesheets/application";
+import "src/stylesheets/stripe_connect";
+import "src/stylesheets/daycares";
+import "src/stylesheets/home";
 import { Application } from "stimulus"
 import "../controllers"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
 import '@hotwired/turbo-rails'
 require("flatpickr/dist/flatpickr.css")
+const images = require.context('../images', true)
 
 const application = Application.start()
 const context = require.context("../controllers", true, /\.js$/)

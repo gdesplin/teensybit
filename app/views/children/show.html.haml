@@ -3,7 +3,8 @@
     .col-md-6
       .card
         .card
-          = image_tag(@child.photo.variant(resize_to_limit: [555, 555]), class: "img-fluid" )
+          - if @child.photo.attached?
+            = image_tag(@child.photo.variant(resize_to_limit: [555, 555]), class: "img-fluid" )
           .card-body
             %h5.card-title= @child.name
             %li.list-group-item.list-group-item-primary Parents

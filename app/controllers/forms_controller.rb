@@ -31,9 +31,8 @@ class FormsController < ApplicationController
     @form.daycare_id = @daycare.id
     authorize_form
     if @form.save
-      redirect_to dashboard_path, notice: "Form successfully uploaded"
+      redirect_to daycare_form_path(@daycare.id, @form.id), notice: "Form successfully uploaded"
     else
-      puts @form.errors.full_messages
       render :new, status: :unprocessable_entity
     end
   end
@@ -43,7 +42,7 @@ class FormsController < ApplicationController
 
   def update
     if @form.update(safe_params)
-      redirect_to dashboard_path, notice: "Form successfully updated"
+      redirect_to daycare_form_path(@daycare.id, @form.id), notice: "Form successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end

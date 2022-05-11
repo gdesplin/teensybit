@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :child_event do
     child { nil }
     user { nil }
-    happened_at { "2022-03-03 10:11:13" }
+    happened_at { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now) }
     description { "MyText" }
   end
 end

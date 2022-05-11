@@ -1,4 +1,4 @@
-class PicturePolicy < ApplicationPolicy
+class PicturePolicy < DaycareUserContextPolicy
   class Scope < Scope
     def resolve
       if user.provider?
@@ -37,5 +37,13 @@ class PicturePolicy < ApplicationPolicy
 
   def destroy?
     user.provider? && user.owned_daycare.present? && record.daycare == user.owned_daycare
+  end
+
+  def index?
+    if user.provider?
+      user.owned_daycare.present? && user.owned_daycare == daycare
+    elsif user.guardian?
+      user.daycare.present? && user.daycare == daycare
+    end
   end
 end

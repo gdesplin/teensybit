@@ -20,6 +20,6 @@
   %p
     %strong Unit amount:
     = number_to_currency(@stripe_price.amount)
-  = link_to 'Edit', [:edit, @daycare, @stripe_price]
+  = link_to "Delete", [@daycare, @stripe_price], method: :delete, class: "btn btn-danger text-light mt-5", data: { confirm: "Are you sure?"}
   |
   \#{link_to 'Back', [:provider_dashboard, :daycares]}

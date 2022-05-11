@@ -1,9 +1,9 @@
-= simple_form_for([@daycare, @stripe_price]) do |f|
+= simple_form_for([daycare, stripe_price]) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
   .form-inputs
     = f.input :nickname, label: "Name"
-    = f.simple_fields_for :recurring, OpenStruct.new(@stripe_price.recurring) do |field|
+    = f.simple_fields_for :recurring, OpenStruct.new(stripe_price.recurring) do |field|
       .row
         .col-md-2
           = f.label "Recurring Time Period:"

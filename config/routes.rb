@@ -18,7 +18,7 @@ Rails.application.routes.draw do
     resources :forms
     resources :entered_forms
     resources :pictures
-    resources :stripe_prices
+    resources :stripe_prices, except: [:edit]
     resources :users, only: [:show, :destroy]
   
     collection do

@@ -59,4 +59,13 @@ class ChildPolicy < ApplicationPolicy
     end
   end
 
+
+  def permitted_attributes
+    if user.provider?
+      [:name, :photo, user_ids: []]
+    elsif user.guardian?
+      [:name, :photo]
+    end
+  end
+
 end

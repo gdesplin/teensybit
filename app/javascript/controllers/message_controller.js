@@ -14,7 +14,6 @@ export default class extends Controller {
 
   markAsRead() {
     if (this.urlValue && !this.readValue) {
-      console.log("patching")
       patch(this.urlValue)
     }
   }

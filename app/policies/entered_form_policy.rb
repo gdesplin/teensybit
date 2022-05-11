@@ -44,19 +44,15 @@ class EnteredFormPolicy < ApplicationPolicy
   end
 
   def create?
-    if user.provider?
-      user.owned_daycare.present? && user.owned_daycare == record.daycare
-    elsif user.guardian?
-      user.viewable_forms.exists?(record.form.id)
-    end
+    return false unless user.guardian?
+
+    user.viewable_forms.exists?(record.form&.id)
   end
 
   def new?
-    if user.provider?
-      user.owned_daycare.present? && user.owned_daycare == record.daycare
-    elsif user.guardian?
-      user.viewable_forms.exists?(record.form.id)
-    end
+    return false unless user.guardian?
+
+    user.viewable_forms.exists?(record.form.id)
   end
 
   def destroy?

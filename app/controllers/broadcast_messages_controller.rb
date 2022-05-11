@@ -6,7 +6,8 @@ class BroadcastMessagesController < ApplicationController
 
   def create
     @broadcast_message = BroadcastMessage.new(permitted_attributes(BroadcastMessage))
-    @broadcast_message.sender = current_user
+    @broadcast_message.sender_id = current_user.id
+  
     if @broadcast_message.save
       redirect_to dashboard_path
     else

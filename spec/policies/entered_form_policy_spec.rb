@@ -25,9 +25,6 @@ RSpec.describe EnteredFormPolicy, type: :policy do
     it "denies if entered_form doesn't belong to providers owned daycare" do
       expect(subject).not_to permit(alt_provider, entered_form)
     end
-    it "accepts if entered_form does belong to providers owned daycare" do
-      expect(subject).to permit(provider, entered_form)
-    end
     it "denies if entered_form's guardian doesn't belong to daycare" do
       expect(subject).not_to permit(alt_guardian, entered_form)
     end
@@ -39,9 +36,6 @@ RSpec.describe EnteredFormPolicy, type: :policy do
   permissions :new? do
     it "denies if entered_form doesn't belong to providers owned daycare" do
       expect(subject).not_to permit(alt_provider, entered_form)
-    end
-    it "accepts if entered_form does belong to providers owned daycare" do
-      expect(subject).to permit(provider, entered_form)
     end
     it "denies if entered_form's guardian doesn't belong to daycare" do
       expect(subject).not_to permit(alt_guardian, entered_form)

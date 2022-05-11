@@ -24,7 +24,7 @@ class DocumentsController < ApplicationController
     @document.user = current_user
     authorize_document
     if @document.save
-      redirect_to dashboard_path, notice: "Document successfully uploaded"
+      redirect_to daycare_document_path(@daycare, @document), notice: "Document successfully uploaded"
     else
       render :new, status: :unprocessable_entity
     end
@@ -35,7 +35,7 @@ class DocumentsController < ApplicationController
 
   def update
     if @document.update(safe_params)
-      redirect_to dashboard_path, notice: "Document successfully updated"
+      redirect_to daycare_document_path(@daycare, @document), notice: "Document successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end

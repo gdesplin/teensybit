@@ -1,4 +1,12 @@
-class StripePricePolicy < ApplicationPolicy
+class StripePricePolicy < DaycareUserContextPolicy
+
+  def index?
+    user.owned_daycare.present? && user.owned_daycare == daycare
+  end
+
+  def show?
+    user.owned_daycare.present? && user.owned_daycare == record.stripe_product&.stripe_account&.daycare
+  end
 
   def create?
     user.owned_daycare.present? && user.owned_daycare == record.stripe_product&.stripe_account&.daycare

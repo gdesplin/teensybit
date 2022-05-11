@@ -16,31 +16,14 @@ class EnteredFormsController < ApplicationController
     @entered_form = current_user.entered_forms.new(form_id: params[:form_id])
     authorize_entered_form
     build_entered_form
-    respond_to do |entered_format|
-      entered_format.html
-      entered_format.turbo_stream { render turbo_stream: turbo_stream.replace(
-        @entered_form,
-        partial: 'entered_form',
-        locals: { entered_form: @entered_form, daycare: @daycare }
-      ) }
-    end
   end
 
   def create
     @entered_form = policy_scope(EnteredForm).new(safe_params)
     authorize_entered_form
-    if params[:entered_form][:new_entered_form_field_kind].present?
-      @entered_form.entered_form_fields.build(field_kind: params[:entered_form].delete(:new_entered_form_field_kind).to_sym)
-      render :new, status: :unprocessable_entity
-    elsif params[:entered_form][:entered_form_fields_attributes].select { |k, v| v[:new_option].present? }.present?
-      params[:entered_form][:entered_form_fields_attributes].each do |k, v|
-        if v[:new_option].present?
-          @entered_form.entered_form_fields[k.to_i].entered_form_field_options.build(name: v[:new_option])
-        end
-      end
-      render :new, status: :unprocessable_entity
-    elsif @entered_form.save
-      redirect_to dashboard_path, notice: "Form successfully saved"
+    if @entered_form.save
+      redirect_to daycare_entered_form_path(@daycare.id, @entered_form.id),
+        notice: "Form successfully saved"
     else
       render :new, status: :unprocessable_entity
     end
@@ -51,7 +34,8 @@ class EnteredFormsController < ApplicationController
 
   def update
     if @entered_form.update(safe_params)
-      redirect_to dashboard_path, notice: "Form successfully updated"
+      redirect_to daycare_entered_form_path(@daycare.id, @entered_form.id),
+        notice: "Form successfully updated"
     else
       render :edit, status: :unprocessable_entity
     end
