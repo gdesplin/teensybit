@@ -44,6 +44,7 @@ gem 'aws-sdk-s3', require: false
 gem 'pundit'
 gem 'active_storage_validations'
 gem 'pagy', '~> 4.11.0'
+gem 'rollbar'
 
 group :development, :test do
   gem 'capybara'

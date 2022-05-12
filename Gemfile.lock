@@ -319,6 +319,7 @@ GEM
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
+    rollbar (3.3.0)
     rspec-core (3.11.0)
       rspec-support (~> 3.11.0)
     rspec-expectations (3.11.0)
@@ -493,6 +494,7 @@ DEPENDENCIES
   rack-mini-profiler (~> 2.0)
   rails (~> 7.0.2.3)
   redis (~> 4.0)
+  rollbar
   rspec-rails
   rspec-sidekiq
   sass-rails (>= 6)
