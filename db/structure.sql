@@ -394,7 +394,8 @@ CREATE TABLE public.entered_form_fields (
     entered_time time without time zone,
     form_field_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    entered_array character varying[] DEFAULT '{}'::character varying[]
 );
 
 
@@ -2041,6 +2042,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20211104214849'),
 ('20220303171113'),
 ('20220311165157'),
-('20220311165534');
+('20220311165534'),
+('20220523220658');
 
 

@@ -6,14 +6,16 @@ class EnteredFormField < ApplicationRecord
   def answer
     return nil if form_field.field_kind == :file
 
-    if %w[string check_boxes radio_buttons select_box].include?(form_field.field_kind)
+    if %w[string radio_buttons select_box].include?(form_field.field_kind)
       entered_string
     elsif %w[time datetime].include?(form_field.field_kind)
-      entered_time
+      entered_datetime
     elsif form_field.field_kind == "date"
       entered_date
-    elsif form_field.field_kind == :text
+    elsif form_field.field_kind == "text"
       entered_text
+    elsif form_field.field_kind == "check_boxes"
+      entered_array.reject(&:blank?).join(", ")
     end
   end
 end
