@@ -11,6 +11,9 @@
                 %h5.card-title= entered_form_field.form_field.question
                 %p.card-text= entered_form_field.form_field.description
                 %p.card-text= entered_form_field.answer
+                - if entered_form_field.form_field.field_kind == "file" && entered_form_field.attachment.attached?
+                  = link_to "Preview File", rails_blob_path(entered_form_field.attachment, disposition: 'preview'), class: "btn btn-primary text-light mt-3"
+                  = link_to "Download File", rails_blob_path(entered_form_field.attachment, disposition: 'attachment'), class: "btn btn-secondary text-light mt-3"
                 
           = link_to "Edit", [:edit, @daycare, @entered_form], class: "btn btn-secondary text-light mt-3" if policy(@entered_form).edit?
           = link_to "Fill Again", new_daycare_entered_form_path(daycare_id: @daycare.id, form_id: @entered_form.form.id),

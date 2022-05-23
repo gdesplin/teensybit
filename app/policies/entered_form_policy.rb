@@ -15,14 +15,16 @@ class EnteredFormPolicy < ApplicationPolicy
     [
       :form_id,
       entered_form_fields_attributes: [
+        :attachment,
         :id,
+        :entered_date,
+        :entered_datetime,
         :entered_form_id,
         :entered_string,
         :entered_text,
-        :entered_datetime,
-        :entered_date,
         :entered_time,
-        :form_field_id
+        :form_field_id,
+        entered_array: []
       ]
     ]
   end
