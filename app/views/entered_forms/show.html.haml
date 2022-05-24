@@ -6,6 +6,8 @@
           %h5.card-title= @entered_form.form.title
           %p.card-text= @entered_form.form.description
           - @entered_form.entered_form_fields.each do |entered_form_field|
+            - next if entered_form_field.form_field.blank?
+
             .card
               .card-body
                 %h5.card-title= entered_form_field.form_field.question
