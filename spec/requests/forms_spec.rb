@@ -53,6 +53,12 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
         post daycare_forms_path(daycare.id), params: { form: attributes }
         expect(response.code).to eq "302"
       end
+
+      it "saves progress, renders edit" do
+        post daycare_forms_path(daycare.id), params: { form: attributes, commit: "Save Progress" }
+        expect(response.code).to eq "200"
+      end
+
     end
 
     context "with invalid parameters" do
@@ -90,6 +96,12 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
         patch daycare_form_path(daycare.id, existing_form.id),
               params: { form: new_attributes }
         expect(response).to redirect_to(daycare_form_path(daycare.id, existing_form.id))
+      end
+
+       it "redirects to the edit form" do
+        patch daycare_form_path(daycare.id, existing_form.id),
+              params: { form: new_attributes, commit: "Save Progress" }
+        expect(response.code).to eq "200"
       end
     end
 
