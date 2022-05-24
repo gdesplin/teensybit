@@ -8,6 +8,8 @@
   = simple_form_for([@daycare, @entered_form]) do |f|
     = f.input :form_id, as: :hidden
     - @entered_form.entered_form_fields.each do |entered_form_field|
+      - next if entered_form_field.form_field.blank?
+
       .card.my-3
         .card-body
           %h5.card-title= entered_form_field.form_field.question
