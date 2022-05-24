@@ -19,7 +19,7 @@ class FormsController < ApplicationController
     respond_to do |format|
       format.html
       format.turbo_stream { render turbo_stream: turbo_stream.replace(
-        @form,
+        "new_form",
         partial: 'form',
         locals: { form: @form, daycare: @daycare }
       ) }
@@ -31,7 +31,15 @@ class FormsController < ApplicationController
     @form.daycare_id = @daycare.id
     authorize_form
     if @form.save
-      redirect_to daycare_form_path(@daycare.id, @form.id), notice: "Form successfully uploaded"
+      if params[:commit] == "Save Progress"
+        render turbo_stream: turbo_stream.replace(
+          "new_form",
+          partial: 'form',
+          locals: { form: @form, daycare: @daycare }
+        )
+      else
+        redirect_to daycare_form_path(@daycare.id, @form.id), notice: "Form successfully uploaded"
+      end
     else
       render :new, status: :unprocessable_entity
     end
@@ -42,7 +50,15 @@ class FormsController < ApplicationController
 
   def update
     if @form.update(safe_params)
-      redirect_to daycare_form_path(@daycare.id, @form.id), notice: "Form successfully updated"
+      if params[:commit] == "Save Progress"
+        render turbo_stream: turbo_stream.replace(
+          "edit_form_#{@form.id}",
+          partial: 'form',
+          locals: { form: @form, daycare: @daycare }
+        )
+      else
+        redirect_to daycare_form_path(@daycare.id, @form.id), notice: "Form successfully updated"
+      end
     else
       render :edit, status: :unprocessable_entity
     end
@@ -67,13 +83,7 @@ class FormsController < ApplicationController
   end
 
   def safe_params
-    params.require(:form).permit(
-      :title,
-      :description,
-      :published_to_daycare,
-      form_fields_attributes: [:id, :_destroy, :form_id, :question, :description, :position, :required, :field_kind, form_field_options_attributes: [:id, :_destroy, :name, :position]],
-      user_ids: []
-    )
+    params.require(:form).permit(policy(Form).permitted_attributes)
   end
 
   def authorize_form

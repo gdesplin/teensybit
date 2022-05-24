@@ -28,4 +28,14 @@ class FormPolicy < ApplicationPolicy
   def destroy?
     user.provider? && user.owned_daycare.present? && record.daycare == user.owned_daycare
   end
+
+  def permitted_attributes
+    [
+      :title,
+      :description,
+      :published_to_daycare,
+      form_fields_attributes: [:id, :_destroy, :form_id, :question, :description, :position, :required, :field_kind, form_field_options_attributes: [:id, :_destroy, :name, :position]],
+      user_ids: []
+    ]
+  end
 end
