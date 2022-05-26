@@ -34,7 +34,17 @@ class FormPolicy < ApplicationPolicy
       :title,
       :description,
       :published_to_daycare,
-      form_fields_attributes: [:id, :_destroy, :form_id, :question, :description, :position, :required, :field_kind, form_field_options_attributes: [:id, :_destroy, :name, :position]],
+      form_fields_attributes: [
+        :id,
+        :_destroy,
+        :form_id,
+        :question,
+        :description,
+        :position,
+        :required,
+        :field_kind,
+        form_field_options_attributes: [:id, :_destroy, :name, :position]
+      ],
       user_ids: []
     ]
   end
