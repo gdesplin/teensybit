@@ -6,7 +6,7 @@
   .form_fields{ data: { controller: "nested-form" } }
     = render partial: "form_fields/templates", locals: { f: f }
     .orderable{ data: { controller: "sortable",
-      sortable_selector_value: ".form_question",
+      sortable_selector_value: ".form_form_fields_position",
       action: "nested-form:addAssociation@window->sortable#listen",
       nested_form_target: "insertElement" } }
       - @form.form_fields.each do |form_field|

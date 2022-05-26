@@ -1,7 +1,6 @@
 .card.my-3.form_question
   .card-body
     %h5.card-title= name
-    = form_fields_form.input :field_kind, as: :hidden
     = form_fields_form.input :question
     = form_fields_form.input :description
     .card.my-3
@@ -20,6 +19,7 @@
           = link_to "Add #{name} Option", "#", class: "btn btn-primary mt-3", data: { action: "click->nested-form#addAssociation" }
 
     = form_fields_form.input :required
+    = form_fields_form.input :field_kind, as: :hidden
     = form_fields_form.input :position, as: :hidden
     = form_fields_form.input :_destroy, as: :hidden
     = link_to "#", class: "btn btn-sm btn-danger text-white",
