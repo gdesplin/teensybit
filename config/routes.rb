@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :stripe_webhooks, only: :create do
     post :connect, on: :collection
   end
+  get 'sitemap.xml.gz', :to => 'home#sitemap'
   get 'terms', :to => 'home#terms'
   get 'privacy_policy', :to => 'home#privacy_policy'
   get 'check_email', :to => 'home#check_email'
