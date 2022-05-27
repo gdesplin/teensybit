@@ -46,6 +46,7 @@ gem 'active_storage_validations'
 gem 'pagy', '~> 4.11.0'
 gem 'rollbar'
 gem 'friendly_id', '~> 5.4.0'
+gem 'sitemap_generator'
 
 group :development, :test do
   gem 'capybara'
