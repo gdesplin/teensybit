@@ -50,7 +50,7 @@ class ChildrenController < ApplicationController
   end
 
   def set_daycare
-    @daycare = Daycare.find(params[:daycare_id])
+    @daycare = Daycare.friendly.find(params[:daycare_id])
   end
 
   def authorize_child

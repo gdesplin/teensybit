@@ -18,7 +18,7 @@ RSpec.describe "/daycares/{daycare_id}/broadcast_messages", type: :request do
 
   describe "GET /new" do
     it "renders a successful response" do
-      get new_daycare_broadcast_message_path(daycare.id)
+      get new_daycare_broadcast_message_path(daycare.friendly_id)
       expect(response).to be_successful
     end
   end
@@ -28,12 +28,12 @@ RSpec.describe "/daycares/{daycare_id}/broadcast_messages", type: :request do
 
       it "creates a new broadcast_message" do
         expect {
-          post daycare_broadcast_messages_path(daycare.id), params: { broadcast_message: attributes }
+          post daycare_broadcast_messages_path(daycare.friendly_id), params: { broadcast_message: attributes }
         }.to change(Message, :count).by(1)
       end
 
       it "redirects to the created broadcast_message" do
-        post daycare_broadcast_messages_path(daycare.id), params: { broadcast_message: attributes }
+        post daycare_broadcast_messages_path(daycare.friendly_id), params: { broadcast_message: attributes }
         expect(response.code).to eq "302"
       end
     end
@@ -43,12 +43,12 @@ RSpec.describe "/daycares/{daycare_id}/broadcast_messages", type: :request do
 
       it "does not create a new broadcast_message" do
         expect {
-          post daycare_broadcast_messages_path(daycare.id), params: { broadcast_message: attributes }
+          post daycare_broadcast_messages_path(daycare.friendly_id), params: { broadcast_message: attributes }
         }.to change(Message, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post daycare_broadcast_messages_path(daycare.id), params: { broadcast_message: attributes }
+        post daycare_broadcast_messages_path(daycare.friendly_id), params: { broadcast_message: attributes }
         expect(response.code).to eq "422"
       end
     end

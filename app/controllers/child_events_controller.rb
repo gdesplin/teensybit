@@ -50,7 +50,7 @@ class ChildEventsController < ApplicationController
   private
 
   def set_daycare
-    @daycare = Daycare.find(params[:daycare_id])
+    @daycare = Daycare.friendly.find(params[:daycare_id])
   end
 
   def set_child_event

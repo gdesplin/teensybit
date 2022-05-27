@@ -24,14 +24,14 @@ RSpec.describe "/daycares/{daycare_id}/documents", type: :request do
 
   describe "GET #index" do
     it "renders a successful response" do
-      get daycare_documents_path(daycare.id)
+      get daycare_documents_path(daycare.friendly_id)
       expect(response).to be_successful
     end
   end
 
   describe "GET /new" do
     it "renders a successful response" do
-      get new_daycare_document_path(daycare.id, existing_document.id)
+      get new_daycare_document_path(daycare.friendly_id, existing_document.id)
       expect(response).to be_successful
     end
   end
@@ -39,7 +39,7 @@ RSpec.describe "/daycares/{daycare_id}/documents", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       existing_document
-      get daycare_document_path(daycare.id, existing_document.id)
+      get daycare_document_path(daycare.friendly_id, existing_document.id)
       expect(response).to be_successful
     end
   end
@@ -47,7 +47,7 @@ RSpec.describe "/daycares/{daycare_id}/documents", type: :request do
   describe "GET /edit" do
     it "render a successful response" do
       existing_document
-      get edit_daycare_document_path(daycare.id, existing_document.id)
+      get edit_daycare_document_path(daycare.friendly_id, existing_document.id)
       expect(response).to be_successful
     end
   end
@@ -57,12 +57,12 @@ RSpec.describe "/daycares/{daycare_id}/documents", type: :request do
 
       it "creates a new document" do
         expect {
-          post daycare_documents_path(daycare.id), params: { document: attributes }
+          post daycare_documents_path(daycare.friendly_id), params: { document: attributes }
         }.to change(Document, :count).by(1)
       end
 
       it "redirects to the created document" do
-        post daycare_documents_path(daycare.id), params: { document: attributes }
+        post daycare_documents_path(daycare.friendly_id), params: { document: attributes }
         expect(response.code).to eq "302"
       end
     end
@@ -72,12 +72,12 @@ RSpec.describe "/daycares/{daycare_id}/documents", type: :request do
 
       it "does not create a new document" do
         expect {
-          post daycare_documents_path(daycare.id), params: { document: attributes }
+          post daycare_documents_path(daycare.friendly_id), params: { document: attributes }
         }.to change(Document, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post daycare_documents_path(daycare.id), params: { document: attributes }
+        post daycare_documents_path(daycare.friendly_id), params: { document: attributes }
         expect(response.code).to eq "422"
       end
     end
@@ -92,16 +92,16 @@ RSpec.describe "/daycares/{daycare_id}/documents", type: :request do
       let(:new_title) { Faker::Lorem.unique.word }
 
       it "updates the requested document" do
-        patch daycare_document_path(daycare.id, existing_document.id),
+        patch daycare_document_path(daycare.friendly_id, existing_document.id),
               params: { document: new_attributes }
         existing_document.reload
         expect(response.code).to eq "302"
       end
 
       it "redirects to the document" do
-        patch daycare_document_path(daycare.id, existing_document.id),
+        patch daycare_document_path(daycare.friendly_id, existing_document.id),
               params: { document: new_attributes }
-        expect(response).to redirect_to(daycare_document_path(daycare.id, existing_document.id))
+        expect(response).to redirect_to(daycare_document_path(daycare.friendly_id, existing_document.id))
       end
     end
 
@@ -109,7 +109,7 @@ RSpec.describe "/daycares/{daycare_id}/documents", type: :request do
       let(:new_attributes) { { document: nil } }
 
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        patch daycare_document_path(daycare.id, existing_document.id),
+        patch daycare_document_path(daycare.friendly_id, existing_document.id),
               params: { document: new_attributes }
         expect(response.code).to eq "422"
       end
@@ -121,12 +121,12 @@ RSpec.describe "/daycares/{daycare_id}/documents", type: :request do
 
     it "destroys the requested document" do
       expect {
-        delete daycare_document_path(daycare.id, existing_document.id)
+        delete daycare_document_path(daycare.friendly_id, existing_document.id)
       }.to change(Document, :count).by(-1)
     end
 
     it "redirects to the documents list" do
-      delete daycare_document_path(daycare.id, existing_document.id)
+      delete daycare_document_path(daycare.friendly_id, existing_document.id)
       expect(response.code).to redirect_to([:provider_dashboard, :daycares])
     end
   end

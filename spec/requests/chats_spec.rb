@@ -19,7 +19,7 @@ RSpec.describe "/daycares/{daycare_id}/chats", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       existing_chat
-      get daycare_chat_path(daycare.id, existing_chat.id)
+      get daycare_chat_path(daycare.friendly_id, existing_chat.id)
       expect(response).to be_successful
     end
   end
@@ -29,12 +29,12 @@ RSpec.describe "/daycares/{daycare_id}/chats", type: :request do
 
       it "creates a new chat" do
         expect {
-          post daycare_chats_path(daycare.id), params: { chat: attributes }
+          post daycare_chats_path(daycare.friendly_id), params: { chat: attributes }
         }.to change(Chat, :count).by(1)
       end
 
       it "redirects to the created chat" do
-        post daycare_chats_path(daycare.id), params: { chat: attributes }
+        post daycare_chats_path(daycare.friendly_id), params: { chat: attributes }
         expect(response.code).to eq "302"
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe "/daycares/{daycare_id}/chats", type: :request do
 
       it "does not create a new chat" do
         expect {
-          post daycare_chats_path(daycare.id), params: { chat: attributes }
+          post daycare_chats_path(daycare.friendly_id), params: { chat: attributes }
         }.to raise_error(Pundit::NotAuthorizedError)
       end
     end

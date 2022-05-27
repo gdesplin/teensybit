@@ -1,12 +1,13 @@
 FactoryBot.define do
   factory :daycare do
-    address {"ToFactory: RubyParser exception parsing this attribute"}
-    address_two {""}
-    city {"Washington"}
-    name {"Red Rock Daycare"}
-    phone {"4353130549"}
-    state {"UT"}
-    user_id {nil}
-    zip {"84780"}
+    address { Faker::Address.street_address }
+    address_two { Faker::Address.secondary_address }
+    city { Faker::Address.city }
+    name { Faker::Company.name }
+    phone { Faker::PhoneNumber.cell_phone }
+    state { Faker::Address.state_abbr }
+    user_id { nil }
+    zip { Faker::Address.zip }
+    slug { nil }
   end
 end

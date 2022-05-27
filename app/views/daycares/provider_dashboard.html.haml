@@ -7,6 +7,9 @@
     .row.mb-4
       .col-12.bg-primary.rounded.text-center.my-3.text-light
         %h1.py-4= current_user.owned_daycare.name
+        %p 
+          Your public Teensybit website
+          = link_to daycare_url(@daycare.friendly_id), daycare_url(@daycare.friendly_id), class: "link-light"
       #children.col-md-6
         .card
           .card-header.d-flex.flex-wrap
@@ -82,6 +85,11 @@
                 To get started, you must click "Connect With Stripe" 
                 to get set up with Stripe so that you can begin creating payment plans.
                 Then parents you've already added can sign in and enter their payment information for the plan.
+              %p.fw-bold
+                Important: You will need public website to sign up with stripe. You can use the one we created for you if you don't have one.
+                .fw-bolder= daycare_url(@daycare.friendly_id)
+
+                
     .row.mb-4
       #pictures.col-md-6
         .card

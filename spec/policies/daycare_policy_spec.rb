@@ -7,6 +7,21 @@ RSpec.describe DaycarePolicy, type: :policy do
 
   subject { described_class }
 
+  permissions :show? do
+    it "accepts if not authenticated" do
+      expect(subject).to permit(nil, daycare)
+    end
+    it "accepts if daycare doesn't belong to provider" do
+      expect(subject).to permit(User.new(kind: :provider), daycare)
+    end
+    it "accepts if daycare does belong to provider" do
+      expect(subject).to permit(provider, daycare)
+    end
+    it "accepts if a guardian tries to view providers show" do
+      expect(subject).to permit(guardian, daycare)
+    end
+  end
+
   permissions :provider_dashboard? do
     it "denies if daycare doesn't belong to provider" do
       expect(subject).not_to permit(User.new(kind: :provider), daycare)

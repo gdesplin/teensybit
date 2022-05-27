@@ -1,0 +1,36 @@
+%main
+  %section.py-5.text-center.container
+    .row.py-lg-5
+      .col-lg-6.col-md-8.mx-auto
+        %h1.fw-light= @daycare.name
+        - if @daycare.city.present? || @daycare.state.present?
+          %h3.fw-light= "Right here in #{[@daycare.city, @daycare.state].compact_blank.join(", ")}"
+        %p.lead.text-muted As part of our amazing daycare service, we use the top of the line child care software, Teensybit, to ease our interactions with you.
+        %p.lead.text-muted All so we can focus on your kids!
+        %p
+          - if current_user && (current_user.daycare == @daycare || current_user.owned_daycare == @daycare)
+            = link_to "View Dashboard", dashboard_path, class: "btn btn-primary my-2"
+          - else
+            = link_to "Sign In", %i[new user session], class: "btn btn-primary my-2"
+          - if @daycare.phone.present?
+            = link_to @daycare.phone, "tel:#{@daycare.phone}", class: "btn btn-secondary my-2"
+  .album.py-5.bg-light
+    .container.marketing
+      / Three columns of text below the carousel
+      .row
+        .col-lg-4
+          %i.fas.fa-money-bill-wave.fa-10x.text-success
+          %h2 Auto Payments
+          %p= "Here at #{@daycare.name} we can take advantage of technology to automate your payments."
+        / /.col-lg-4
+        .col-lg-4
+          %i.fas.fa-file-alt.fa-10x.text-warning
+          %h2 Online Paperwork
+          %p We can do all our paperwork online using our daycare software. That way we all have constant access and can easily fill it out.
+        / /.col-lg-4
+        .col-lg-4
+          %i.fas.fa-comments.fa-10x.text-primary
+          %h2 Sharing & Messaging
+          %p With privacy in mind, we don't rely on social media platforms to share photos, updates and messages. We can even help you keep track of diapers and feedings with Teensybit.
+        / /.col-lg-4
+      / /.row

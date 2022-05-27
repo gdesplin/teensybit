@@ -14,8 +14,35 @@ RSpec.describe "/daycares", type: :request do
   let!(:daycare) { create(:daycare, user_id: current_user.id) }
   let(:existing_daycare) { create(:daycare, name: name, owner: provider) }
 
+  let(:stripe_customer) { create(:stripe_customer, user: provider) }
+  let(:stripe_subscription) { create(:stripe_subscription, stripe_customer: stripe_customer, status: :active) }
+
   before do
     sign_in current_user
+  end
+
+  describe "GET /show" do
+    it "renders a successful response" do
+      existing_daycare
+      stripe_customer
+      stripe_subscription
+      get daycare_path(existing_daycare.friendly_id)
+      expect(response).to be_successful
+    end
+  end
+
+
+  describe "GET /show signed out" do
+    before do
+      sign_out current_user
+    end
+    it "renders a successful response" do
+      existing_daycare
+      stripe_customer
+      stripe_subscription
+      get daycare_path(existing_daycare.friendly_id)
+      expect(response).to be_successful
+    end
   end
 
   describe "GET /new" do

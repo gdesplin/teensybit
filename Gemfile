@@ -45,6 +45,7 @@ gem 'pundit'
 gem 'active_storage_validations'
 gem 'pagy', '~> 4.11.0'
 gem 'rollbar'
+gem 'friendly_id', '~> 5.4.0'
 
 group :development, :test do
   gem 'capybara'
