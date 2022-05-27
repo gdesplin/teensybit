@@ -1,5 +1,9 @@
 class DaycarePolicy < ApplicationPolicy
 
+  def show?
+    true
+  end
+
   def edit?
     user.owned_daycare == record
   end

@@ -1,6 +1,11 @@
 class DaycaresController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :show
   before_action :authenticate_provider!, only: %i[new create edit update]
+
+  def show
+    @daycare = Daycare.friendly.find(params[:id])
+    redirect_to :root if !@daycare.has_active_subscription?
+  end
 
   def provider_dashboard
     @daycare = Daycare.find_by(user_id: current_user.id)

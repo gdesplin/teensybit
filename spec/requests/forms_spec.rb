@@ -19,7 +19,7 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
 
   describe "GET /new" do
     it "renders a successful response" do
-      get new_daycare_form_path(daycare.id)
+      get new_daycare_form_path(daycare.friendly_id)
       expect(response).to be_successful
     end
   end
@@ -27,7 +27,7 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       existing_form
-      get daycare_form_path(daycare.id, existing_form.id)
+      get daycare_form_path(daycare.friendly_id, existing_form.id)
       expect(response).to be_successful
     end
   end
@@ -35,7 +35,7 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
   describe "GET /edit" do
     it "render a successful response" do
       existing_form
-      get edit_daycare_form_path(daycare.id, existing_form.id)
+      get edit_daycare_form_path(daycare.friendly_id, existing_form.id)
       expect(response).to be_successful
     end
   end
@@ -45,17 +45,17 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
 
       it "creates a new form" do
         expect {
-          post daycare_forms_path(daycare.id), params: { form: attributes }
+          post daycare_forms_path(daycare.friendly_id), params: { form: attributes }
         }.to change(Form, :count).by(1)
       end
 
       it "redirects to the created form" do
-        post daycare_forms_path(daycare.id), params: { form: attributes }
+        post daycare_forms_path(daycare.friendly_id), params: { form: attributes }
         expect(response.code).to eq "302"
       end
 
       it "saves progress, renders edit" do
-        post daycare_forms_path(daycare.id), params: { form: attributes, commit: "Save Progress" }
+        post daycare_forms_path(daycare.friendly_id), params: { form: attributes, commit: "Save Progress" }
         expect(response.code).to eq "200"
       end
 
@@ -66,12 +66,12 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
 
       it "does not create a new form" do
         expect {
-          post daycare_forms_path(daycare.id), params: { form: attributes }
+          post daycare_forms_path(daycare.friendly_id), params: { form: attributes }
         }.to change(Form, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post daycare_forms_path(daycare.id), params: { form: attributes }
+        post daycare_forms_path(daycare.friendly_id), params: { form: attributes }
         expect(response.code).to eq "422"
       end
     end
@@ -86,20 +86,20 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
       let(:new_title) { Faker::Lorem.unique.word }
 
       it "updates the requested form" do
-        patch daycare_form_path(daycare.id, existing_form.id),
+        patch daycare_form_path(daycare.friendly_id, existing_form.id),
               params: { form: new_attributes }
         existing_form.reload
         expect(response.code).to eq "302"
       end
 
       it "redirects to the form" do
-        patch daycare_form_path(daycare.id, existing_form.id),
+        patch daycare_form_path(daycare.friendly_id, existing_form.id),
               params: { form: new_attributes }
-        expect(response).to redirect_to(daycare_form_path(daycare.id, existing_form.id))
+        expect(response).to redirect_to(daycare_form_path(daycare.friendly_id, existing_form.id))
       end
 
        it "redirects to the edit form" do
-        patch daycare_form_path(daycare.id, existing_form.id),
+        patch daycare_form_path(daycare.friendly_id, existing_form.id),
               params: { form: new_attributes, commit: "Save Progress" }
         expect(response.code).to eq "200"
       end
@@ -109,7 +109,7 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
       let(:new_title) { "" }
 
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        patch daycare_form_path(daycare.id, existing_form.id),
+        patch daycare_form_path(daycare.friendly_id, existing_form.id),
               params: { form: new_attributes }
         expect(response.code).to eq "422"
       end
@@ -121,12 +121,12 @@ RSpec.describe "/daycares/{daycare_id}/forms", type: :request do
 
     it "destroys the requested form" do
       expect {
-        delete daycare_form_path(daycare.id, existing_form.id)
+        delete daycare_form_path(daycare.friendly_id, existing_form.id)
       }.to change(Form, :count).by(-1)
     end
 
     it "redirects to the forms list" do
-      delete daycare_form_path(daycare.id, existing_form.id)
+      delete daycare_form_path(daycare.friendly_id, existing_form.id)
       expect(response.code).to redirect_to([:provider_dashboard, :daycares])
     end
   end

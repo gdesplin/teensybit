@@ -312,7 +312,8 @@ CREATE TABLE public.daycares (
     zip character varying,
     phone character varying,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    slug character varying
 );
 
 
@@ -561,6 +562,39 @@ CREATE TABLE public.forms_users (
     form_id bigint NOT NULL,
     user_id bigint NOT NULL
 );
+
+
+--
+-- Name: friendly_id_slugs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.friendly_id_slugs (
+    id bigint NOT NULL,
+    slug character varying NOT NULL,
+    sluggable_id integer NOT NULL,
+    sluggable_type character varying(50),
+    scope character varying,
+    created_at timestamp(6) without time zone
+);
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.friendly_id_slugs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: friendly_id_slugs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.friendly_id_slugs_id_seq OWNED BY public.friendly_id_slugs.id;
 
 
 --
@@ -1137,6 +1171,13 @@ ALTER TABLE ONLY public.forms ALTER COLUMN id SET DEFAULT nextval('public.forms_
 
 
 --
+-- Name: friendly_id_slugs id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs ALTER COLUMN id SET DEFAULT nextval('public.friendly_id_slugs_id_seq'::regclass);
+
+
+--
 -- Name: messages id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -1341,6 +1382,14 @@ ALTER TABLE ONLY public.forms
 
 
 --
+-- Name: friendly_id_slugs friendly_id_slugs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.friendly_id_slugs
+    ADD CONSTRAINT friendly_id_slugs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: messages messages_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1529,6 +1578,13 @@ CREATE INDEX index_children_users_on_user_id ON public.children_users USING btre
 
 
 --
+-- Name: index_daycares_on_slug; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_daycares_on_slug ON public.daycares USING btree (slug);
+
+
+--
 -- Name: index_documents_on_daycare_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1638,6 +1694,27 @@ CREATE UNIQUE INDEX index_forms_on_daycare_id_and_title ON public.forms USING bt
 --
 
 CREATE UNIQUE INDEX index_forms_users_on_form_id_and_user_id ON public.forms_users USING btree (form_id, user_id);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type ON public.friendly_id_slugs USING btree (slug, sluggable_type);
+
+
+--
+-- Name: index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope ON public.friendly_id_slugs USING btree (slug, sluggable_type, scope);
+
+
+--
+-- Name: index_friendly_id_slugs_on_sluggable_type_and_sluggable_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_friendly_id_slugs_on_sluggable_type_and_sluggable_id ON public.friendly_id_slugs USING btree (sluggable_type, sluggable_id);
 
 
 --
@@ -2043,6 +2120,8 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220303171113'),
 ('20220311165157'),
 ('20220311165534'),
-('20220523220658');
+('20220523220658'),
+('20220526213823'),
+('20220526213837');
 
 

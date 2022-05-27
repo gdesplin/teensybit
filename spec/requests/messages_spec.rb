@@ -22,7 +22,7 @@ RSpec.describe "/daycares/{daycare_id}/messages", type: :request do
   describe "GET /edit" do
     it "render a successful response" do
       existing_message
-      get edit_daycare_chat_message_path(daycare.id, chat.id, existing_message.id)
+      get edit_daycare_chat_message_path(daycare.friendly_id, chat.id, existing_message.id)
       expect(response).to be_successful
     end
   end
@@ -32,12 +32,12 @@ RSpec.describe "/daycares/{daycare_id}/messages", type: :request do
 
       it "creates a new message" do
         expect {
-          post daycare_chat_messages_path(daycare.id, chat.id), params: { message: attributes }
+          post daycare_chat_messages_path(daycare.friendly_id, chat.id), params: { message: attributes }
         }.to change(Message, :count).by(1)
       end
 
       it "redirects to the created message" do
-        post daycare_chat_messages_path(daycare.id, chat.id), params: { message: attributes }
+        post daycare_chat_messages_path(daycare.friendly_id, chat.id), params: { message: attributes }
         expect(response.code).to eq "200"
       end
     end
@@ -47,12 +47,12 @@ RSpec.describe "/daycares/{daycare_id}/messages", type: :request do
 
       it "does not create a new message" do
         expect {
-          post daycare_chat_messages_path(daycare.id, chat.id), params: { message: attributes }
+          post daycare_chat_messages_path(daycare.friendly_id, chat.id), params: { message: attributes }
         }.to change(Message, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post daycare_chat_messages_path(daycare.id, chat.id), params: { message: attributes }
+        post daycare_chat_messages_path(daycare.friendly_id, chat.id), params: { message: attributes }
         expect(response.code).to eq "422"
       end
     end
@@ -67,14 +67,14 @@ RSpec.describe "/daycares/{daycare_id}/messages", type: :request do
       let(:new_message_body) { Faker::Lorem.unique.sentence }
 
       it "updates the requested message" do
-        patch daycare_chat_message_path(daycare.id, chat.id, existing_message.id),
+        patch daycare_chat_message_path(daycare.friendly_id, chat.id, existing_message.id),
               params: { message: new_attributes }
         existing_message.reload
         expect(existing_message.message_body).to eq new_message_body
       end
 
       it "redirects to the message" do
-        patch daycare_chat_message_path(daycare.id, chat.id, existing_message.id),
+        patch daycare_chat_message_path(daycare.friendly_id, chat.id, existing_message.id),
               params: { message: new_attributes }
         expect(response.media_type).to eq Mime[:turbo_stream]
       end
@@ -84,7 +84,7 @@ RSpec.describe "/daycares/{daycare_id}/messages", type: :request do
       let(:new_message_body) { "" }
 
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        patch daycare_chat_message_path(daycare.id, chat.id, existing_message.id),
+        patch daycare_chat_message_path(daycare.friendly_id, chat.id, existing_message.id),
               params: { message: new_attributes }
         expect(response.code).to eq "422"
       end

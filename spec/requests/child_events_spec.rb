@@ -20,7 +20,7 @@ RSpec.describe "/daycares/{daycare_id}/child_events", type: :request do
 
   describe "GET /new" do
     it "renders a successful response" do
-      get new_daycare_child_event_path(daycare.id)
+      get new_daycare_child_event_path(daycare.friendly_id)
       expect(response).to be_successful
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe "/daycares/{daycare_id}/child_events", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       existing_child_event
-      get daycare_child_event_path(daycare.id, existing_child_event.id)
+      get daycare_child_event_path(daycare.friendly_id, existing_child_event.id)
       expect(response).to be_successful
     end
   end
@@ -36,7 +36,7 @@ RSpec.describe "/daycares/{daycare_id}/child_events", type: :request do
   describe "GET /edit" do
     it "render a successful response" do
       existing_child_event
-      get edit_daycare_child_event_path(daycare.id, existing_child_event.id)
+      get edit_daycare_child_event_path(daycare.friendly_id, existing_child_event.id)
       expect(response).to be_successful
     end
   end
@@ -46,12 +46,12 @@ RSpec.describe "/daycares/{daycare_id}/child_events", type: :request do
 
       it "creates a new child_event" do
         expect {
-          post daycare_child_events_path(daycare.id), params: { child_event: attributes }
+          post daycare_child_events_path(daycare.friendly_id), params: { child_event: attributes }
         }.to change(ChildEvent, :count).by(1)
       end
 
       it "redirects to the created child_event" do
-        post daycare_child_events_path(daycare.id), params: { child_event: attributes }
+        post daycare_child_events_path(daycare.friendly_id), params: { child_event: attributes }
         expect(response.code).to redirect_to([:provider_dashboard, :daycares])
       end
     end
@@ -61,12 +61,12 @@ RSpec.describe "/daycares/{daycare_id}/child_events", type: :request do
 
       it "does not create a new child_event" do
         expect {
-          post daycare_child_events_path(daycare.id), params: { child_event: attributes }
+          post daycare_child_events_path(daycare.friendly_id), params: { child_event: attributes }
         }.to change(ChildEvent, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post daycare_child_events_path(daycare.id), params: { child_event: attributes }
+        post daycare_child_events_path(daycare.friendly_id), params: { child_event: attributes }
         expect(response.code).to eq "422"
       end
     end
@@ -81,14 +81,14 @@ RSpec.describe "/daycares/{daycare_id}/child_events", type: :request do
       let(:new_happened_at) { Faker::Time.between(from: DateTime.now - 1, to: DateTime.now) }
 
       it "updates the requested child_event" do
-        patch daycare_child_event_path(daycare.id, existing_child_event.id),
+        patch daycare_child_event_path(daycare.friendly_id, existing_child_event.id),
               params: { child_event: new_attributes }
         existing_child_event.reload
         expect(response.code).to redirect_to([:provider_dashboard, :daycares])
       end
 
       it "redirects to the child_event" do
-        patch daycare_child_event_path(daycare.id, existing_child_event.id),
+        patch daycare_child_event_path(daycare.friendly_id, existing_child_event.id),
               params: { child_event: new_attributes }
         expect(response).to redirect_to([:provider_dashboard, :daycares])
       end
@@ -98,7 +98,7 @@ RSpec.describe "/daycares/{daycare_id}/child_events", type: :request do
       let(:new_happened_at) { "" }
 
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        patch daycare_child_event_path(daycare.id, existing_child_event.id),
+        patch daycare_child_event_path(daycare.friendly_id, existing_child_event.id),
               params: { child_event: new_attributes }
         expect(response.code).to eq "422"
       end
@@ -110,12 +110,12 @@ RSpec.describe "/daycares/{daycare_id}/child_events", type: :request do
 
     it "destroys the requested child_event" do
       expect {
-        delete daycare_child_event_path(daycare.id, existing_child_event.id)
+        delete daycare_child_event_path(daycare.friendly_id, existing_child_event.id)
       }.to change(ChildEvent, :count).by(-1)
     end
 
     it "redirects to the child_events list" do
-      delete daycare_child_event_path(daycare.id, existing_child_event.id)
+      delete daycare_child_event_path(daycare.friendly_id, existing_child_event.id)
       expect(response.code).to redirect_to([:provider_dashboard, :daycares])
     end
   end

@@ -36,14 +36,14 @@ RSpec.describe "/daycares/{daycare_id}/stripe_prices", type: :request do
   describe "GET #index" do
     it "renders a successful response" do
       existing_stripe_price
-      get daycare_stripe_prices_path(daycare.id)
+      get daycare_stripe_prices_path(daycare.friendly_id)
       expect(response).to be_successful
     end
   end
 
   describe "GET /new" do
     it "renders a successful response" do
-      get new_daycare_stripe_price_path(daycare.id)
+      get new_daycare_stripe_price_path(daycare.friendly_id)
       expect(response).to be_successful
     end
   end
@@ -51,7 +51,7 @@ RSpec.describe "/daycares/{daycare_id}/stripe_prices", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       existing_stripe_price
-      get daycare_stripe_price_path(daycare.id, existing_stripe_price.id)
+      get daycare_stripe_price_path(daycare.friendly_id, existing_stripe_price.id)
       expect(response).to be_successful
     end
   end
@@ -61,12 +61,12 @@ RSpec.describe "/daycares/{daycare_id}/stripe_prices", type: :request do
 
   #     it "creates a new stripe_price" do
   #       expect {
-  #         post daycare_stripe_prices_path(daycare.id), params: { stripe_price: attributes }
+  #         post daycare_stripe_prices_path(daycare.friendly_id), params: { stripe_price: attributes }
   #       }.to change(StripePrice, :count).by(1)
   #     end
 
   #     it "redirects to the created stripe_price" do
-  #       post daycare_stripe_prices_path(daycare.id), params: { stripe_price: attributes }
+  #       post daycare_stripe_prices_path(daycare.friendly_id), params: { stripe_price: attributes }
   #       expect(response.code).to redirect_to([:provider_dashboard, :daycares])
   #     end
   #   end
@@ -76,12 +76,12 @@ RSpec.describe "/daycares/{daycare_id}/stripe_prices", type: :request do
 
   #     it "does not create a new stripe_price" do
   #       expect {
-  #         post daycare_stripe_prices_path(daycare.id), params: { stripe_price: attributes }
+  #         post daycare_stripe_prices_path(daycare.friendly_id), params: { stripe_price: attributes }
   #       }.to change(StripePrice, :count).by(0)
   #     end
 
   #     it "renders a successful response (i.e. to display the 'new' template)" do
-  #       post daycare_stripe_prices_path(daycare.id), params: { stripe_price: attributes }
+  #       post daycare_stripe_prices_path(daycare.friendly_id), params: { stripe_price: attributes }
   #       expect(response.code).to eq "422"
   #     end
   #   end
@@ -91,7 +91,7 @@ RSpec.describe "/daycares/{daycare_id}/stripe_prices", type: :request do
     before { existing_stripe_price }
 
     it "redirects to the stripe_prices list" do
-      delete daycare_stripe_price_path(daycare.id, existing_stripe_price.id)
+      delete daycare_stripe_price_path(daycare.friendly_id, existing_stripe_price.id)
       expect(response.code).to redirect_to([:provider_dashboard, :daycares])
     end
   end

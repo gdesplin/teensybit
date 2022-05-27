@@ -24,14 +24,14 @@ RSpec.describe "/daycares/{daycare_id}/pictures", type: :request do
 
   describe "GET #index" do
     it "renders a successful response" do
-      get daycare_pictures_path(daycare.id)
+      get daycare_pictures_path(daycare.friendly_id)
       expect(response).to be_successful
     end
   end
 
   describe "GET /new" do
     it "renders a successful response" do
-      get new_daycare_picture_path(daycare.id, existing_picture.id)
+      get new_daycare_picture_path(daycare.friendly_id, existing_picture.id)
       expect(response).to be_successful
     end
   end
@@ -39,7 +39,7 @@ RSpec.describe "/daycares/{daycare_id}/pictures", type: :request do
   describe "GET /show" do
     it "renders a successful response" do
       existing_picture
-      get daycare_picture_path(daycare.id, existing_picture.id)
+      get daycare_picture_path(daycare.friendly_id, existing_picture.id)
       expect(response).to be_successful
     end
   end
@@ -47,7 +47,7 @@ RSpec.describe "/daycares/{daycare_id}/pictures", type: :request do
   describe "GET /edit" do
     it "render a successful response" do
       existing_picture
-      get edit_daycare_picture_path(daycare.id, existing_picture.id)
+      get edit_daycare_picture_path(daycare.friendly_id, existing_picture.id)
       expect(response).to be_successful
     end
   end
@@ -57,12 +57,12 @@ RSpec.describe "/daycares/{daycare_id}/pictures", type: :request do
 
       it "creates a new picture" do
         expect {
-          post daycare_pictures_path(daycare.id), params: { picture: attributes }
+          post daycare_pictures_path(daycare.friendly_id), params: { picture: attributes }
         }.to change(Picture, :count).by(1)
       end
 
       it "redirects to the created picture" do
-        post daycare_pictures_path(daycare.id), params: { picture: attributes }
+        post daycare_pictures_path(daycare.friendly_id), params: { picture: attributes }
         expect(response.code).to eq "302"
       end
     end
@@ -72,12 +72,12 @@ RSpec.describe "/daycares/{daycare_id}/pictures", type: :request do
 
       it "does not create a new picture" do
         expect {
-          post daycare_pictures_path(daycare.id), params: { picture: attributes }
+          post daycare_pictures_path(daycare.friendly_id), params: { picture: attributes }
         }.to change(Picture, :count).by(0)
       end
 
       it "renders a successful response (i.e. to display the 'new' template)" do
-        post daycare_pictures_path(daycare.id), params: { picture: attributes }
+        post daycare_pictures_path(daycare.friendly_id), params: { picture: attributes }
         expect(response.code).to eq "422"
       end
     end
@@ -92,16 +92,16 @@ RSpec.describe "/daycares/{daycare_id}/pictures", type: :request do
       let(:new_title) { Faker::Lorem.unique.word }
 
       it "updates the requested picture" do
-        patch daycare_picture_path(daycare.id, existing_picture.id),
+        patch daycare_picture_path(daycare.friendly_id, existing_picture.id),
               params: { picture: new_attributes }
         existing_picture.reload
         expect(response.code).to eq "302"
       end
 
       it "redirects to the picture" do
-        patch daycare_picture_path(daycare.id, existing_picture.id),
+        patch daycare_picture_path(daycare.friendly_id, existing_picture.id),
               params: { picture: new_attributes }
-        expect(response).to redirect_to(daycare_picture_path(daycare.id, existing_picture.id))
+        expect(response).to redirect_to(daycare_picture_path(daycare.friendly_id, existing_picture.id))
       end
     end
 
@@ -109,7 +109,7 @@ RSpec.describe "/daycares/{daycare_id}/pictures", type: :request do
       let(:new_attributes) { { picture: nil } }
 
       it "renders a successful response (i.e. to display the 'edit' template)" do
-        patch daycare_picture_path(daycare.id, existing_picture.id),
+        patch daycare_picture_path(daycare.friendly_id, existing_picture.id),
               params: { picture: new_attributes }
         expect(response.code).to eq "422"
       end
@@ -121,12 +121,12 @@ RSpec.describe "/daycares/{daycare_id}/pictures", type: :request do
 
     it "destroys the requested picture" do
       expect {
-        delete daycare_picture_path(daycare.id, existing_picture.id)
+        delete daycare_picture_path(daycare.friendly_id, existing_picture.id)
       }.to change(Picture, :count).by(-1)
     end
 
     it "redirects to the pictures list" do
-      delete daycare_picture_path(daycare.id, existing_picture.id)
+      delete daycare_picture_path(daycare.friendly_id, existing_picture.id)
       expect(response.code).to redirect_to([:provider_dashboard, :daycares])
     end
   end

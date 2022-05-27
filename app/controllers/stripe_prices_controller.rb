@@ -28,7 +28,7 @@ class StripePricesController < ApplicationController
     authorize_stripe_price
   
     if @stripe_price.save
-      redirect_to daycare_stripe_price_path(@daycare.id, @stripe_price.id), notice: 'Payment Plan was successfully created.'
+      redirect_to daycare_stripe_price_daycare_entered_form_path(@daycare.friendly_id, @stripe_price.id), notice: 'Payment Plan was successfully created.'
     else
       render :new, status: :unprocessable_entity
     end

@@ -22,7 +22,7 @@ class EnteredFormsController < ApplicationController
     @entered_form = policy_scope(EnteredForm).new(safe_params)
     authorize_entered_form
     if @entered_form.save
-      redirect_to daycare_entered_form_path(@daycare.id, @entered_form.id),
+      redirect_to daycare_entered_form_path(@daycare.friendly_id, @entered_form.id),
         notice: "Form successfully saved"
     else
       render :new, status: :unprocessable_entity
@@ -34,7 +34,7 @@ class EnteredFormsController < ApplicationController
 
   def update
     if @entered_form.update(safe_params)
-      redirect_to daycare_entered_form_path(@daycare.id, @entered_form.id),
+      redirect_to daycare_entered_form_path(@daycare.friendly_id, @entered_form.id),
         notice: "Form successfully updated"
     else
       render :edit, status: :unprocessable_entity
@@ -58,7 +58,7 @@ class EnteredFormsController < ApplicationController
   end
 
   def set_daycare
-    @daycare = Daycare.find(params[:daycare_id])
+    @daycare = Daycare.friendly.find(params[:daycare_id])
   end
 
   def set_entered_form

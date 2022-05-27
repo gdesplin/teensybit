@@ -38,7 +38,7 @@ class FormsController < ApplicationController
           locals: { form: @form, daycare: @daycare }
         )
       else
-        redirect_to daycare_form_path(@daycare.id, @form.id), notice: "Form successfully uploaded"
+        redirect_to daycare_form_path(@daycare.friendly_id, @form.id), notice: "Form successfully uploaded"
       end
     else
       render :new, status: :unprocessable_entity
@@ -57,7 +57,7 @@ class FormsController < ApplicationController
           locals: { form: @form, daycare: @daycare }
         )
       else
-        redirect_to daycare_form_path(@daycare.id, @form.id), notice: "Form successfully updated"
+        redirect_to daycare_form_path(@daycare.friendly_id, @form.id), notice: "Form successfully updated"
       end
     else
       render :edit, status: :unprocessable_entity
@@ -75,7 +75,7 @@ class FormsController < ApplicationController
   private
 
   def set_daycare
-    @daycare = Daycare.find(params[:daycare_id])
+    @daycare = Daycare.friendly.find(params[:daycare_id])
   end
 
   def set_form
