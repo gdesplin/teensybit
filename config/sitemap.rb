@@ -5,7 +5,7 @@ require 'fog-aws'
 SitemapGenerator::Sitemap.default_host = "https://www.teensybit.com"
 SitemapGenerator::Sitemap.sitemaps_host = "https://teensy-bit-sitemaps.s3.us-west-1.amazonaws.com/"
 SitemapGenerator::Sitemap.public_path = 'tmp/'
-SitemapGenerator::Sitemap.sitemaps_path = 'sitemaps/'
+SitemapGenerator::Sitemap.sitemaps_path = ''
 
 SitemapGenerator::Sitemap.adapter = SitemapGenerator::S3Adapter.new(fog_provider: 'AWS',
   aws_access_key_id: Rails.application.credentials.aws[:access_key_id],
