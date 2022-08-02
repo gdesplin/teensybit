@@ -10,3 +10,7 @@ Testing stripe locally:
 * Use terminal to sign into stripe ```stripe login```
 * ```stripe listen --forward-to localhost:3000/stripe_webhooks```
 * make sure webhook signing secret is correct in .env
+
+Notes Running Locally
+* May need to run `./bin/webpack-dev-server` in seperate terminal
+* If you get an error like `Error: error:0308010C:digital envelope routines::unsupported` then you may need to run `export NODE_OPTIONS=--openssl-legacy-provider` first.

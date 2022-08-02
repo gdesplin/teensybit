@@ -142,6 +142,7 @@ GEM
       regexp_parser (~> 2.2)
     erubi (1.10.0)
     erubis (2.7.0)
+    excon (0.92.3)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.2.0)
@@ -154,6 +155,22 @@ GEM
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (2.0.2)
     ffi (1.15.5)
+    fog-aws (3.14.0)
+      fog-core (~> 2.1)
+      fog-json (~> 1.1)
+      fog-xml (~> 0.1)
+    fog-core (2.3.0)
+      builder
+      excon (~> 0.71)
+      formatador (>= 0.2, < 2.0)
+      mime-types
+    fog-json (1.2.0)
+      fog-core
+      multi_json (~> 1.10)
+    fog-xml (0.1.4)
+      fog-core
+      nokogiri (>= 1.5.11, < 2.0.0)
+    formatador (1.1.0)
     friendly_id (5.4.2)
       activerecord (>= 4.0.0)
     globalid (1.0.0)
@@ -481,6 +498,7 @@ DEPENDENCIES
   factory_bot_rails
   faker
   faraday
+  fog-aws
   friendly_id (~> 5.4.0)
   haml-rails (~> 2.0)
   hotwire-rails

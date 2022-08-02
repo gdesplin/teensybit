@@ -47,6 +47,7 @@ gem 'pagy', '~> 4.11.0'
 gem 'rollbar'
 gem 'friendly_id', '~> 5.4.0'
 gem 'sitemap_generator'
+gem 'fog-aws'
 
 group :development, :test do
   gem 'capybara'
