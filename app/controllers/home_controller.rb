@@ -12,6 +12,6 @@ class HomeController < ApplicationController
   end
 
   def sitemap
-    redirect_to 'https://teensy-bit-production.s3.us-west-1.amazonaws.com/sitemaps/sitemap.xml.gz'
+    redirect_to 'https://teensy-bit-sitemaps.s3.us-west-1.amazonaws.com/sitemap.xml.gz'
   end
 end
