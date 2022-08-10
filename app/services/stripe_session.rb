@@ -20,7 +20,8 @@ class StripeSession
         quantity: 1,
         price: params[:price_id],
       }],
-      subscription_data: params[:subscription_data]
+      subscription_data: params[:subscription_data],
+      allow_promotion_codes: true
     }
     Stripe::Checkout::Session.create(stripe_session_data, stripe_account: params[:stripe_account_id])
   end
